@@ -2,7 +2,10 @@
 
 # Use single quotes instead of double quotes to make it work with special-character passwords
 PASSWORD='12345678'
-PROJECTFOLDER='myproject'
+PROJECTFOLDER='Arregla_Fachada'
+
+# create project folder
+sudo mkdir "/var/www/html/${PROJECTFOLDER}"
 
 # Create project folder, written in 3 single mkdir-statements to make sure this runs everywhere without problems
 sudo mkdir "/var/www"
@@ -60,7 +63,7 @@ sudo apt-get -y install php5-gd
 sudo apt-get -y install git
 
 # git clone HUGE
-sudo git clone https://github.com/panique/huge "/var/www/html/${PROJECTFOLDER}"
+# sudo git clone https://github.com/panique/huge "/var/www/html/${PROJECTFOLDER}"
 
 # install Composer
 curl -s https://getcomposer.org/installer | php
@@ -70,7 +73,7 @@ mv composer.phar /usr/local/bin/composer
 cd "/var/www/html/${PROJECTFOLDER}"
 composer install --dev
 
-# run SQL statements from install folder
+run SQL statements from install folder
 sudo mysql -h "localhost" -u "root" "-p${PASSWORD}" < "/var/www/html/${PROJECTFOLDER}/application/_installation/01-create-database.sql"
 sudo mysql -h "localhost" -u "root" "-p${PASSWORD}" < "/var/www/html/${PROJECTFOLDER}/application/_installation/02-create-table-users.sql"
 sudo mysql -h "localhost" -u "root" "-p${PASSWORD}" < "/var/www/html/${PROJECTFOLDER}/application/_installation/03-create-table-notes.sql"

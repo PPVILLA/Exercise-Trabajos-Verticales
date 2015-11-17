@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `huge`.`users` (
+CREATE TABLE IF NOT EXISTS `ADV_Trabajos_Verticales`.`users` (
  `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index',
  `session_id` varchar(48) DEFAULT NULL COMMENT 'stores session cookie id to prevent session concurrency',
  `user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s name, unique',
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `huge`.`users` (
  UNIQUE KEY `user_email` (`user_email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';
 
-INSERT INTO `huge`.`users` (`user_id`, `session_id`, `user_name`, `user_password_hash`, `user_email`, `user_active`, `user_deleted`, `user_account_type`,
+INSERT INTO `ADV_Trabajos_Verticales`.`users` (`user_id`, `session_id`, `user_name`, `user_password_hash`, `user_email`, `user_active`, `user_deleted`, `user_account_type`,
 `user_has_avatar`, `user_remember_me_token`, `user_creation_timestamp`, `user_suspension_timestamp`, `user_last_login_timestamp`,
 `user_failed_logins`, `user_last_failed_login`, `user_activation_hash`, `user_password_reset_hash`,
 `user_password_reset_timestamp`, `user_provider_type`) VALUES
