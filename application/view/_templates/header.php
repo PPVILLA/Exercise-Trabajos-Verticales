@@ -1,25 +1,39 @@
 <!doctype html>
 <html>
 <head>
-    <title>HUGE</title>
+    <title>Inicio</title>
     <!-- META -->
     <meta charset="utf-8">
     <!-- send empty favicon fallback to prevent user's browser hitting the server for lots of favicon requests resulting in 404s -->
     <link rel="icon" href="data:;base64,=">
     <!-- CSS -->
     <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/style.css" />
+    <!-- Bootstrap core CSS -->
+    <link href="<?php echo Config::get('URL');?>css/bootstrap.css" rel="stylesheet">
+    <!-- Custom styles for this template
+    <link href="jumbotron.css" rel="stylesheet"> -->
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="<?php echo Config::get('URL'); ?>js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
     <!-- wrapper, to center website -->
-    <div class="wrapper">
+    <!-- <div class="wrapper"> -->
 
         <!-- logo -->
-        <div class="logo"></div>
+        <!-- <div class="logo"></div> -->
 
         <!-- navigation -->
         <ul class="navigation">
             <li <?php if (View::checkForActiveController($filename, "index")) { echo ' class="active" '; } ?> >
-                <a href="<?php echo Config::get('URL'); ?>index/index">Index</a>
+                <a href="<?php echo Config::get('URL'); ?>">Index</a>
             </li>
             <li <?php if (View::checkForActiveController($filename, "profile")) { echo ' class="active" '; } ?> >
                 <a href="<?php echo Config::get('URL'); ?>profile/index">Profiles</a>
