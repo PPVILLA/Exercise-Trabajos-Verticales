@@ -23,6 +23,15 @@ class RegistrationModel
 		$user_password_new = Request::post('user_password_new');
 		$user_password_repeat = Request::post('user_password_repeat');
 
+		$name = Request::post('name', true);
+		$user_surname1 = Request::post('user_surname1', true);
+		$user_surname2 = Request::post('user_surname2', true);
+		$user_address = Request::post('user_address', true);
+		$user_city = Request::post('user_city', true);
+		$user_province = Request::post('user_province', true);
+		$user_NIF = Request::post('user_NIF', true);
+		$user_phone = Request::post('user_phone', true);
+
 		// stop registration flow if registrationInputValidation() returns false (= anything breaks the input check rules)
 		$validation_result = self::registrationInputValidation(Request::post('captcha'), $user_name, $user_password_new, $user_password_repeat, $user_email);
 		if (!$validation_result) {
@@ -48,6 +57,8 @@ class RegistrationModel
 			$return = false;
 		}
 
+		// ahora validar los campos if( )
+
         	// if Username or Email were false, return false
         	if(!$return) return false;
 
@@ -55,7 +66,7 @@ class RegistrationModel
 		$user_activation_hash = sha1(uniqid(mt_rand(), true));
 
 		// write user data to database
-		if (!self::writeNewUserToDatabase($user_name, $user_password_hash, $user_email, time(), $user_activation_hash)) {
+		if (!self::writeNewUserToDatabase($user_name, $user_password_hash, $user_email, time(), $user_activation_hash, $name, $user_surname1, $user_surname2, $user_address, $user_city, $user_province, $user_NIF, $user_phone)) {
 			Session::add('feedback_negative', Text::get('FEEDBACK_ACCOUNT_CREATION_FAILED'));
             return false; // no reason not to return false here
 		}
@@ -194,20 +205,28 @@ class RegistrationModel
 	 *
 	 * @return bool
 	 */
-	public static function writeNewUserToDatabase($user_name, $user_password_hash, $user_email, $user_creation_timestamp, $user_activation_hash)
+	public static function writeNewUserToDatabase($user_name, $user_password_hash, $user_email, $user_creation_timestamp, $user_activation_hash, $name, $user_surname1, $user_surname2, $user_address, $user_city, $user_province, $user_NIF, $user_phone)
 	{
 		$database = DatabaseFactory::getFactory()->getConnection();
 
 		// write new users data into database
-		$sql = "INSERT INTO users (user_name, user_password_hash, user_email, user_creation_timestamp, user_activation_hash, user_provider_type)
-                    VALUES (:user_name, :user_password_hash, :user_email, :user_creation_timestamp, :user_activation_hash, :user_provider_type)";
+		$sql = "INSERT INTO users (user_name, user_password_hash, user_email, user_creation_timestamp, user_activation_hash, user_provider_type, name, user_surname1, user_surname2, user_address, user_city, user_province, user_NIF, user_phone)
+                    VALUES (:user_name, :user_password_hash, :user_email, :user_creation_timestamp, :user_activation_hash, :user_provider_type, :name, :user_surname1, :user_surname2, :user_address, :user_city, :user_province, :user_NIF, :user_phone)";
 		$query = $database->prepare($sql);
 		$query->execute(array(':user_name' => $user_name,
 		                      ':user_password_hash' => $user_password_hash,
 		                      ':user_email' => $user_email,
 		                      ':user_creation_timestamp' => $user_creation_timestamp,
 		                      ':user_activation_hash' => $user_activation_hash,
-		                      ':user_provider_type' => 'DEFAULT'));
+		                      ':user_provider_type' => 'DEFAULT',
+		                      ':name' => $name,
+		                      ':user_surname1' => $user_surname1,
+		                      ':user_surname2' => $user_surname2,
+		                      ':user_address' => $user_address,
+		                      ':user_city' => $user_city,
+		                      ':user_province' => $user_province,
+		                      ':user_NIF' => $user_NIF,
+		                      ':user_phone' => $user_phone));
 		$count =  $query->rowCount();
 		if ($count == 1) {
 			return true;

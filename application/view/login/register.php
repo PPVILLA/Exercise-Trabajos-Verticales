@@ -16,10 +16,10 @@
             <input type="text" class="form-control" pattern="[a-zA-Z]{2,64}" name="name" placeholder="Nombre (letras 2-64 caracteres)" required />
             <input type="text" class="form-control" pattern="[a-zA-Z]{2,64}" name="user_surname1" placeholder="Primer Apellido (letras 2-64 caracteres)" required />
             <input type="text" class="form-control" pattern="[a-zA-Z]{2,64}" name="user_surname2" placeholder="Segundo Apellido (letras 2-64 caracteres)" required />
-            <input type="text" class="form-control" pattern="[a-zA-Z0-9]{2,64}" name="user_address" placeholder="Domicilio (letras/numeros, 2-64 caracteres)" required />
-            <input type="text" class="form-control" pattern="[a-zA-Z]}" name="user_city" placeholder="Poblacion (letras 2-64 caracteres)" required />
-            <input type="text" class="form-control" pattern="[a-zA-Z]}" name="user_province" placeholder="Provincia (letras 2-64 caracteres)" required />
-            <input type="text" class="form-control" pattern="(^([0-9]{8,8}\-[A-Z])|^)$" name="user_NIF" placeholder="NIF (letras/numeros, 2-64 caracteres)" required />
+            <input type="text" class="form-control" pattern="[\S+\s+]{2,64}" name="user_address" placeholder="Domicilio (letras/numeros, 2-64 caracteres)" required />
+            <input type="text" class="form-control" pattern="[a-zA-Z]{2,64}" name="user_city" placeholder="Poblacion (letras 2-64 caracteres)" required />
+            <input type="text" class="form-control" pattern="[a-zA-Z]{2,64}" name="user_province" placeholder="Provincia (letras 2-64 caracteres)" required />
+            <input type="text" class="form-control" pattern="(^([0-9]{8,8})([A-Z])|^)$" name="user_NIF" placeholder="NIF (12345678X)" required />
             <input type="text" class="form-control" pattern="[0-9]{9}" name="user_phone" placeholder="Telefono (letras/numeros, 2-64 caracteres)" required />
 
             <!-- show the captcha by calling the login/showCaptcha-method in the src attribute of the img tag -->

@@ -37,7 +37,7 @@ return array(
 	"FEEDBACK_USERNAME_TOO_SHORT_OR_TOO_LONG" => "Nombre de usuario no puede ser inferior a 2 o más de 64 caracteres.",
 	"FEEDBACK_ACCOUNT_SUCCESSFULLY_CREATED" => "Su cuenta ha sido creada con éxito y le hemos enviado un correo electrónico. Por favor, haga clic en el enlace de verificación dentro de ese correo.",
 	"FEEDBACK_VERIFICATION_MAIL_SENDING_FAILED" => "Lo siento, no podríamos enviarte un correo de verificación. Su cuenta no ha sido creado.",
-	"FEEDBACK_ACCOUNT_CREATION_FAILED" => "Lo sentimos, tu inscripción no pudo. Por favor, vuelve y vuelve a intentarlo.",
+	"FEEDBACK_ACCOUNT_CREATION_FAILED" => "Lo sentimos, el registro de la cuenta no se pudo hacer. Por favor, vuelve a intentarlo.",
 	"FEEDBACK_VERIFICATION_MAIL_SENDING_ERROR" => "correo de verificación no se pudo enviar debido a: ",
 	"FEEDBACK_VERIFICATION_MAIL_SENDING_SUCCESSFUL" => "Un mail de verificación ha sido enviado con éxito.",
 	"FEEDBACK_ACCOUNT_ACTIVATION_SUCCESSFUL" => "La activación se realizó correctamente! Ahora puede entrar.",
