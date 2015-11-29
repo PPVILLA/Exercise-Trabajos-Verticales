@@ -34,7 +34,8 @@ class RegistrationModel
 
 		// stop registration flow if registrationInputValidation() returns false (= anything breaks the input check rules)
 		$validation_result = self::registrationInputValidation(Request::post('captcha'), $user_name, $user_password_new, $user_password_repeat, $user_email);
-		if (!$validation_result) {
+		$validation_others_inputs = self::registrationOthersInputValidation($name, $user_surname1, $user_surname2, $user_address, $user_city, $user_province, $user_NIF, $user_phone);
+		if (!$validation_result && !$validation_others_inputs) {
 			return false;
 		}
 
@@ -56,8 +57,6 @@ class RegistrationModel
 			Session::add('feedback_negative', Text::get('FEEDBACK_USER_EMAIL_ALREADY_TAKEN'));
 			$return = false;
 		}
-
-		// ahora validar los campos if( )
 
         	// if Username or Email were false, return false
         	if(!$return) return false;
@@ -193,6 +192,105 @@ class RegistrationModel
 
         return true;
     }
+
+	/**
+	 * Validates registration of other inputs
+	 *
+	 * @param $name
+	 * @param $user_surname1
+	 * @param $user_surname2
+	 * @param $user_address
+	 * @param $user_city
+	 * @param $user_province
+	 * @param $user_NIF
+	 * @param $user_phone
+	 *
+	 * @return bool
+	 */
+	public static function registrationOthersInputValidation($name, $user_surname1, $user_surname2, $user_address, $user_city, $user_province, $user_NIF, $user_phone)
+	{
+        $return = true;
+
+        if (empty($name)) {
+            Session::add('feedback_negative', 'El campo Nombre está vacío');
+            return false;
+        }
+        // if name is too short (2), too long (64) or does not fit the pattern (aZ)
+        if (!preg_match('/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}$/', $name)) {
+            Session::add('feedback_negative', 'El campo Nombre no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
+            return false;
+        }
+
+		if (empty($user_surname1)) {
+            Session::add('feedback_negative', 'El campo Primer Apellido está vacío');
+            return false;
+        }
+        // if name is too short (2), too long (64) or does not fit the pattern (aZ)
+        if (!preg_match('/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}$/', $user_surname1)) {
+            Session::add('feedback_negative', 'El campo Primer Apellido no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
+            return false;
+        }
+
+        if (empty($user_surname2)) {
+            Session::add('feedback_negative', 'El campo Segundo Apellido está vacío');
+            return false;
+        }
+        // if name is too short (2), too long (64) or does not fit the pattern (aZ)
+        if (!preg_match('/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}$/', $user_surname2)) {
+            Session::add('feedback_negative', 'El campo Segundo Apellido no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
+            return false;
+        }
+
+        if (empty($user_address)) {
+            Session::add('feedback_negative', 'El campo Direccion está vacío');
+            return false;
+        }
+        // if name is too short (2), too long (64) or does not fit the pattern (aZ)
+        if (!preg_match('/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s,]{2,64}$/', $user_address)) {
+            Session::add('feedback_negative', 'El campo Direccion no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
+            return false;
+        }
+
+        if (empty($user_city)) {
+            Session::add('feedback_negative', 'El campo Poblacion está vacío');
+            return false;
+        }
+        // if name is too short (2), too long (64) or does not fit the pattern (aZ)
+        if (!preg_match('/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}$/', $user_city)) {
+            Session::add('feedback_negative', 'El campo Poblacion no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
+            return false;
+        }
+
+        if (empty($user_province)) {
+            Session::add('feedback_negative', 'El campo Provincia está vacío');
+            return false;
+        }
+        // if name is too short (2), too long (64) or does not fit the pattern (aZ)
+        if (!preg_match('/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}$/', $user_province)) {
+            Session::add('feedback_negative', 'El campo Provincia no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
+            return false;
+        }
+        // if NIF does not fit the pattern (12345678A) 8 digits and 1 character upercase.
+        if (empty($user_NIF)) {
+            Session::add('feedback_negative', 'El campo NIF está vacío');
+            return false;
+        }
+
+        if (!preg_match('/^([0-9]{8,8})([A-Z])$/', $user_NIF)) {
+            Session::add('feedback_negative', 'El campo NIF no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
+            return false;
+        }
+
+        if (empty($user_phone)) {
+            Session::add('feedback_negative', 'El campo Telefono está vacío');
+            return false;
+        }
+        // if phone does not fit the pattern (+34923456789 +34 923456789 923456789 +34623456789+34 623456789 623456789)
+        if (!preg_match('/^(\+34\s?)([9|6][0-9]{8})$|^([9|6][0-9]{8})$/', $user_phone)) {
+            Session::add('feedback_negative', 'El campo Telefono no se ajusta al patrón: opcional empezar por +34 seguido de un espacio o sin él. Luego el nº telefono debe de empezar por 9 o por 6 hasta alcanzar 9 digitos.');
+            return false;
+        }
+	}
 
 	/**
 	 * Writes the new user's data to the database

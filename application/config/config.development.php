@@ -131,7 +131,7 @@ return array(
 	 * EMAIL_SMTP_AUTH: leave this true unless your SMTP service does not need authentication
 	 */
 	'EMAIL_USED_MAILER' => 'phpmailer',
-	'EMAIL_USE_SMTP' => false,
+	'EMAIL_USE_SMTP' => true,
 	'EMAIL_SMTP_HOST' => 'smtp.gmail.com',
 	'EMAIL_SMTP_AUTH' => true,
 	'EMAIL_SMTP_USERNAME' => 'pepevilladaw@gmail.com',
@@ -139,16 +139,16 @@ return array(
 	'EMAIL_SMTP_PORT' => 465,
 	'EMAIL_SMTP_ENCRYPTION' => 'ssl',
 	/**
-	 * Configuration for: Email content data
+	 * Configuration for: Email content data 
 	 */
 	'EMAIL_PASSWORD_RESET_URL' => 'login/verifypasswordreset',
-	'EMAIL_PASSWORD_RESET_FROM_EMAIL' => 'josevillanueva@trebujena.es',
+	'EMAIL_PASSWORD_RESET_FROM_EMAIL' => 'no-reply@example.com',
 	'EMAIL_PASSWORD_RESET_FROM_NAME' => 'ADV Trabajos Verticales',
-	'EMAIL_PASSWORD_RESET_SUBJECT' => 'Password reset for PROJECT XY',
-	'EMAIL_PASSWORD_RESET_CONTENT' => 'Please click on this link to reset your password: ',
+	'EMAIL_PASSWORD_RESET_SUBJECT' => 'Restablecer contraseña para ADV Trabajos Verticales',
+	'EMAIL_PASSWORD_RESET_CONTENT' => 'Por favor, haga clic en este enlace para restablecer tu contraseña: ',
 	'EMAIL_VERIFICATION_URL' => 'login/verify',
-	'EMAIL_VERIFICATION_FROM_EMAIL' => 'pepevilladaw@gmail.com',
+	'EMAIL_VERIFICATION_FROM_EMAIL' => 'no-reply@example.com',
 	'EMAIL_VERIFICATION_FROM_NAME' => 'ADV Trabajos Verticales',
-	'EMAIL_VERIFICATION_SUBJECT' => 'Account activation for PROJECT XY',
-	'EMAIL_VERIFICATION_CONTENT' => 'Please click on this link to activate your account: ',
+	'EMAIL_VERIFICATION_SUBJECT' => 'Activación de la cuenta de ADV Trabajos Verticales',
+	'EMAIL_VERIFICATION_CONTENT' => 'Por favor, haga clic en este enlace para activar tu cuenta: ',
 );

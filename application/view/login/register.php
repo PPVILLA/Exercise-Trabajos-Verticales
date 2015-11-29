@@ -13,14 +13,14 @@
             <input type="email" class="form-control" name="user_email" placeholder="Dirección email (una dirección real)" required />
             <input type="password" class="form-control" name="user_password_new" pattern=".{6,}" placeholder="Contraseña (6+ caracteres)" required autocomplete="off" />
             <input type="password" class="form-control" name="user_password_repeat" pattern=".{6,}" required placeholder="Repite tu contraseña" autocomplete="off" />
-            <input type="text" class="form-control" pattern="[a-zA-Z]{2,64}" name="name" placeholder="Nombre (letras 2-64 caracteres)" required />
-            <input type="text" class="form-control" pattern="[a-zA-Z]{2,64}" name="user_surname1" placeholder="Primer Apellido (letras 2-64 caracteres)" required />
-            <input type="text" class="form-control" pattern="[a-zA-Z]{2,64}" name="user_surname2" placeholder="Segundo Apellido (letras 2-64 caracteres)" required />
-            <input type="text" class="form-control" pattern="[\S+\s+]{2,64}" name="user_address" placeholder="Domicilio (letras/numeros, 2-64 caracteres)" required />
-            <input type="text" class="form-control" pattern="[a-zA-Z]{2,64}" name="user_city" placeholder="Poblacion (letras 2-64 caracteres)" required />
-            <input type="text" class="form-control" pattern="[a-zA-Z]{2,64}" name="user_province" placeholder="Provincia (letras 2-64 caracteres)" required />
-            <input type="text" class="form-control" pattern="(^([0-9]{8,8})([A-Z])|^)$" name="user_NIF" placeholder="NIF (12345678X)" required />
-            <input type="text" class="form-control" pattern="[0-9]{9}" name="user_phone" placeholder="Telefono (letras/numeros, 2-64 caracteres)" required />
+            <input type="text" class="form-control" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="name" placeholder="Nombre (letras 2-64 caracteres)" required />
+            <input type="text" class="form-control" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="user_surname1" placeholder="Primer Apellido (letras 2-64 caracteres)" required />
+            <input type="text" class="form-control" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="user_surname2" placeholder="Segundo Apellido (letras 2-64 caracteres)" required />
+            <input type="text" class="form-control" pattern="[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s,]{2,64}" name="user_address" placeholder="Domicilio (letras/numeros, 2-64 caracteres)" required />
+            <input type="text" class="form-control" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="user_city" placeholder="Poblacion (letras 2-64 caracteres)" required />
+            <input type="text" class="form-control" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="user_province" placeholder="Provincia (letras 2-64 caracteres)" required />
+            <input type="text" class="form-control" pattern="^([0-9]{8,8})([A-Z])$" name="user_NIF" placeholder="NIF (12345678X)" required />
+            <input type="text" class="form-control" pattern="^(\+34\s?)([9|6][0-9]{8})$|^([9|6][0-9]{8})$" name="user_phone" placeholder="Telefono de contacto (+34923456789 +34 923456789 923456789 +34 623456789 623456789)" required />
 
             <!-- show the captcha by calling the login/showCaptcha-method in the src attribute of the img tag -->
             <img id="captcha" src="<?php echo Config::get('URL'); ?>login/showCaptcha" />
@@ -28,7 +28,7 @@
 
             <!-- quick & dirty captcha reloader -->
             <a href="#" style="display: block; font-size: 11px; margin: 5px 0 15px 0; text-align: center"
-               onclick="document.getElementById('captcha').src = '<?php echo Config::get('URL'); ?>login/showCaptcha?' + Math.random(); return false" class="form-control">Reload Captcha</a>
+               onclick="document.getElementById('captcha').src = '<?php echo Config::get('URL'); ?>login/showCaptcha?' + Math.random(); return false" class="form-control">Recarga Captcha</a>
 
             <input class="btn btn-lg btn-primary btn-block" type="submit" value="Registrarse" />
         </form>
