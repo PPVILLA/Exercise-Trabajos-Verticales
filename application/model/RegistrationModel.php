@@ -247,7 +247,7 @@ class RegistrationModel
         }
         // if name is too short (2), too long (64) or does not fit the pattern (aZ)
         if (!preg_match('/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s,]{2,64}$/', $user_address)) {
-            Session::add('feedback_negative', 'El campo Direccion no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
+            Session::add('feedback_negative', 'El campo Direccion no se ajusta al patrón: Sólo mayusculas, minusculas, numeros, espacios comas y guiones, de 2 a 64 caracteres');
             return false;
         }
 
@@ -277,7 +277,7 @@ class RegistrationModel
         }
 
         if (!preg_match('/^([0-9]{8,8})([A-Z])$/', $user_NIF)) {
-            Session::add('feedback_negative', 'El campo NIF no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
+            Session::add('feedback_negative', 'El campo NIF no se ajusta al patrón: 8 digitos y una letra mayuscula');
             return false;
         }
 
