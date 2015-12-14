@@ -2,7 +2,7 @@
   "name": "arregla_fachada",
   "version": "0.0.1",
   "description": "aplicacion de ADV Trabajos Verticales",
-  "main": "public/js/index.js",
+  "main": "src/index.js",
   "scripts": {
     "lint": "npm run lint:eslint && npm run lint:sass",
     "lint:eslint": "eslint --ext=.js --ext=.jsx ./src/",
