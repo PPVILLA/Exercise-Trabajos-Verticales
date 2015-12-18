@@ -5,8 +5,8 @@
         <!-- echo out the system feedback (error and success messages) -->
         <?php $this->renderFeedbackMessages(); ?>
 
-        <h3>What happens here ?</h3>
-        <div>This controller/action/view shows all public information about a certain user.</div>
+        <h3>¿Qué sucede aquí?</h3>
+        <div>Este controlador/acción/vista muestra toda la información pública acerca de un determinado usuario.</div>
 
         <?php if ($this->user) { ?>
             <div>
@@ -15,9 +15,9 @@
                     <tr>
                         <td>Id</td>
                         <td>Avatar</td>
-                        <td>Username</td>
-                        <td>User's email</td>
-                        <td>Activated ?</td>
+                        <td>Nick</td>
+                        <td>Email de los usuarios</td>
+                        <td>¿Activado?</td>
                     </tr>
                     </thead>
                     <tbody>

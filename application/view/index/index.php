@@ -17,7 +17,7 @@
       <div class="row">
         <article class="col-md-4">
         <h2>Quienes somos</h2>
-          <p>Somos ADV Trabajos Verticales, una empresa con dilatada experiencia en  el sector de trabajos en altura en la provincia de (Cádiz). Nuestros servicios están dirigidos a toda clase de actividad en lugares de difícil acceso mediante técnicas de escalada aplicadas a la edificación e industria, sin utilizar andamios ni grúas. Accedemos al lugar en un corto espacio de tiempo, realizamos nuestra labor y recogemos en el mismo día sin ningún tipo de problemas e inconvenientes para el usuario.  Consulte con nosotros. Usamos todas las primeras marcas del mercado,no rebajamos costos en materiales. El ahorro económico está en la utilización de técnicas rápidas y seguras. </p>
+          <p>Somos ADV Trabajos Verticales, una empresa con dilatada experiencia en  el sector de trabajos en altura en la provincia de Cádiz. Nuestros servicios están dirigidos a toda clase de actividad en lugares de difícil acceso mediante técnicas de escalada aplicadas a la edificación e industria, sin utilizar andamios ni grúas. Accedemos al lugar en un corto espacio de tiempo, realizamos nuestra labor y recogemos en el mismo día sin ningún tipo de problemas e inconvenientes para el usuario.  Consulte con nosotros. Usamos todas las primeras marcas del mercado,no rebajamos costos en materiales. El ahorro económico está en la utilización de técnicas rápidas y seguras. </p>
           <p><a class="btn btn-default" href="#" role="button">Ver detalles &raquo;</a></p>
         </article>
         <article class="col-md-4">

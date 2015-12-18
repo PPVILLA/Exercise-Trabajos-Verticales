@@ -4,14 +4,15 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Trabajos Verticales Reparacion fachada</title>
-    <meta name="description" content="">
+    <meta name="description" content="una empresa con dilatada experiencia en  el sector de trabajos en altura en la provincia de Cádiz. Nuestros servicios están dirigidos a toda clase de actividad en lugares de difícil acceso mediante técnicas de escalada aplicadas a la edificación e industria, sin utilizar andamios ni grúas.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
     <!-- Place favicon.ico in the root directory -->
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo Config::get('URL');?>favicon.ico">
 
     <!-- send empty favicon fallback to prevent user's browser hitting the server for lots of favicon requests resulting in 404s -->
-    <link rel="icon" href="data:;base64,=">
+    <!-- <link rel="icon" href=""> -->
 
     <!-- PHPHUGE CSS -->
     <!-- <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/style.css" /> -->
@@ -27,7 +28,7 @@
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="<?php echo Config::get('URL'); ?>js/ie-emulation-modes-warning.js"></script>
-    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="<?php echo Config::get('URL'); ?>js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
     <!--[if lt IE 8]>
@@ -83,8 +84,8 @@
                 <!-- my account -->
                 <ul class="nav navbar-nav navbar-right">
                 <?php if (Session::userIsLoggedIn()) : ?>
-                    <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="dropdown" '; } ?> >
-                        <a href="<?php echo Config::get('URL'); ?>login/showprofile">My Account</a>
+                    <li class="dropdown" <?php if (View::checkForActiveController($filename, "login")) { echo ' class="dropdown" '; } ?> >
+                        <a href="<?php echo Config::get('URL'); ?>login/showprofile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
                                 <a href="<?php echo Config::get('URL'); ?>login/changeUserRole">Change account type</a>

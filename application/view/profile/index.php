@@ -5,10 +5,9 @@
         <!-- echo out the system feedback (error and success messages) -->
         <?php $this->renderFeedbackMessages(); ?>
 
-        <h3>What happens here ?</h3>
+        <h3>¿Qué sucede aquí?</h3>
         <div>
-            This controller/action/view shows a list of all users in the system. You could use the underlying code to
-            build things that use profile information of one or multiple/all users.
+            Este "controlador/acción/vista" muestra una lista de todos los usuarios del sistema. Usted puede utilizar el código subyacente para construir cosas que utilizan la información de perfil de una o múltiple/todos los usuarios.
         </div>
         <div>
             <table class="overview-table">
@@ -16,10 +15,10 @@
                 <tr>
                     <td>Id</td>
                     <td>Avatar</td>
-                    <td>Username</td>
-                    <td>User's email</td>
-                    <td>Activated ?</td>
-                    <td>Link to user's profile</td>
+                    <td>Nick</td>
+                    <td>email de usuarios</td>
+                    <td>Activado ?</td>
+                    <td>Link al perfil de usuarios</td>
                 </tr>
                 </thead>
                 <?php foreach ($this->users as $user) { ?>
@@ -34,7 +33,7 @@
                         <td><?= $user->user_email; ?></td>
                         <td><?= ($user->user_active == 0 ? 'No' : 'Yes'); ?></td>
                         <td>
-                            <a href="<?= Config::get('URL') . 'profile/showProfile/' . $user->user_id; ?>">Profile</a>
+                            <a href="<?= Config::get('URL') . 'profile/showProfile/' . $user->user_id; ?>">Perfil</a>
                         </td>
                     </tr>
                 <?php } ?>
