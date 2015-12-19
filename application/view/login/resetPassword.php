@@ -19,7 +19,7 @@
             <label for="reset_input_password_repeat">Repite nueva contraseña</label>
             <input id="reset_input_password_repeat" class="reset_input" type="password"
                    name="user_password_repeat" pattern=".{6,}" required autocomplete="off" />
-            <input type="submit"  name="submit_new_password" value="Submit new password" />
+            <input type="submit"  name="submit_new_password" value="Envia nueva contraseña" />
         </form>
 
         <a href="<?php echo Config::get('URL'); ?>login/index">Volver a pagina de Login</a>

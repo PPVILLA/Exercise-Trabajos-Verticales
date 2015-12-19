@@ -23,6 +23,7 @@
     "babel-eslint": "^4.1.6",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.11.3",
-    "node-sass": "^3.4.2"
+    "node-sass": "^3.4.2",
+    "uncss": "^0.12.1"
   }
 }

@@ -11,7 +11,7 @@
             <label>
                 Nueva dirección email: <input type="text" name="user_email" required />
             </label>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Enviar" />
         </form>
     </div>
 </div>

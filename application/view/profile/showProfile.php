@@ -10,7 +10,7 @@
 
         <?php if ($this->user) { ?>
             <div>
-                <table class="overview-table">
+                <table class="table">
                     <thead>
                     <tr>
                         <td>Id</td>
@@ -30,7 +30,7 @@
                             </td>
                             <td><?= $this->user->user_name; ?></td>
                             <td><?= $this->user->user_email; ?></td>
-                            <td><?= ($this->user->user_active == 0 ? 'No' : 'Yes'); ?></td>
+                            <td><?= ($this->user->user_active == 0 ? 'No' : 'Si'); ?></td>
                         </tr>
                     </tbody>
                 </table>

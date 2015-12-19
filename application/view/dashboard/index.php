@@ -7,10 +7,7 @@
 
         <h3>¿Qué sucede aquí?</h3>
         <p>
-            This is an area that's only visible for logged in users. Try to log out, an go to /dashboard/ again. You'll
-            be redirected to /index/ as you are not logged in. You can protect a whole section in your app within the
-            according controller by placing <i>Auth::handleLogin();</i> into the constructor.
-            Esta es un área que es accesibles solamente para los usuarios registrados. Trate de salir, ir a un / dashboard / nuevo. . Se le redirige a / index / ya que no está en el sistema Usted puede proteger toda una sección en su aplicación dentro del controlador de acuerdo mediante la colocación de <i> de Auth :: handleLogin (); </ i> en el constructor.
+            Esta es un área que es accesible solamente para los usuarios registrados. Trate de cerrar sesión, y vaya al /dashboard/ de nuevo. Será redirigido a /index/ si no está registrado en el sistema. Usted puede proteger una sección completa en su aplicación dentro del controlador conforme vaya colocando <i>Auth::handleLogin();</i> en el constructor.
         <p>
     </div>
 </div>

@@ -11,7 +11,7 @@
                 Introduzca su nombre de usuario o correo electrónico y recibirás un correo con instrucciones:
                 <input type="text" name="user_name_or_email" required />
             </label>
-            <input type="submit" value="Send me a password-reset mail" />
+            <input type="submit" value="Envíame un correo electrónico de restablecimiento de contraseña" />
         </form>
 
     </div>

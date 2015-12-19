@@ -14,7 +14,7 @@
             </label>
 			<!-- set CSRF token at the end of the form -->
 			<input type="hidden" name="csrf_token" value="<?= Csrf::makeToken(); ?>" />
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Enviar" />
         </form>
     </div>
 </div>

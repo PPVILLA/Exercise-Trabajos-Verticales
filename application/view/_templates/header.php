@@ -56,17 +56,17 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li <?php if (View::checkForActiveController($filename, "index")) { echo ' class="active" '; } ?> >
-                        <a href="<?php echo Config::get('URL'); ?>">Index</a>
+                        <a href="<?php echo Config::get('URL'); ?>">Página principal</a>
                     </li>
                     <li <?php if (View::checkForActiveController($filename, "profile")) { echo ' class="active" '; } ?> >
-                        <a href="<?php echo Config::get('URL'); ?>profile/index">Profiles</a>
+                        <a href="<?php echo Config::get('URL'); ?>profile/index">Perfiles</a>
                     </li>
                     <?php if (Session::userIsLoggedIn()) { ?>
                         <li <?php if (View::checkForActiveController($filename, "dashboard")) { echo ' class="active" '; } ?> >
-                            <a href="<?php echo Config::get('URL'); ?>dashboard/index">Dashboard</a>
+                            <a href="<?php echo Config::get('URL'); ?>dashboard/index">Panel Administracion</a>
                         </li>
                         <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?> >
-                            <a href="<?php echo Config::get('URL'); ?>note/index">My Notes</a>
+                            <a href="<?php echo Config::get('URL'); ?>note/index">Mis notas</a>
                         </li>
                     <?php } else { ?>
                 </ul>
@@ -76,7 +76,7 @@
                             <a href="<?php echo Config::get('URL'); ?>login/index">Login</a>
                         </li>
                         <li <?php if (View::checkForActiveControllerAndAction($filename, "login/register")) { echo ' class="active" '; } ?> >
-                            <a href="<?php echo Config::get('URL'); ?>login/register">Register</a>
+                            <a href="<?php echo Config::get('URL'); ?>login/register">Registrate</a>
                         </li>
                     <?php } ?>
                 </ul>
@@ -85,22 +85,22 @@
                 <ul class="nav navbar-nav navbar-right">
                 <?php if (Session::userIsLoggedIn()) : ?>
                     <li class="dropdown" <?php if (View::checkForActiveController($filename, "login")) { echo ' class="dropdown" '; } ?> >
-                        <a href="<?php echo Config::get('URL'); ?>login/showprofile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account <span class="caret"></span></a>
+                        <a href="<?php echo Config::get('URL'); ?>login/showprofile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mi cuenta <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>login/changeUserRole">Change account type</a>
+                                <a href="<?php echo Config::get('URL'); ?>login/changeUserRole">Cambiar tipo de cuenta</a>
                             </li>
                             <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>login/editAvatar">Edit your avatar</a>
+                                <a href="<?php echo Config::get('URL'); ?>login/editAvatar">Editar tu avatar</a>
                             </li>
                             <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>login/editusername">Edit my username</a>
+                                <a href="<?php echo Config::get('URL'); ?>login/editusername">Editar mi nick</a>
                             </li>
                             <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>login/edituseremail">Edit my email</a>
+                                <a href="<?php echo Config::get('URL'); ?>login/edituseremail">Editar mi email</a>
                             </li>
                             <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>login/changePassword">Change Password</a>
+                                <a href="<?php echo Config::get('URL'); ?>login/changePassword">Cambiar contraseña</a>
                             </li>
                             <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
                                 <a href="<?php echo Config::get('URL'); ?>login/logout">Logout</a>
@@ -111,7 +111,7 @@
                         <li <?php if (View::checkForActiveController($filename, "admin")) {
                             echo ' class="active" ';
                         } ?> >
-                            <a href="<?php echo Config::get('URL'); ?>admin/">Admin</a>
+                            <a href="<?php echo Config::get('URL'); ?>admin/">Administrador</a>
                         </li>
                     <?php endif; ?>
                 <?php endif; ?>

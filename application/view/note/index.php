@@ -5,25 +5,25 @@
         <!-- echo out the system feedback (error and success messages) -->
         <?php $this->renderFeedbackMessages(); ?>
 
-        <h3>What happens here ?</h3>
+        <h3>¿Qué sucede aquí?</h3>
         <p>
-            This is just a simple CRUD implementation. Creating, reading, updating and deleting things.
+            Esto es sólo una sencilla implmentación de un CRUD. Crear, leer, actualizar y eliminar cosas.
         </p>
         <p>
             <form method="post" action="<?php echo Config::get('URL');?>note/create">
-                <label>Text of new note: </label><input type="text" name="note_text" />
-                <input type="submit" value='Create this note' autocomplete="off" />
+                <label>Texto de nueva nota: </label><input type="text" name="note_text" />
+                <input type="submit" value='Crear esta nota' autocomplete="off" />
             </form>
         </p>
 
         <?php if ($this->notes) { ?>
-            <table class="note-table">
+            <table class="table">
                 <thead>
                 <tr>
                     <td>Id</td>
-                    <td>Note</td>
-                    <td>EDIT</td>
-                    <td>DELETE</td>
+                    <td>Nota</td>
+                    <td>EDITAR</td>
+                    <td>ELIMINAR</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,14 +31,14 @@
                         <tr>
                             <td><?= $value->note_id; ?></td>
                             <td><?= htmlentities($value->note_text); ?></td>
-                            <td><a href="<?= Config::get('URL') . 'note/edit/' . $value->note_id; ?>">Edit</a></td>
-                            <td><a href="<?= Config::get('URL') . 'note/delete/' . $value->note_id; ?>">Delete</a></td>
+                            <td><a href="<?= Config::get('URL') . 'note/edit/' . $value->note_id; ?>">Editar</a></td>
+                            <td><a href="<?= Config::get('URL') . 'note/delete/' . $value->note_id; ?>">Eliminar</a></td>
                         </tr>
                     <?php } ?>
                 </tbody>
             </table>
             <?php } else { ?>
-                <div>No notes yet. Create some !</div>
+                <div>No hay notas aún. Crear algunas!</div>
             <?php } ?>
     </div>
 </div>

@@ -36,7 +36,7 @@
                         </td>
                         <td><?= $user->user_name; ?></td>
                         <td><?= $user->user_email; ?></td>
-                        <td><?= ($user->user_active == 0 ? 'No' : 'Yes'); ?></td>
+                        <td><?= ($user->user_active == 0 ? 'No' : 'Si'); ?></td>
                         <td>
                             <a href="<?= Config::get('URL') . 'profile/showProfile/' . $user->user_id; ?>">Perfil</a>
                         </td>
@@ -45,7 +45,7 @@
                             <td><input type="checkbox" name="softDelete" <?php if ($user->user_deleted) { ?> checked <?php } ?> /></td>
                             <td>
                                 <input type="hidden" name="user_id" value="<?= $user->user_id; ?>" />
-                                <input type="submit" />
+                                <input type="Submit" />
                             </td>
                         </form>
                     </tr>

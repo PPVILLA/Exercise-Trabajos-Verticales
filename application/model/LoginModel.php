@@ -87,17 +87,17 @@ class LoginModel
 			Session::add('feedback_negative', Text::get('FEEDBACK_LOGIN_FAILED_3_TIMES'));
 			return false;
 		}
-		
+
 		// get all data of that user (to later check if password and password_hash fit)
 		$result = UserModel::getUserDataByUsername($user_name);
 
-        // check if that user exists. We don't give back a cause in the feedback to avoid giving an attacker details.
-        // brute force attack mitigation: reset failed login counter because of found user
-        if (!$result){
-            // increment the user not found count, helps mitigate user enumeration
-            self::incrementUserNotFoundCounter();
-            // user does not exist, but we won't to give a potential attacker this details, so we just use a basic feedback message
-            Session::add('feedback_negative', Text::get('FEEDBACK_USERNAME_OR_PASSWORD_WRONG'));
+    // check if that user exists. We don't give back a cause in the feedback to avoid giving an attacker details.
+    // brute force attack mitigation: reset failed login counter because of found user
+    if (!$result){
+        // increment the user not found count, helps mitigate user enumeration
+        self::incrementUserNotFoundCounter();
+        // user does not exist, but we won't to give a potential attacker this details, so we just use a basic feedback message
+        Session::add('feedback_negative', Text::get('FEEDBACK_USERNAME_OR_PASSWORD_WRONG'));
 			return false;
 		}
 
@@ -110,7 +110,7 @@ class LoginModel
 		// if hash of provided password does NOT match the hash in the database: +1 failed-login counter
 		if (!password_verify($user_password, $result->user_password_hash)) {
 			self::incrementFailedLoginCounterOfUser($result->user_name);
-			Session::add('feedback_negative', Text::get('FEEDBACK_USERNAME_OR_PASSWORD_WRONG')); 
+			Session::add('feedback_negative', Text::get('FEEDBACK_USERNAME_OR_PASSWORD_WRONG'));
 			return false;
 		}
 
@@ -332,7 +332,7 @@ class LoginModel
         $cookie_string_first_part = Encryption::encrypt($user_id) . ':' . $random_token_string;
         $cookie_string_hash       = hash('sha256', $user_id . ':' . $random_token_string);
         $cookie_string            = $cookie_string_first_part . ':' . $cookie_string_hash;
-		
+
 		// set cookie, and make it available only for the domain created on (to avoid XSS attacks, where the
         // attacker could steal your remember-me cookie string and would login itself).
         // If you are using HTTPS, then you should set the "secure" flag (the second one from right) to true, too.
