@@ -51,19 +51,19 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">ADV Trabajos Verticales</a>
+              <a class="navbar-brand" href="<?php echo Config::get('URL'); ?>">ADV Trabajos Verticales</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li <?php if (View::checkForActiveController($filename, "index")) { echo ' class="active" '; } ?> >
                         <a href="<?php echo Config::get('URL'); ?>">Página principal</a>
                     </li>
-                    <li <?php if (View::checkForActiveController($filename, "profile")) { echo ' class="active" '; } ?> >
+                    <!-- <li <?php if (View::checkForActiveController($filename, "profile")) { echo ' class="active" '; } ?> >
                         <a href="<?php echo Config::get('URL'); ?>profile/index">Perfiles</a>
-                    </li>
+                    </li> -->
                     <?php if (Session::userIsLoggedIn()) { ?>
                         <li <?php if (View::checkForActiveController($filename, "dashboard")) { echo ' class="active" '; } ?> >
-                            <a href="<?php echo Config::get('URL'); ?>dashboard/index">Panel Administracion</a>
+                            <a href="<?php echo Config::get('URL'); ?>dashboard/index">Panel Usuario</a>
                         </li>
                         <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?> >
                             <a href="<?php echo Config::get('URL'); ?>note/index">Mis notas</a>

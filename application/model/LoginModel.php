@@ -103,7 +103,10 @@ class LoginModel
 
 		// block login attempt if somebody has already failed 3 times and the last login attempt is less than 30sec ago
 		if (($result->user_failed_logins >= 3) AND ($result->user_last_failed_login > (time() - 30))) {
-			Session::add('feedback_negative', Text::get('FEEDBACK_PASSWORD_WRONG_3_TIMES'));
+			//Session::add('feedback_negative', Text::get('FEEDBACK_PASSWORD_WRONG_3_TIMES'));
+      if(self::blockedUser($result->user_id, $result->user_email)){
+        Session::add('feedback_negative', Text::get('FEEDBACK_PASSWORD_WRONG_3_TIMES') . 'Se ha bloqueado su cuenta, para desbloquearla, revise su correo');
+      }
 			return false;
 		}
 
@@ -374,5 +377,65 @@ class LoginModel
     public static function isUserLoggedIn()
     {
         return Session::userIsLoggedIn();
+    }
+
+    public static function blockedUser($user_id, $user_email)
+    {
+      $database = DatabaseFactory::getFactory()->getConnection();
+
+      // generate random hash for email verification (40 char string)
+      $user_activation_verification_code = sha1(uniqid(mt_rand(), true));
+
+      $sql = "UPDATE users SET user_active = 0, user_activation_hash = :user_activation_verification_code
+                  WHERE user_id = :user_id AND user_email = :user_email LIMIT 1";
+
+      $query = $database->prepare($sql);
+      $query->execute(array(':user_activation_verification_code' => $user_activation_verification_code, ':user_id' => $user_id, ':user_email' => $user_email));
+
+      if ($query->rowCount() == 1) {
+        if(self::sendVerificationEmail($user_id, $user_email, $user_activation_verification_code)){
+          return true;
+        }
+      }else{
+        Session::add('feedback_negative', 'El intento de bloqueo de su cuenta ha fallado');
+      return false;
+      }
+    }
+
+    public static function sendVerificationEmail($user_id, $user_email, $user_activation_verification_code)
+    {
+      $body = 'Por favor, haga clic en este enlace para desbloquear tu cuenta: ' . Config::get('URL') . 'login/verifyUserBlocked'
+              . '/' . urlencode($user_id) . '/' . urlencode($user_activation_verification_code);
+
+      $mail = new Mail;
+      $mail_sent = $mail->sendMail($user_email, Config::get('EMAIL_VERIFICATION_FROM_EMAIL'),
+        Config::get('EMAIL_VERIFICATION_FROM_NAME'), 'Desbloqueo de su cuenta de ADV Trabajos Verticales', $body
+      );
+
+      if ($mail_sent) {
+        Session::add('feedback_positive', Text::get('FEEDBACK_VERIFICATION_MAIL_SENDING_SUCCESSFUL'));
+        return true;
+      } else {
+        Session::add('feedback_negative', Text::get('FEEDBACK_VERIFICATION_MAIL_SENDING_ERROR') . $mail->getError() );
+        return false;
+      }
+    }
+
+    public static function verifyBlocked($user_id, $user_activation_verification_code)
+    {
+      $database = DatabaseFactory::getFactory()->getConnection();
+
+      $sql = "UPDATE users SET user_active = 1, user_activation_hash = NULL, user_failed_logins = 0, user_last_failed_login = NULL
+                  WHERE user_id = :user_id AND user_activation_hash = :user_activation_hash LIMIT 1";
+      $query = $database->prepare($sql);
+      $query->execute(array(':user_id' => $user_id, ':user_activation_hash' => $user_activation_verification_code));
+
+      if ($query->rowCount() == 1) {
+        Session::add('feedback_positive', Text::get('FEEDBACK_ACCOUNT_ACTIVATION_SUCCESSFUL'));
+        return true;
+      }
+
+      Session::add('feedback_negative', Text::get('FEEDBACK_ACCOUNT_ACTIVATION_FAILED'));
+      return false;
     }
 }

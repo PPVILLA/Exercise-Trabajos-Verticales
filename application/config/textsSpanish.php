@@ -46,7 +46,7 @@ return array(
 	"FEEDBACK_AVATAR_UPLOAD_WRONG_TYPE" => "Sólo los archivos JPEG y PNG son compatibles.",
 	"FEEDBACK_AVATAR_UPLOAD_TOO_SMALL" => "Anchura / altura del archivo de origen Avatar es demasiado pequeña. Necesita un mínimo de 100x100 píxeles.",
 	"FEEDBACK_AVATAR_UPLOAD_TOO_BIG" => "Archivo de origen del Avatar es demasiado grande. 5 Megabyte es el máximo.",
-	"FEEDBACK_AVATAR_FOLDER_DOES_NOT_EXIST_OR_NOT_WRITABLE" => "Avatar folder does not exist or is not writable. Please change this via chmod 775 or 777.",
+	"FEEDBACK_AVATAR_FOLDER_DOES_NOT_EXIST_OR_NOT_WRITABLE" => "La carpeta Avatar o no se puede escribir. Por favor cambia los permisos de escritura con chmod 775 o 777",
 	"FEEDBACK_AVATAR_IMAGE_UPLOAD_FAILED" => "Algo salió mal con la carga de imágenes.",
 	"FEEDBACK_AVATAR_IMAGE_DELETE_SUCCESSFUL" => "Ha eliminado con éxito su avatar.",
     "FEEDBACK_AVATAR_IMAGE_DELETE_NO_FILE" => "Usted no tiene un avatar personalizado.",

@@ -139,16 +139,16 @@ return array(
 	'EMAIL_SMTP_PORT' => 465,
 	'EMAIL_SMTP_ENCRYPTION' => 'ssl',
 	/**
-	 * Configuration for: Email content data 
+	 * Configuration for: Email content data
 	 */
 	'EMAIL_PASSWORD_RESET_URL' => 'login/verifypasswordreset',
 	'EMAIL_PASSWORD_RESET_FROM_EMAIL' => 'no-reply@example.com',
 	'EMAIL_PASSWORD_RESET_FROM_NAME' => 'ADV Trabajos Verticales',
-	'EMAIL_PASSWORD_RESET_SUBJECT' => 'Restablecer contraseña para ADV Trabajos Verticales',
+	'EMAIL_PASSWORD_RESET_SUBJECT' => 'Restablecer contrasena para ADV Trabajos Verticales',
 	'EMAIL_PASSWORD_RESET_CONTENT' => 'Por favor, haga clic en este enlace para restablecer tu contraseña: ',
 	'EMAIL_VERIFICATION_URL' => 'login/verify',
 	'EMAIL_VERIFICATION_FROM_EMAIL' => 'no-reply@example.com',
 	'EMAIL_VERIFICATION_FROM_NAME' => 'ADV Trabajos Verticales',
-	'EMAIL_VERIFICATION_SUBJECT' => 'Activación de la cuenta de ADV Trabajos Verticales',
+	'EMAIL_VERIFICATION_SUBJECT' => 'Activacion de su cuenta de ADV Trabajos Verticales',
 	'EMAIL_VERIFICATION_CONTENT' => 'Por favor, haga clic en este enlace para activar tu cuenta: ',
 );

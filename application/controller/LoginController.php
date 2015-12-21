@@ -262,6 +262,17 @@ class LoginController extends Controller
         }
     }
 
+    public function verifyUserBlocked($user_id, $user_activation_verification_code)
+    {
+        if (isset($user_id) && isset($user_activation_verification_code)) {
+            LoginModel::verifyBlocked($user_id, $user_activation_verification_code);
+            //$this->View->render('login/verify');
+            Redirect::to('login/index');
+        } else {
+            Redirect::to('login/index');
+        }
+    }
+
     /**
      * Show the request-password-reset page
      */

@@ -22,6 +22,7 @@
                     <td>Activado ?</td>
                     <td>Link al perfil de usuario</td>
                     <td>Tiempo de suspensión en día</td>
+                    <td>Intentos fallidos de Login</td>
                     <td>Borrado blando</td>
                     <td>Enviar</td>
                 </tr>
@@ -42,6 +43,7 @@
                         </td>
                         <form action="<?= config::get("URL"); ?>admin/actionAccountSettings" method="post">
                             <td><input type="number" name="suspension" /></td>
+                            <td><?= $user->user_failed_logins; ?></td>
                             <td><input type="checkbox" name="softDelete" <?php if ($user->user_deleted) { ?> checked <?php } ?> /></td>
                             <td>
                                 <input type="hidden" name="user_id" value="<?= $user->user_id; ?>" />
