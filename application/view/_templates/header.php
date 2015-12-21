@@ -58,15 +58,15 @@
                     <li <?php if (View::checkForActiveController($filename, "index")) { echo ' class="active" '; } ?> >
                         <a href="<?php echo Config::get('URL'); ?>">Página principal</a>
                     </li>
-                    <!-- <li <?php if (View::checkForActiveController($filename, "profile")) { echo ' class="active" '; } ?> >
+                    <li <?php if (View::checkForActiveController($filename, "profile")) { echo ' class="active" '; } ?> >
                         <a href="<?php echo Config::get('URL'); ?>profile/index">Perfiles</a>
-                    </li> -->
+                    </li>
                     <?php if (Session::userIsLoggedIn()) { ?>
                         <li <?php if (View::checkForActiveController($filename, "dashboard")) { echo ' class="active" '; } ?> >
-                            <a href="<?php echo Config::get('URL'); ?>dashboard/index">Panel Usuario</a>
+                            <a href="<?php echo Config::get('URL'); ?>dashboard/index">Panel Trabajador</a>
                         </li>
                         <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?> >
-                            <a href="<?php echo Config::get('URL'); ?>note/index">Mis notas</a>
+                            <a href="<?php echo Config::get('URL'); ?>note/index">Mis Obras</a>
                         </li>
                     <?php } else { ?>
                 </ul>

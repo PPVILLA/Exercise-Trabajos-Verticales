@@ -1,13 +1,14 @@
     <main class="jumbotron">
+      <img class="img-portada" src="img/portada.jpg" alt="Portada ADV Trabajos Verticales Cadiz">
       <div class="container">
         <div class="brand_logo">
-            <img src="img/adv-trabajos-verticales-cadiz.png" alt="ADV Trabajos Verticales Cadiz">
+            <img class="img-responsive" src="img/adv-trabajos-verticales-cadiz.png" alt="ADV Trabajos Verticales Cadiz">
         </div>
       </div>
       <div class="container">
         <h1><strong>¡¡Lo que buscabas!!</strong></h1>
         <h3><strong>Trabajos en alturas en lugares de díficil acceso mediante sistemas de acceso y posicionamiento con técnicas de doble cuerda.</strong></h3>
-        <h3><strong>Realizar cualquier tipo de trabajo en menos tiempo y con la misma efectividad que utilizando medios convencionales como andamios, plataformas o gruas, teniendo en cuenta en en algunos lugares no se pueden utilizar por motivos de espacio, tráfico, accesibilidad, economía, seguridad, robos, labores puntuales, etc.</strong></h3>
+        <h3 class="h3"><strong>Realizar cualquier tipo de trabajo en menos tiempo y con la misma efectividad que utilizando medios convencionales como andamios, plataformas o gruas, teniendo en cuenta en en algunos lugares no se pueden utilizar por motivos de espacio, tráfico, accesibilidad, economía, seguridad, robos, labores puntuales, etc.</strong></h3>
         <p><a class="btn btn-primary btn-lg" href="#" role="button">Saber más &raquo;</a></p>
       </div>
     </main>

@@ -1117,6 +1117,13 @@ figure {
 img {
   vertical-align: middle;
 }
+.img-portada{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  z-index: -1;
+}
 .img-responsive,
 .thumbnail > img,
 .thumbnail a > img,
@@ -5042,12 +5049,13 @@ a.badge:focus {
   padding-top: 30px;
   padding-bottom: 30px;
   margin-bottom: 40px;
-  color: #00F;
-  background: #fff url(../img/portada.jpg) no-repeat;
+  color: white;
 }
 .jumbotron h1,
+.jumbotron h3,
 .jumbotron .h1 {
   color: inherit;
+  background: rgba(0, 0, 0, 0.3);
 }
 .jumbotron p {
   margin-bottom: 15px;

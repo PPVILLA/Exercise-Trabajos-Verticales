@@ -1,7 +1,7 @@
 <div class="container">
     <h1>LoginController/showProfile</h1>
 
-    <div class="box">
+    <div class="panel">
         <h2>Tu perfil</h2>
 
         <!-- echo out the system feedback (error and success messages) -->
