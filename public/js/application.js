@@ -35,9 +35,13 @@ $(function() {
                 });
         });
     }
+    $( document ).ready(function(){
+        $('.dropdown-button').dropdown();
+        $('.button-collapse').sideNav();
+      });
 
     setTimeout(function(){
-        $(".alert").hide(1000);
+        $('.feedback').hide(1000);
     }, 5000);
 
 });
