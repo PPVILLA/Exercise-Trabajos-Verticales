@@ -1,10 +1,10 @@
-<div class="container">
+<main class="container">
     <h1>LoginController/changeUserRole</h1>
 
     <!-- echo out the system feedback (error and success messages) -->
     <?php $this->renderFeedbackMessages(); ?>
 
-    <div class="box">
+    <div class="container">
         <h2>Cambiar el tipo de cuenta</h2>
         <p>
             Esta página es una implementación básica del proceso de actualización. El usuario puede hacer clic en ese botón para actualizar sus cuentas de "cuenta básica" a "cuenta premium". Este sencillo script ofrece un botón del ratón capaz que actualizar / degradar la cuenta al instante. En una aplicación real que le implementar algo así como un proceso de pago.
@@ -23,4 +23,4 @@
 	        <?php } ?>
 	    </form>
     </div>
-</div>
+</main>

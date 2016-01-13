@@ -1,10 +1,10 @@
-<div class="container">
+<main class="container">
     <h1>LoginController/editUsername</h1>
 
     <!-- echo out the system feedback (error and success messages) -->
     <?php $this->renderFeedbackMessages(); ?>
 
-    <div class="box">
+    <div class="container">
         <h2>Cambia tu nick (nombre de usuario)</h2>
 
         <form action="<?php echo Config::get('URL'); ?>login/editUserName_action" method="post">
@@ -17,4 +17,4 @@
             <input type="submit" value="Enviar" />
         </form>
     </div>
-</div>
+</main>

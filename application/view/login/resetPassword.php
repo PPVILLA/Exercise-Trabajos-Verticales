@@ -1,10 +1,10 @@
-<div class="container">
+<main class="container">
     <h1>LoginController/resetPassword</h1>
 
     <!-- echo out the system feedback (error and success messages) -->
     <?php $this->renderFeedbackMessages(); ?>
 
-    <div class="box">
+    <div class="container">
         <h2>Establecer nueva contraseña</h2>
 
         <!-- <p>FYI: ... el proceso de identificación funciona a través de password-reset-token (campo de entrada oculto)</p> -->
@@ -24,4 +24,4 @@
 
         <a href="<?php echo Config::get('URL'); ?>login/index">Volver a pagina de Login</a>
     </div>
-</div>
+</main>

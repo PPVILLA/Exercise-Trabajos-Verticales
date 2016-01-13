@@ -1,7 +1,7 @@
-<div class="container">
+<main class="container">
     <h1>NoteController/edit/:note_id</h1>
 
-    <div class="box">
+    <div class="container">
         <h2>Edita una nota</h2>
 
         <!-- echo out the system feedback (error and success messages) -->
@@ -19,4 +19,4 @@
             <p>Esta nota no existe.</p>
         <?php } ?>
     </div>
-</div>
+</main>

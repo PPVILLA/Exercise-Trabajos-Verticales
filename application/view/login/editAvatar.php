@@ -1,10 +1,10 @@
-<div class="container">
+<main class="container">
     <h1>Edita tu avatar</h1>
 
     <!-- echo out the system feedback (error and success messages) -->
     <?php $this->renderFeedbackMessages(); ?>
 
-    <div class="box">
+    <div class="container">
         <h3>Sube un Avatar</h3>
 
         <div class="feedback info">
@@ -24,4 +24,4 @@
         <h3>Eliminar tu avatar</h3>
         <p>Haga clic en este enlace para eliminar tu avatar (local): <a href="<?php echo Config::get('URL'); ?>login/deleteAvatar_action">Eliminar tu avatar</a>
     </div>
-</div>
+</main>

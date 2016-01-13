@@ -1,6 +1,6 @@
-<div class="container">
+<main class="container">
     <h1>ProfileController/showProfile/:id</h1>
-    <div class="box">
+    <div class="container">
 
         <!-- echo out the system feedback (error and success messages) -->
         <?php $this->renderFeedbackMessages(); ?>
@@ -10,7 +10,7 @@
 
         <?php if ($this->user) { ?>
             <div>
-                <table class="table">
+                <table class="responsive-table bordered striped centered">
                     <thead>
                     <tr>
                         <td>Id</td>
@@ -38,4 +38,4 @@
         <?php } ?>
 
     </div>
-</div>
+</main>

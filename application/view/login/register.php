@@ -1,4 +1,4 @@
-<div class="container">
+<main class="container">
 
   <!-- echo out the system feedback (error and success messages) -->
   <?php $this->renderFeedbackMessages(); ?>
@@ -88,7 +88,7 @@
       </div>
     </form>
   </div>
-</div>
+</main>
 <!-- <div class="container">
     <p style="display: block; font-size: 11px; color: #999;">
         Please note: This captcha will be generated when the img tag requests the captcha-generation

@@ -1,6 +1,6 @@
-<div class="container">
+<main class="container">
     <h1>Solicite un restablecimiento de contraseña</h1>
-    <div class="box">
+    <div class="container">
 
         <!-- echo out the system feedback (error and success messages) -->
         <?php $this->renderFeedbackMessages(); ?>
@@ -15,4 +15,4 @@
         </form>
 
     </div>
-</div>
+</main>

@@ -1,10 +1,10 @@
-<div class="container">
+<main class="container">
     <h1>LoginController/changePassword</h1>
 
     <!-- echo out the system feedback (error and success messages) -->
     <?php $this->renderFeedbackMessages(); ?>
 
-    <div class="box">
+    <div class="container">
         <h2>Establecer nueva contraseña</h2>
 
         <!-- new password form box -->
@@ -22,4 +22,4 @@
         </form>
 
     </div>
-</div>
+</main>

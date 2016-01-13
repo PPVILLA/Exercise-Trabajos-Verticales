@@ -1,7 +1,7 @@
-<div class="container">
+<main class="container">
     <h1>Admin/index</h1>
 
-    <div class="box">
+    <div class="container">
 
         <!-- echo out the system feedback (error and success messages) -->
         <?php $this->renderFeedbackMessages(); ?>
@@ -12,7 +12,7 @@
             Este "controlador/acción/vista" muestra una lista de todos los usuarios del sistema con la capacidad de eliminación (suave) a un usuario o suspender a un usuario.
         </div>
         <div>
-            <table class="table">
+            <table class="responsive-table bordered striped centered">
                 <thead>
                 <tr>
                     <td>Id</td>
@@ -55,4 +55,4 @@
             </table>
         </div>
     </div>
-</div>
+</main>

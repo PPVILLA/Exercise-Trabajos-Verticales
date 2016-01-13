@@ -1,7 +1,7 @@
-<div class="container">
+<main class="container">
     <h1>LoginController/showProfile</h1>
 
-    <div class="panel">
+    <div class="container">
         <h2>Tu perfil</h2>
 
         <!-- echo out the system feedback (error and success messages) -->
@@ -18,4 +18,4 @@
         </div>
         <div>Tu tipo de cuenta es: <?= $this->user_account_type; ?></div>
     </div>
-</div>
+</main>
