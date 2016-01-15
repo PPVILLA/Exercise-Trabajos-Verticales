@@ -10,6 +10,8 @@ return array(
 	"FEEDBACK_DELETED" => "Tu cuenta ha sido eliminada.",
 	"FEEDBACK_ACCOUNT_SUSPENDED" => "Cuenta suspendida por ",
 	"FEEDBACK_ACCOUNT_SUSPENSION_DELETION_STATUS" => "Estado de suspensión / eliminación de este usuario ha sido editado.",
+  "FEEDBACK_ACCOUNT_CANT_DELETE_SUSPEND_OWN" => "No se puede eliminar o suspender su propia cuenta.",
+  "FEEDBACK_ACCOUNT_USER_SUCCESSFULLY_KICKED" => "El usuario seleccionado ha sido expulsado con éxito del sistema (al restablecer la sesión de este usuario)",
 	"FEEDBACK_PASSWORD_WRONG_3_TIMES" => "Se ha escrito una contraseña incorrecta 3 o más veces. Por favor, espere 30 segundos para volver a intentarlo.",
 	"FEEDBACK_ACCOUNT_NOT_ACTIVATED_YET" => "Su cuenta no está activada todavía. Por favor, haga clic en el enlace de confirmación en el correo.",
 	"FEEDBACK_USERNAME_OR_PASSWORD_WRONG" => "El nombre de usuario o contraseña es incorrecto. Por favor, vuelva a intentarlo.",
