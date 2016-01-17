@@ -50,20 +50,20 @@
         <!-- <div class="logo"></div> -->
     <!-- DropdownUser Structure -->
     <ul id="dropdownUser" class="dropdown-content">
-      <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-          <a href="<?php echo Config::get('URL'); ?>login/changeUserRole">Cambiar tipo de cuenta</a>
+      <li <?php if (View::checkForActiveController($filename, "user")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>user/changeUserRole">Cambiar tipo de cuenta</a>
       </li>
-      <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-          <a href="<?php echo Config::get('URL'); ?>login/editAvatar">Editar tu avatar</a>
+      <li <?php if (View::checkForActiveController($filename, "user")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>user/editAvatar">Editar tu avatar</a>
       </li>
-      <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-          <a href="<?php echo Config::get('URL'); ?>login/editusername">Editar mi nick</a>
+      <li <?php if (View::checkForActiveController($filename, "user")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>user/editusername">Editar mi nick</a>
       </li>
-      <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-          <a href="<?php echo Config::get('URL'); ?>login/edituseremail">Editar mi email</a>
+      <li <?php if (View::checkForActiveController($filename, "user")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>user/edituseremail">Editar mi email</a>
       </li>
-      <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-          <a href="<?php echo Config::get('URL'); ?>login/changePassword">Cambiar contraseña</a>
+      <li <?php if (View::checkForActiveController($filename, "user")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>user/changePassword">Cambiar contraseña</a>
       </li>
       <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
           <a href="<?php echo Config::get('URL'); ?>login/logout">Logout</a>
@@ -71,20 +71,20 @@
     </ul><!--/.dropdown-content -->
     <!-- DropdownUser SideNav Structure -->
     <ul id="dropdownAccountSideNav" class="dropdown-content">
-      <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-          <a href="<?php echo Config::get('URL'); ?>login/changeUserRole">Cambiar tipo de cuenta</a>
+      <li <?php if (View::checkForActiveController($filename, "user")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>user/changeUserRole">Cambiar tipo de cuenta</a>
       </li>
-      <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-          <a href="<?php echo Config::get('URL'); ?>login/editAvatar">Editar tu avatar</a>
+      <li <?php if (View::checkForActiveController($filename, "user")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>user/editAvatar">Editar tu avatar</a>
       </li>
-      <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-          <a href="<?php echo Config::get('URL'); ?>login/editusername">Editar mi nick</a>
+      <li <?php if (View::checkForActiveController($filename, "user")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>user/editusername">Editar mi nick</a>
       </li>
-      <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-          <a href="<?php echo Config::get('URL'); ?>login/edituseremail">Editar mi email</a>
+      <li <?php if (View::checkForActiveController($filename, "user")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>user/edituseremail">Editar mi email</a>
       </li>
-      <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-          <a href="<?php echo Config::get('URL'); ?>login/changePassword">Cambiar contraseña</a>
+      <li <?php if (View::checkForActiveController($filename, "user")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>user/changePassword">Cambiar contraseña</a>
       </li>
       <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
           <a href="<?php echo Config::get('URL'); ?>login/logout">Logout</a>
@@ -163,8 +163,8 @@
             <li <?php if (View::checkForActiveControllerAndAction($filename, "login/index")) { echo ' class="active" '; } ?> >
                 <a href="<?php echo Config::get('URL'); ?>login/index">Login</a>
             </li>
-            <li <?php if (View::checkForActiveControllerAndAction($filename, "login/register")) { echo ' class="active" '; } ?> >
-                <a href="<?php echo Config::get('URL'); ?>login/register">Registrate</a>
+            <li <?php if (View::checkForActiveControllerAndAction($filename, "register/index")) { echo ' class="active" '; } ?> >
+                <a href="<?php echo Config::get('URL'); ?>register/index">Registrate</a>
             </li>
             <?php } ?>
           </ul><!--/.right hide-on-med-and-down-->
@@ -172,8 +172,8 @@
           <?php if (Session::userIsLoggedIn()) : ?>
           <!-- my account -->
           <ul class="right hide-on-med-and-down">
-            <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-                <a href="<?php echo Config::get('URL'); ?>login/showprofile">Mi perfil</a>
+            <li <?php if (View::checkForActiveController($filename, "user")) { echo ' class="active" '; } ?> >
+                <a href="<?php echo Config::get('URL'); ?>user/index">Mi perfil</a>
             </li>
             <!-- Dropdown Trigger -->
             <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >

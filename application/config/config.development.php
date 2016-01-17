@@ -146,7 +146,7 @@ return array(
 	'EMAIL_PASSWORD_RESET_FROM_NAME' => 'ADV Trabajos Verticales',
 	'EMAIL_PASSWORD_RESET_SUBJECT' => 'Restablecer contrasena para ADV Trabajos Verticales',
 	'EMAIL_PASSWORD_RESET_CONTENT' => 'Por favor, haga clic en este enlace para restablecer tu contraseña: ',
-	'EMAIL_VERIFICATION_URL' => 'login/verify',
+	'EMAIL_VERIFICATION_URL' => 'user/verify',
 	'EMAIL_VERIFICATION_FROM_EMAIL' => 'no-reply@example.com',
 	'EMAIL_VERIFICATION_FROM_NAME' => 'ADV Trabajos Verticales',
 	'EMAIL_VERIFICATION_SUBJECT' => 'Activacion de su cuenta de ADV Trabajos Verticales',

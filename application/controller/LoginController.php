@@ -35,10 +35,11 @@ class LoginController extends Controller
      */
     public function login()
     {
-
         // check if csrf token is valid
         if (!Csrf::isTokenValid()) {
-            self::logout();
+            LoginModel::logout();
+            Redirect::home();
+            exit();
         }
 
         // perform the login method, put result (true or false) into $login_successful
@@ -101,7 +102,7 @@ class LoginController extends Controller
      */
     public function requestPasswordReset_action()
     {
-        PasswordResetModel::requestPasswordReset(Request::post('user_name_or_email'));
+        PasswordResetModel::requestPasswordReset(Request::post('user_name_or_email'), Request::post('captcha'));
         Redirect::to('login/index');
     }
 

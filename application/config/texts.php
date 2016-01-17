@@ -23,6 +23,7 @@ return array(
 	"FEEDBACK_USERNAME_OR_PASSWORD_FIELD_EMPTY" => "Username or password field was empty.",
 	"FEEDBACK_USERNAME_EMAIL_FIELD_EMPTY" => "Username / email field was empty.",
 	"FEEDBACK_EMAIL_FIELD_EMPTY" => "Email field was empty.",
+  "FEEDBACK_EMAIL_REPEAT_WRONG" => "Email and email repeat are not the same",
 	"FEEDBACK_EMAIL_AND_PASSWORD_FIELDS_EMPTY" => "Email and password fields were empty.",
 	"FEEDBACK_USERNAME_SAME_AS_OLD_ONE" => "Sorry, that username is the same as your current one. Please choose another one.",
 	"FEEDBACK_USERNAME_ALREADY_TAKEN" => "Sorry, that username is already taken. Please choose another one.",
@@ -71,4 +72,7 @@ return array(
 	"FEEDBACK_NOTE_DELETION_FAILED" => "Note deletion failed.",
 	"FEEDBACK_COOKIE_INVALID" => "Your remember-me-cookie is invalid.",
 	"FEEDBACK_COOKIE_LOGIN_SUCCESSFUL" => "You were successfully logged in via the remember-me-cookie.",
+  "FEEDBACK_LOCAL_CREATION_FAILED" => "Local creation failed.",
+  "FEEDBACK_LOCAL_EDITING_FAILED" => "Local editing failed.",
+  "FEEDBACK_LOCAL_DELETION_FAILED" => "Local deletion failed.",
 );
