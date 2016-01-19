@@ -38,6 +38,10 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="<?php echo Config::get('URL'); ?>js/customMaterialize.min.js"></script>
 
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript" src="<?php echo Config::get('URL'); ?>js/maps.js"></script>
+
+
     <!-- define the project's URL (to make AJAX calls possible, even when using this in sub-folders etc) -->
     <script>
         var url = "<?php echo Config::get('URL'); ?>";

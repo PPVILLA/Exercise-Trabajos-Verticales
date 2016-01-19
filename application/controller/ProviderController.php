@@ -3,7 +3,7 @@
 /**
  * The note controller: Just an example of simple create, read, update and delete (CRUD) actions.
  */
-class LocalController extends Controller
+class ProviderController extends Controller
 {
     /**
      * Construct this object by extending the basic Controller class
@@ -23,8 +23,8 @@ class LocalController extends Controller
      */
     public function index()
     {
-        $this->View->render('local/index', array(
-            'locals' => LocalModel::getAllLocals()
+        $this->View->render('provider/index', array(
+            'providers' => ProviderModel::getAllProviders()
         ));
     }
 
@@ -35,8 +35,8 @@ class LocalController extends Controller
      */
     public function create()
     {
-        LocalModel::createLocal();
-        Redirect::to('local');
+        ProviderModel::createProvider();
+        Redirect::to('provider');
     }
 
     /**
@@ -44,10 +44,10 @@ class LocalController extends Controller
      * Shows the current content of the note and an editing form.
      * @param $note_id int id of the note
      */
-    public function edit($local_id)
+    public function edit($provider_id)
     {
-        $this->View->render('local/edit', array(
-            'local' => localModel::getLocal($local_id)
+        $this->View->render('provider/edit', array(
+            'provider' => providerModel::getProvider($provider_id)
         ));
     }
 
@@ -58,8 +58,8 @@ class LocalController extends Controller
      */
     public function editSave()
     {
-        localModel::updateLocal();
-        Redirect::to('local');
+        providerModel::updateProvider();
+        Redirect::to('provider');
     }
 
     /**
@@ -68,9 +68,9 @@ class LocalController extends Controller
      * totally okay.
      * @param int $note_id id of the note
      */
-    public function delete($local_id)
+    public function delete($provider_id)
     {
-        LocalModel::deleteLocal($local_id);
-        Redirect::to('local');
+        ProviderModel::deleteProvider($provider_id);
+        Redirect::to('provider');
     }
 }

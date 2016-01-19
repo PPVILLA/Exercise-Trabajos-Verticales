@@ -75,4 +75,7 @@ return array(
   "FEEDBACK_LOCAL_CREATION_FAILED" => "Local creation failed.",
   "FEEDBACK_LOCAL_EDITING_FAILED" => "Local editing failed.",
   "FEEDBACK_LOCAL_DELETION_FAILED" => "Local deletion failed.",
+  "FEEDBACK_PROVIDER_CREATION_FAILED" => "Provider creation failed.",
+  "FEEDBACK_PROVIDER_EDITING_FAILED" => "Provider editing failed.",
+  "FEEDBACK_PROVIDER_DELETION_FAILED" => "Provider deletion failed.",
 );

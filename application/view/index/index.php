@@ -29,19 +29,28 @@
       <section class="row">
         <!-- Example row of columns -->
         <article class="col s12 m4">
-        <h2>Quienes somos</h2>
+          <h2>Quienes somos</h2>
           <p>Somos ADV Trabajos Verticales, una empresa con dilatada experiencia en  el sector de trabajos en altura en la provincia de Cádiz. Nuestros servicios están dirigidos a toda clase de actividad en lugares de difícil acceso mediante técnicas de escalada aplicadas a la edificación e industria, sin utilizar andamios ni grúas. Accedemos al lugar en un corto espacio de tiempo, realizamos nuestra labor y recogemos en el mismo día sin ningún tipo de problemas e inconvenientes para el usuario.  Consulte con nosotros. Usamos todas las primeras marcas del mercado,no rebajamos costos en materiales. El ahorro económico está en la utilización de técnicas rápidas y seguras. </p>
         </article>
-        <article class="col s12 m4">
-          <h2>Dónde estamos</h2>
-          <address>
-          <strong>ADV Trabajos Verticales</strong><br>
-          Calle Sol, 54 <br>
-          11560 Trebujena (Cádiz)<br>
-          <a href="mailto:#">E-mail: info@advtrabajosverticales.com</a><br>
-          <abbr title="Telefono">Tlfno:</abbr> 652 181 935
-          </address>
-        </article>
+        <section class="col s12 m4">
+          <section class="row">
+            <article class="col s12">
+              <h2>Dónde estamos</h2>
+              <address>
+                <strong>ADV Trabajos Verticales</strong><br>
+                Calle Sol, 54 <br>
+                11560 Trebujena (Cádiz)<br>
+                <a href="mailto:#">E-mail: info@advtrabajosverticales.com</a><br>
+                <abbr title="Telefono">Tlfno: 652 181 935</abbr><br>
+              </address>
+            </article>
+          </section>
+          <section class="row">
+            <article class="col s12">
+              <div id="map_canvas" style="width:100%;"></div>
+            </article>
+          </section>
+        </section> <!-- /section -->
         <article class="col s12 m4">
           <h2>Qué ofrecemos</h2>
           <li>Aislamientos sin obras.</li>
