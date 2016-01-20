@@ -11,7 +11,7 @@ $( document ).ready(function(){
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    var map = new google.maps.Map($("#map_canvas").get(0), myOptions);
-    var marker = new google.maps.Marker({ position: trebujena });
+    map = new google.maps.Map($("#map_canvas").get(0), myOptions);
+    marker = new google.maps.Marker({ position: trebujena });
     marker.setMap(map);
   }

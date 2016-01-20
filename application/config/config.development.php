@@ -43,11 +43,17 @@ return array(
 	'PATH_CONTROLLER' => realpath(dirname(__FILE__).'/../../') . '/application/controller/',
 	'PATH_VIEW' => realpath(dirname(__FILE__).'/../../') . '/application/view/',
 	/**
-	 * Configuration for: Avatar paths
-	 * Internal path to save avatars. Make sure this folder is writable. The slash at the end is VERY important!
+   * Configuration for: Avatar paths
+   * Internal path to save avatars. Make sure this folder is writable. The slash at the end is VERY important!
+   */
+  'PATH_AVATARS' => realpath(dirname(__FILE__).'/../../') . '/public/avatars/',
+  'PATH_AVATARS_PUBLIC' => 'avatars/',
+  /**
+	 * Configuration for: Photo Material paths
+	 * Internal path to save Photo Material. Make sure this folder is writable. The slash at the end is VERY important!
 	 */
-	'PATH_AVATARS' => realpath(dirname(__FILE__).'/../../') . '/public/avatars/',
-	'PATH_AVATARS_PUBLIC' => 'avatars/',
+	'PATH_MATERIALS' => realpath(dirname(__FILE__).'/../../') . '/public/materials/',
+	'PATH_MATERIALS_PUBLIC' => 'materials/',
 	/**
 	 * Configuration for: Default controller and action
 	 */
@@ -100,18 +106,29 @@ return array(
     'COOKIE_HTTP' => true,
     'SESSION_RUNTIME' => 604800,
 	/**
+   * Configuration for: Avatars/Gravatar support
+   * Set to true if you want to use "Gravatar(s)", a service that automatically gets avatar pictures via using email
+   * addresses of users by requesting images from the gravatar.com API. Set to false to use own locally saved avatars.
+   * AVATAR_SIZE set the pixel size of avatars/gravatars (will be 44x44 by default). Avatars are always squares.
+   * AVATAR_DEFAULT_IMAGE is the default image in public/avatars/
+   */
+  'USE_GRAVATAR' => false,
+  'GRAVATAR_DEFAULT_IMAGESET' => 'mm',
+  'GRAVATAR_RATING' => 'pg',
+  'AVATAR_SIZE' => 44,
+  'AVATAR_JPEG_QUALITY' => 85,
+  'AVATAR_DEFAULT_IMAGE' => 'default.jpg',
+    /**
 	 * Configuration for: Avatars/Gravatar support
 	 * Set to true if you want to use "Gravatar(s)", a service that automatically gets avatar pictures via using email
 	 * addresses of users by requesting images from the gravatar.com API. Set to false to use own locally saved avatars.
-	 * AVATAR_SIZE set the pixel size of avatars/gravatars (will be 44x44 by default). Avatars are always squares.
-	 * AVATAR_DEFAULT_IMAGE is the default image in public/avatars/
+	 * PHOTOMATERIAL_SIZE set the pixel size of avatars/gravatars (will be 60x60 by default). Avatars are always squares.
+	 * PHOTOMATERIAL_DEFAULT_IMAGE is the default image in public/materials/
 	 */
-	'USE_GRAVATAR' => false,
-	'GRAVATAR_DEFAULT_IMAGESET' => 'mm',
-	'GRAVATAR_RATING' => 'pg',
-	'AVATAR_SIZE' => 44,
-	'AVATAR_JPEG_QUALITY' => 85,
-	'AVATAR_DEFAULT_IMAGE' => 'default.jpg',
+
+	'PHOTOMATERIAL_SIZE' => 60,
+	'PHOTOMATERIAL_JPEG_QUALITY' => 85,
+	'PHOTOMATERIAL_DEFAULT_IMAGE' => 'default.jpg',
     /**
      * Configuration for: Encryption Keys
      *

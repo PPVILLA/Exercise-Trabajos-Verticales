@@ -78,4 +78,17 @@ return array(
   "FEEDBACK_PROVIDER_CREATION_FAILED" => "Provider creation failed.",
   "FEEDBACK_PROVIDER_EDITING_FAILED" => "Provider editing failed.",
   "FEEDBACK_PROVIDER_DELETION_FAILED" => "Provider deletion failed.",
+  "FEEDBACK_MATERIAL_CREATION_FAILED" => "Material creation failed.",
+  "FEEDBACK_MATERIAL_EDITING_FAILED" => "Material editing failed.",
+  "FEEDBACK_MATERIAL_DELETION_FAILED" => "Material deletion failed.",
+  "FEEDBACK_IMAGEMATERIAL_UPLOAD_SUCCESSFUL" => "Image's material upload was successful.",
+  "FEEDBACK_IMAGEMATERIAL_UPLOAD_WRONG_TYPE" => "Only JPEG and PNG files are supported.",
+  "FEEDBACK_IMAGEMATERIAL_UPLOAD_TOO_SMALL" => "Image's material source file's width/height is too small. Needs to be 100x100 pixel minimum.",
+  "FEEDBACK_IMAGEMATERIAL_UPLOAD_TOO_BIG" => "Image's material source file is too big. 5 Megabyte is the maximum.",
+  "FEEDBACK_IMAGEMATERIAL_FOLDER_DOES_NOT_EXIST_OR_NOT_WRITABLE" => "Image Material folder does not exist or is not writable. Please change this via chmod 775 or 777.",
+  "FEEDBACK_IMAGEMATERIAL_IMAGE_UPLOAD_FAILED" => "Something went wrong with the image upload.",
+  "FEEDBACK_IMAGEMATERIAL_IMAGE_DELETE_SUCCESSFUL" => "You successfully deleted your image's material.",
+    "FEEDBACK_IMAGEMATERIAL_IMAGE_DELETE_NO_FILE" => "You don't have a custom image's material.",
+    "FEEDBACK_IMAGEMATERIAL_IMAGE_DELETE_FAILED" => "Something went wrong while deleting your image's material.",
+
 );

@@ -10,13 +10,13 @@
       <div class="row">
         <div class="input-field col s12 m6 offset-m3">
           <input type="text" class="validate" pattern=".{2,64}" name="user_name" placeholder="Nombre de Usuario o Direccion email" required autofocus>
-          <label for="user_name" class="col s12 no-padding" data-error="Introduzca letras (entre 2 y 64 caracteres)" data-success="correcto">Email</label>
+          <label for="user_name" class="col s12 no-padding" data-error="Introduzca letras (entre 2 y 64 caracteres)">Email</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12 m6 offset-m3">
           <input type="password" class="validate" pattern=".{6,}" name="user_password" placeholder="Introduzca su contraseña" required>
-          <label for="user_password" class="col s12 no-padding" data-error="Tiene que tener más de 6 caracteres" data-success="correcto">Contraseña</label>
+          <label for="user_password" class="col s12 no-padding" data-error="Tiene que tener más de 6 caracteres" >Contraseña</label>
         </div>
       </div>
       <div class="row">
