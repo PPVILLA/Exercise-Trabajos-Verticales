@@ -39,7 +39,9 @@
     <script type="text/javascript" src="<?php echo Config::get('URL'); ?>js/customMaterialize.min.js"></script>
 
     <script src="http://maps.googleapis.com/maps/api/js"></script>
-    <script type="text/javascript" src="<?php echo Config::get('URL'); ?>js/maps.js"></script>
+    <?php if (View::checkForActiveController($filename, "index")) {?>
+      <script type="text/javascript" src="<?php echo Config::get('URL'); ?>js/maps.js"></script>
+    <?php } ?>
 
 
     <!-- define the project's URL (to make AJAX calls possible, even when using this in sub-folders etc) -->

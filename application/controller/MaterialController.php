@@ -74,9 +74,9 @@ class MaterialController extends Controller
         Redirect::to('material');
     }
 
-    public function deletePhotoMaterial_action()
+    public function deletePhotoMaterial_action($material_id)
     {
-        MaterialModel::deletePhotoMaterial(Session::get("material_id"));
+        MaterialModel::deletePhotoMaterial($material_id);
         Redirect::to('material');
     }
 }

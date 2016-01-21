@@ -81,7 +81,7 @@ return array(
   "FEEDBACK_MATERIAL_CREATION_FAILED" => "Ha fallado la creación del material.",
   "FEEDBACK_MATERIAL_EDITING_FAILED" => "La edición del material falló.",
   "FEEDBACK_MATERIAL_DELETION_FAILED" => "El borrado del material falló.",
-  "FEEDBACK_PHOTOMATERIAL_UPLOAD_SUCCESSFUL" => "La carga de la imagen del material se ha realizado correctamente.",
+  "FEEDBACK_PHOTOMATERIAL_UPLOAD_SUCCESSFUL" => "La carga de la imagen del material se ha realizado correctamente. Pulse F5 para actualizar el listado",
   "FEEDBACK_PHOTOMATERIAL_UPLOAD_WRONG_TYPE" => "Sólo los archivos JPEG y PNG son compatibles.",
   "FEEDBACK_PHOTOMATERIAL_UPLOAD_TOO_SMALL" => "Anchura / altura del archivo de origen de la imagen es demasiado pequeña. Necesita un mínimo de 100x100 píxeles.",
   "FEEDBACK_PHOTOMATERIAL_UPLOAD_TOO_BIG" => "Archivo de origen de la imagen es demasiado grande. 5 Megabyte es el máximo.",

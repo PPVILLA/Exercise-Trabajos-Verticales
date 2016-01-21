@@ -80,12 +80,12 @@
                     <td class="center">Id Proveedor</td>
                     <td class="center">Nombre</td>
                     <td class="center">Descripción</td>
+                    <td class="center">Foto</td>
                     <td class="center">Precio</td>
                     <td class="center">Peso</td>
                     <td class="center">Altura</td>
                     <td class="center">Anchura</td>
                     <td class="center">Profundidad</td>
-                    <td class="center">Foto</td>
                     <td class="center">EDITAR</td>
                     <td class="center">ELIMINAR</td>
                 </tr>
@@ -97,12 +97,14 @@
                             <td><?= htmlentities($value->material_provider_id); ?></td>
                             <td><?= htmlentities($value->material_name); ?></td>
                             <td><?= htmlentities($value->material_description); ?></td>
+                            <td><?php if (isset($value->material_photoMaterial_link)) { ?>
+                                    <img src="<?= $value->material_photoMaterial_link; ?>" />
+                                <?php } ?></td>
                             <td><?= htmlentities($value->material_price); ?></td>
                             <td><?= htmlentities($value->material_weight); ?></td>
                             <td><?= htmlentities($value->material_dimension_high); ?></td>
                             <td><?= htmlentities($value->material_dimension_width); ?></td>
                             <td><?= htmlentities($value->material_dimension_profound); ?></td>
-                            <td><?= htmlentities($value->material_has_photoMaterial); ?></td>
                             <td><a class="btn-floating btn-large" href="<?= Config::get('URL') . 'material/edit/' . $value->material_id; ?>"><i class="large material-icons">mode_edit</i></a></td>
                             <td><a class="btn-floating btn-large" href="<?= Config::get('URL') . 'material/delete/' . $value->material_id; ?>"><i class="large material-icons">clear</i></a></td>
                         </tr>

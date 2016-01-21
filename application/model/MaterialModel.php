@@ -11,7 +11,7 @@ class MaterialModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "SELECT material_id, material_name, material_price, material_weight, material_dimension_high, material_dimension_width,
-                       material_dimension_profound, material_provider_id, material_has_photoMaterial,material_description
+                       material_dimension_profound, material_provider_id, material_has_photoMaterial, material_description
                 FROM materials WHERE user_id = :user_id ";
         $query = $database->prepare($sql);
         $query->execute(array(':user_id' => Session::get('user_id')));
@@ -34,7 +34,7 @@ class MaterialModel
             $all_materials[$material->material_id]->material_dimension_width = $material->material_dimension_width;
             $all_materials[$material->material_id]->material_dimension_profound = $material->material_dimension_profound;
             $all_materials[$material->material_id]->material_provider_id = $material->material_provider_id;
-            $all_materials[$material->material_id]->material_has_photoMaterial = $material->material_has_photoMaterial;
+            $all_materials[$material->material_id]->material_photoMaterial_link = (Config::get('USE_GRAVATAR') ? AvatarModel::getGravatarLinkByEmail($user->user_email) : self::getPublicPhotoMaterialFilePathOfMaterial($material->material_has_photoMaterial, $material->material_id));
             $all_materials[$material->material_id]->material_description = $material->material_description;
         }
 
@@ -42,7 +42,7 @@ class MaterialModel
     }
 
     /**
-     * Get a single note
+     * Get a single material
      * @param int $material_id id of the specific material
      * @return object a single object (the result)
      */
@@ -54,6 +54,36 @@ class MaterialModel
                    FROM materials WHERE material_id = :material_id AND user_id = :user_id LIMIT 1";
         $query = $database->prepare($sql);
         $query->execute(array(':user_id' => Session::get('user_id'), ':material_id' => $material_id));
+
+        foreach ($query->fetchAll() as $material) {
+            $material->material_id = $material->material_id;
+            $material->material_name = $material->material_name;
+            $material->material_price = $material->material_price;
+            $material->material_weight = $material->material_weight;
+            $material->material_dimension_high = $material->material_dimension_high;
+            $material->material_dimension_width = $material->material_dimension_width;
+            $material->material_dimension_profound = $material->material_dimension_profound;
+            $material->material_provider_id = $material->material_provider_id;
+            $material->material_photoMaterial_link = (Config::get('USE_GRAVATAR') ? AvatarModel::getGravatarLinkByEmail($user->user_email) : self::getPublicPhotoMaterialFilePathOfMaterial($material->material_has_photoMaterial, $material->material_id));
+            $material->material_description = $material->material_description;
+        }
+        return $material;
+        // fetch() is the PDO method that gets a single result
+        //return $query->fetch();
+    }
+ /**
+     * Get a single material
+     * @param String $material_name id of the specific material
+     * @return object a single object (the result)
+     */
+    public static function getMaterialByName($material_name)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT material_id, material_name, material_price, material_weight, material_dimension_high, material_dimension_width, material_dimension_profound, material_provider_id, material_has_photoMaterial, material_description
+                   FROM materials WHERE material_name = :material_name AND user_id = :user_id LIMIT 1";
+        $query = $database->prepare($sql);
+        $query->execute(array(':user_id' => Session::get('user_id'), ':material_name' => $material_name));
 
         // fetch() is the PDO method that gets a single result
         return $query->fetch();
@@ -76,7 +106,7 @@ class MaterialModel
         $material_has_photoMaterial = strip_tags(Request::post('material_has_photoMaterial', true));
         $material_description = strip_tags(Request::post('material_description', true));
 
-        $validation_result = self::registrationInputValidation($material_name, $material_price, $material_weight, $material_dimension_high, $material_dimension_width, $material_dimension_profound, $material_provider_id, $material_has_photoMaterial, $material_description);
+        $validation_result = self::registrationInputValidation($material_name, $material_price, $material_weight, $material_dimension_high, $material_dimension_width, $material_dimension_profound, $material_provider_id, $material_description);
         if (!$validation_result) {
           return false;
         }
@@ -84,9 +114,9 @@ class MaterialModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "INSERT INTO materials (material_name, material_price, material_weight, material_dimension_high, material_dimension_width,
-                                   material_dimension_profound, material_provider_id, material_has_photoMaterial, material_description, user_id)
+                                   material_dimension_profound, material_provider_id, material_description, user_id)
                     VALUES (:material_name, :material_price, :material_weight, :material_dimension_high, :material_dimension_width,
-                           :material_dimension_profound, :material_provider_id, :material_has_photoMaterial, :material_description, :user_id)";
+                           :material_dimension_profound, :material_provider_id, :material_description, :user_id)";
         $query = $database->prepare($sql);
         $query->execute(array(':material_name' => $material_name,
                               ':material_price' => $material_price,
@@ -95,14 +125,16 @@ class MaterialModel
                               ':material_dimension_width' => $material_dimension_width,
                               ':material_dimension_profound' => $material_dimension_profound,
                               ':material_provider_id' => $material_provider_id,
-                              ':material_has_photoMaterial' => $material_has_photoMaterial,
                               ':material_description' => $material_description,
                               ':user_id' => Session::get('user_id')));
 
         if ($query->rowCount() == 1) {
+            $lastInsert = self::getMaterialByName($material_name);
+            $idLastInsert = $lastInsert->material_id;
+            self::createPhotoMaterial($idLastInsert);
+
             return true;
         }
-        self::createPhotoMaterial();
 
         // default return
         Session::add('feedback_negative', Text::get('FEEDBACK_MATERIAL_CREATION_FAILED'));
@@ -127,7 +159,7 @@ class MaterialModel
         $material_has_photoMaterial = strip_tags(Request::post('material_has_photoMaterial', true));
         $material_description = strip_tags(Request::post('material_description', true));
 
-        $validation_result = self::registrationInputValidation($material_name, $material_price, $material_weight, $material_dimension_high, $material_dimension_width, $material_dimension_profound, $material_provider_id, $material_has_photoMaterial, $material_description);
+        $validation_result = self::registrationInputValidation($material_name, $material_price, $material_weight, $material_dimension_high, $material_dimension_width, $material_dimension_profound, $material_provider_id, $material_description);
         if (!$validation_result) {
           return false;
         }
@@ -137,7 +169,7 @@ class MaterialModel
         $sql = "UPDATE materials
                 SET material_name = :material_name, material_price = :material_price, material_weight = :material_weight,
                    material_dimension_high = :material_dimension_high, material_dimension_width = :material_dimension_width, material_dimension_profound = :material_dimension_profound,
-                    material_provider_id = :material_provider_id, material_has_photoMaterial = :material_has_photoMaterial, material_description = :material_description
+                    material_provider_id = :material_provider_id, material_description = :material_description
                 WHERE material_id = :material_id AND user_id = :user_id LIMIT 1";
         $query = $database->prepare($sql);
         $query->execute(array(':material_name' => $material_name,
@@ -147,13 +179,20 @@ class MaterialModel
                               ':material_dimension_width' => $material_dimension_width,
                               ':material_dimension_profound' => $material_dimension_profound,
                               ':material_provider_id' => $material_provider_id,
-                              ':material_has_photoMaterial' => $material_has_photoMaterial,
                               ':material_description' => $material_description,
                               ':material_id' => $material_id,
                               ':user_id' => Session::get('user_id')));
 
         if ($query->rowCount() == 1) {
+          if ($_FILES['photoMaterial_file']['name']!="") {
+            self::createPhotoMaterial($material_id);
+          }
             return true;
+        }
+
+        if ($_FILES['photoMaterial_file']['name']!="") {
+          self::createPhotoMaterial($material_id);
+          return true;
         }
 
         Session::add('feedback_negative', Text::get('FEEDBACK_MATERIAL_EDITING_FAILED'));
@@ -161,9 +200,9 @@ class MaterialModel
     }
 
     /**
-     * Delete a specific note
-     * @param int $material_id id of the note
-     * @return bool feedback (was the note deleted properly ?)
+     * Delete a specific material
+     * @param int $material id of the material
+     * @return bool feedback (was the material deleted properly ?)
      */
     public static function deleteMaterial($material_id)
     {
@@ -201,7 +240,7 @@ class MaterialModel
      *
      * @return bool
      */
-    public static function registrationInputValidation($material_name, $material_price, $material_weight, $material_dimension_high, $material_dimension_width, $material_dimension_profound, $material_provider_id, $material_has_photoMaterial, $material_description)
+    public static function registrationInputValidation($material_name, $material_price, $material_weight, $material_dimension_high, $material_dimension_width, $material_dimension_profound, $material_provider_id, $material_description)
     {
         return true;
 
@@ -273,15 +312,15 @@ class MaterialModel
         }
     }
 
-    public static function createPhotoMaterial()
+    public static function createPhotoMaterial($material_id)
     {
         // check photoMaterial folder writing rights, check if upload fits all rules
         if (self::isPhotoMaterialFolderWritable() AND self::validateImageFile()) {
             // create a jpg file in the photoMaterial folder, write marker to database
-            $target_file_path = Config::get('PATH_MATERIALS') . Session::get('material_id');
+            $target_file_path = Config::get('PATH_MATERIALS') . $material_id;
             self::resizePhotoMaterialImage($_FILES['photoMaterial_file']['tmp_name'], $target_file_path, Config::get('PHOTOMATERIAL_SIZE'), Config::get('PHOTOMATERIAL_SIZE'));
-            self::writePhotoMaterialToDatabase(Session::get('material_id'));
-            Session::set('material_has_photoMaterial_file', self::getPublicUserPhotoMaterialFilePathByUserId(Session::get('material_id')));
+            self::writePhotoMaterialToDatabase($material_id);
+            Session::set('material_has_photoMaterial_file', self::getPublicPhotoMaterialFilePathByMaterialId($material_id));
             Session::add('feedback_positive', Text::get('FEEDBACK_PHOTOMATERIAL_UPLOAD_SUCCESSFUL'));
         }
     }
@@ -413,27 +452,27 @@ class MaterialModel
     /**
      * Delete a material's photoMaterial
      *
-     * @param int $materialId
+     * @param int $material_id
      * @return bool success
      */
-    public static function deletePhotoMaterial($materialId)
+    public static function deletePhotoMaterial($material_id)
     {
-        if (!ctype_digit($materialId)) {
+        if (!ctype_digit($material_id)) {
             Session::add("feedback_negative", Text::get("FEEDBACK_PHOTOMATERIAL_IMAGE_DELETE_FAILED"));
             return false;
         }
 
         // try to delete image, but still go on regardless of file deletion result
-        self::deletePhotoMaterialImageFile($materialId);
+        self::deletePhotoMaterialImageFile($material_id);
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sth = $database->prepare("UPDATE materials SET material_has_photoMaterial = 0 WHERE material_id = :material_id LIMIT 1");
-        $sth->bindValue(":material_id", (int)$materialId, PDO::PARAM_INT);
+        $sth->bindValue(":material_id", (int)$material_id, PDO::PARAM_INT);
         $sth->execute();
 
         if ($sth->rowCount() == 1) {
-            Session::set('material_photoMaterial_file', self::getPublicUserPhotoMaterialFilePathByUserId($materialId));
+            Session::set('material_photoMaterial_file', self::getPublicPhotoMaterialFilePathByMaterialId($material_id));
             Session::add("feedback_positive", Text::get("FEEDBACK_PHOTOMATERIAL_IMAGE_DELETE_SUCCESSFUL"));
             return true;
         } else {
@@ -445,19 +484,19 @@ class MaterialModel
     /**
      * Removes the photoMaterial image file from the filesystem
      *
-     * @param integer $materialId
+     * @param integer $material_id
      * @return bool
      */
-    public static function deletePhotoMaterialImageFile($materialId)
+    public static function deletePhotoMaterialImageFile($material_id)
     {
         // Check if file exists
-        if (!file_exists(Config::get('PATH_MATERIALS') . $materialId . ".jpg")) {
+        if (!file_exists(Config::get('PATH_MATERIALS') . $material_id . ".jpg")) {
             Session::add("feedback_negative", Text::get("FEEDBACK_PHOTOMATERIAL_IMAGE_DELETE_NO_FILE"));
             return false;
         }
 
         // Delete photoMaterial file
-        if (!unlink(Config::get('PATH_MATERIALS') . $materialId . ".jpg")) {
+        if (!unlink(Config::get('PATH_MATERIALS') . $material_id . ".jpg")) {
             Session::add("feedback_negative", Text::get("FEEDBACK_PHOTOMATERIAL_IMAGE_DELETE_FAILED"));
             return false;
         }
@@ -465,12 +504,28 @@ class MaterialModel
         return true;
     }
 
+    /**
+     * Gets the user's avatar file path
+     * @param int $user_has_avatar Marker from database
+     * @param int $user_id Material's id
+     * @return string PhotoMaterial file path
+     */
+    public static function getPublicPhotoMaterialFilePathOfMaterial($material_has_photoMaterial, $material_id)
+    {
+        if ($material_has_photoMaterial) {
+            return Config::get('URL') . Config::get('PATH_MATERIALS_PUBLIC') . $material_id . '.jpg';
+        }
+
+        return Config::get('URL') . Config::get('PATH_MATERIALS_PUBLIC') . Config::get('PHOTOMATERIAL_DEFAULT_IMAGE');
+    }
+
+
      /**
      * Gets the material's photoMaterial file path
      * @param $material_id integer The material's id
      * @return string photoMaterial picture path
      */
-    public static function getPublicUserPhotoMaterialFilePathByUserId($material_id)
+    public static function getPublicPhotoMaterialFilePathByMaterialId($material_id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
