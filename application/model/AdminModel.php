@@ -92,4 +92,32 @@ class AdminModel
       return true;
     }
   }
+
+  public static function setActiveUserAndResetLoginFailed($userId, $resetUser)
+  {
+    // Prevent to suspend or delete own account.
+    // If admin suspend or delete own account will not be able to do any action.
+    if ($userId == Session::get('user_id')) {
+      Session::add('feedback_negative', 'No puedes resetear login fallidos o reactivar tu propia cuenta!');
+      return false;
+    }
+
+    if ($resetUser == "on") {
+      self::resetActiveUserAndLoginFailed($userId);
+    }
+  }
+
+  private static function resetActiveUserAndLoginFailed($userId)
+  {
+    $database = DatabaseFactory::getFactory()->getConnection();
+
+    $query = $database->prepare("UPDATE users SET user_active = 1, user_activation_hash = NULL, user_failed_logins = 0, user_last_failed_login = NULL
+                                 WHERE user_id = :user_id LIMIT 1");
+    $query->execute(array(':user_id' => $userId));
+
+    if ($query->rowCount() == 1) {
+      Session::add('feedback_positive', 'Usuario reseteado con éxito.');
+      return true;
+    }
+  }
 }

@@ -13,11 +13,11 @@
                 <table class="responsive-table bordered striped centered">
                     <thead>
                     <tr>
-                        <td>Id</td>
-                        <td>Avatar</td>
-                        <td>Nick</td>
-                        <td>Email de los usuarios</td>
-                        <td>¿Activado?</td>
+                        <th>Id</th>
+                        <th>Avatar</th>
+                        <th>Nick</th>
+                        <th>Email de los usuarios</th>
+                        <th>¿Activado?</th>
                     </tr>
                     </thead>
                     <tbody>

@@ -58,7 +58,7 @@
                 </div>
             </form>
         <?php } else { ?>
-            <p>Esta nota no existe.</p>
+            <p>Este local no existe.</p>
         <?php } ?>
     </div>
 </main>

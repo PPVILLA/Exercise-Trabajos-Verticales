@@ -19,7 +19,7 @@ class UserModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT user_id, user_name, user_email, user_active, user_has_avatar, user_failed_logins, user_deleted FROM users";
+        $sql = "SELECT user_id, user_name, user_email, user_active, user_has_avatar, user_deleted, user_failed_logins, user_account_type, user_contract_date FROM users";
         $query = $database->prepare($sql);
         $query->execute();
 
@@ -36,7 +36,50 @@ class UserModel
             $all_users_profiles[$user->user_id]->user_id = $user->user_id;
             $all_users_profiles[$user->user_id]->user_name = $user->user_name;
             $all_users_profiles[$user->user_id]->user_email = $user->user_email;
+            $all_users_profiles[$user->user_id]->user_contract_date = $user->user_contract_date;
             $all_users_profiles[$user->user_id]->user_active = $user->user_active;
+            $all_users_profiles[$user->user_id]->user_account_type = $user->user_account_type;
+            $all_users_profiles[$user->user_id]->user_deleted = $user->user_deleted;
+            $all_users_profiles[$user->user_id]->user_failed_logins = $user->user_failed_logins;
+            $all_users_profiles[$user->user_id]->user_avatar_link = (Config::get('USE_GRAVATAR') ? AvatarModel::getGravatarLinkByEmail($user->user_email) : AvatarModel::getPublicAvatarFilePathOfUser($user->user_has_avatar, $user->user_id));
+        }
+
+        return $all_users_profiles;
+    }
+/**
+     * Gets an array that contains all the users in the database. The array's keys are the user ids.
+     * Each array element is an object, containing a specific user's data.
+     * The avatar line is built using Ternary Operators, have a look here for more:
+     * @see http://davidwalsh.name/php-shorthand-if-else-ternary-operators
+     *
+     * @return array The profiles of employee users
+     */
+    public static function getPublicProfilesOfEmployeeUsers()
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT user_id, user_name, user_email, user_active, user_has_avatar, user_deleted, user_failed_logins,
+                        user_account_type, user_contract_date
+                FROM users WHERE user_account_type = :user_account_type ";
+        $query = $database->prepare($sql);
+        $query->execute(array(':user_account_type' => 4));
+
+        $all_users_profiles = array();
+
+        foreach ($query->fetchAll() as $user) {
+
+            // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+            // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+            // the user's values
+            array_walk_recursive($user, 'Filter::XSSFilter');
+
+            $all_users_profiles[$user->user_id] = new stdClass();
+            $all_users_profiles[$user->user_id]->user_id = $user->user_id;
+            $all_users_profiles[$user->user_id]->user_name = $user->user_name;
+            $all_users_profiles[$user->user_id]->user_email = $user->user_email;
+            $all_users_profiles[$user->user_id]->user_contract_date = $user->user_contract_date;
+            $all_users_profiles[$user->user_id]->user_active = $user->user_active;
+            $all_users_profiles[$user->user_id]->user_account_type = $user->user_account_type;
             $all_users_profiles[$user->user_id]->user_deleted = $user->user_deleted;
             $all_users_profiles[$user->user_id]->user_failed_logins = $user->user_failed_logins;
             $all_users_profiles[$user->user_id]->user_avatar_link = (Config::get('USE_GRAVATAR') ? AvatarModel::getGravatarLinkByEmail($user->user_email) : AvatarModel::getPublicAvatarFilePathOfUser($user->user_has_avatar, $user->user_id));
@@ -46,6 +89,34 @@ class UserModel
     }
 
     /**
+     * Gets a user's profile data, according to the given $user_id
+     * @param int $user_id The user's id
+     * @return mixed The selected user's profile
+     */
+    public static function getPrivateProfileOfUser($user_id)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT user_id, user_account_type, user_name, user_email, name, user_surname1, user_surname2, user_address, user_city, user_province, user_NIF, user_phone, user_contract_date
+                FROM users WHERE user_id = :user_id LIMIT 1";
+        $query = $database->prepare($sql);
+        $query->execute(array(':user_id' => $user_id));
+
+        $user = $query->fetch();
+
+        if ($query->rowCount() != 1) {
+          Session::add('feedback_negative', Text::get('FEEDBACK_USER_DOES_NOT_EXIST'));
+        }
+
+        // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+        // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+        // the user's values
+        array_walk_recursive($user, 'Filter::XSSFilter');
+
+        return $user;
+    }
+
+/**
      * Gets a user's profile data, according to the given $user_id
      * @param int $user_id The user's id
      * @return mixed The selected user's profile

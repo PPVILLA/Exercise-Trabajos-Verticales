@@ -71,19 +71,19 @@
             <table class="responsive-table bordered striped centered">
                 <thead>
                   <tr>
-                      <td class="center">Id</td>
-                      <td class="center">CIF</td>
-                      <td class="center">Nombre</td>
-                      <td class="center">Domicilio</td>
-                      <td class="center">Poblacion</td>
-                      <td class="center">Telefono</td>
-                      <td class="center">Email</td>
-                      <td class="center">Direccion Web</td>
-                      <td class="center">Nombre Contacto</td>
-                      <td class="center">Latitud</td>
-                      <td class="center">Longitud</td>
-                      <td class="center">EDITAR</td>
-                      <td class="center">ELIMINAR</td>
+                      <th>Id</th>
+                      <th>CIF</th>
+                      <th>Nombre</th>
+                      <th>Domicilio</th>
+                      <th>Poblacion</th>
+                      <th>Telefono</th>
+                      <th>Email</th>
+                      <th>Direccion Web</th>
+                      <th>Nombre Contacto</th>
+                      <th>Latitud</th>
+                      <th>Longitud</th>
+                      <th>EDITAR</th>
+                      <th>ELIMINAR</th>
                   </tr>
                 </thead>
                 <tbody>

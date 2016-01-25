@@ -43,6 +43,14 @@ class RegisterController extends Controller
       Redirect::to('register/index');
     }
   }
+  public function register_employee_action()
+  {
+    $user_account_type = 4;
+    RegistrationModel::registerNewUser($user_account_type);
+
+    Redirect::to('employee/index');
+
+  }
 
   /**
    * Verify user after activation mail link opened

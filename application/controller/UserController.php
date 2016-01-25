@@ -28,7 +28,8 @@ class UserController extends Controller
             'user_email' => Session::get('user_email'),
             'user_gravatar_image_url' => Session::get('user_gravatar_image_url'),
             'user_avatar_file' => Session::get('user_avatar_file'),
-            'user_account_type' => Session::get('user_account_type')
+            'user_account_type' => Session::get('user_account_type'),
+            'userPrivateData' => UserModel::getPrivateProfileOfUser(Session::get('user_id'))
         ));
     }
 
@@ -153,5 +154,28 @@ class UserController extends Controller
             Redirect::to('user/index');
         else
             Redirect::to('user/changePassword');
+    }
+
+    public function editPrivateData($user_name)
+    {
+      $user_id = UserModel::getUserIdByUsername($user_name);
+      $this->View->render('user/editPrivateData', array(
+            'user' => UserModel::getPrivateProfileOfUser($user_id)
+        ));
+    }
+
+    /**
+     * This method controls what happens when you move to /employee/editSave in your app.
+     * Edits a employee (performs the editing after form submit).
+     * POST request.
+     */
+    public function editSave()
+    {
+        EmployeeModel::updateEmployee(Request::post('user_account_type'));
+        if(Request::post('user_account_type') == 4){
+          Redirect::to('employee');
+        }else{
+          Redirect::to('admin');
+        }
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The note controller: Just an example of simple create, read, update and delete (CRUD) actions.
+ * The local controller: Just an example of simple create, read, update and delete (CRUD) actions.
  */
 class LocalController extends Controller
 {
@@ -18,8 +18,8 @@ class LocalController extends Controller
     }
 
     /**
-     * This method controls what happens when you move to /note/index in your app.
-     * Gets all notes (of the user).
+     * This method controls what happens when you move to /local/index in your app.
+     * Gets all locals (of the user).
      */
     public function index()
     {
@@ -30,7 +30,7 @@ class LocalController extends Controller
 
     /**
      * This method controls what happens when you move to /dashboard/create in your app.
-     * Creates a new note. This is usually the target of form submit actions.
+     * Creates a new local. This is usually the target of form submit actions.
      * POST request.
      */
     public function create()
@@ -40,9 +40,9 @@ class LocalController extends Controller
     }
 
     /**
-     * This method controls what happens when you move to /note/edit(/XX) in your app.
-     * Shows the current content of the note and an editing form.
-     * @param $note_id int id of the note
+     * This method controls what happens when you move to /local/edit(/XX) in your app.
+     * Shows the current content of the local and an editing form.
+     * @param $local_id int id of the local
      */
     public function edit($local_id)
     {
@@ -52,8 +52,8 @@ class LocalController extends Controller
     }
 
     /**
-     * This method controls what happens when you move to /note/editSave in your app.
-     * Edits a note (performs the editing after form submit).
+     * This method controls what happens when you move to /local/editSave in your app.
+     * Edits a local (performs the editing after form submit).
      * POST request.
      */
     public function editSave()
@@ -63,10 +63,10 @@ class LocalController extends Controller
     }
 
     /**
-     * This method controls what happens when you move to /note/delete(/XX) in your app.
-     * Deletes a note. In a real application a deletion via GET/URL is not recommended, but for demo purposes it's
+     * This method controls what happens when you move to /local/delete(/XX) in your app.
+     * Deletes a local. In a real application a deletion via GET/URL is not recommended, but for demo purposes it's
      * totally okay.
-     * @param int $note_id id of the note
+     * @param int $local_id id of the local
      */
     public function delete($local_id)
     {

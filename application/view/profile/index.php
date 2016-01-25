@@ -13,12 +13,12 @@
             <table class="responsive-table bordered striped centered">
                 <thead>
                 <tr>
-                    <td>Id</td>
-                    <td>Avatar</td>
-                    <td>Nick</td>
-                    <td>email de usuarios</td>
-                    <td>Activado ?</td>
-                    <td>Link al perfil de usuarios</td>
+                    <th>Id</th>
+                    <th>Avatar</th>
+                    <th>Nick</th>
+                    <th>email de usuarios</th>
+                    <th>Activado ?</th>
+                    <th>Link al perfil de usuarios</th>
                 </tr>
                 </thead>
                 <?php foreach ($this->users as $user) { ?>

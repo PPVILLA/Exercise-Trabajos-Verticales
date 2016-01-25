@@ -1,6 +1,6 @@
 <?php
 
-class AdminController extends Controller
+class EmployeeController extends Controller
 {
     /**
      * Construct this object by extending the basic Controller class
@@ -19,8 +19,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-	    $this->View->render('admin/index', array(
-			    'users' => UserModel::getPublicProfilesOfAllUsers())
+	    $this->View->render('employee/index', array(
+			    'users' => UserModel::getPublicProfilesOfEmployeeUsers())
 	    );
     }
 
@@ -35,6 +35,30 @@ class AdminController extends Controller
       AdminModel::setActiveUserAndResetLoginFailed(Request::post('user_id'), Request::post('resetUser'));
     }
 
-		Redirect::to("admin");
+		Redirect::to("employee");
 	}
+
+   /**
+     * This method controls what happens when you move to /employee/edit(/XX) in your app.
+     * Shows the current content of the employee and an editing form.
+     * @param $employee_id int id of the employee
+     */
+    public function edit($user_id)
+    {
+        $this->View->render('user/edit', array(
+            'user' => UserModel::getPrivateProfileOfUser($user_id)
+        ));
+    }
+
+    /**
+     * This method controls what happens when you move to /employee/editSave in your app.
+     * Edits a employee (performs the editing after form submit).
+     * POST request.
+     */
+    public function editSave()
+    {
+        EmployeeModel::updateEmployee(Request::post('user_account_type'));
+        Redirect::to('employee');
+    }
+
 }

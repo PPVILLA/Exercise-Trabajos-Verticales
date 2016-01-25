@@ -76,18 +76,18 @@
             <table class="responsive-table bordered striped centered">
                 <thead>
                 <tr>
-                    <td class="center">Id</td>
-                    <td class="center">Id Proveedor</td>
-                    <td class="center">Nombre</td>
-                    <td class="center">Descripción</td>
-                    <td class="center">Foto</td>
-                    <td class="center">Precio</td>
-                    <td class="center">Peso</td>
-                    <td class="center">Altura</td>
-                    <td class="center">Anchura</td>
-                    <td class="center">Profundidad</td>
-                    <td class="center">EDITAR</td>
-                    <td class="center">ELIMINAR</td>
+                    <th>Id</th>
+                    <th>Id Proveedor</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Foto</th>
+                    <th>Precio</th>
+                    <th>Peso</th>
+                    <th>Altura</th>
+                    <th>Anchura</th>
+                    <th>Profundidad</th>
+                    <th>EDITAR</th>
+                    <th>ELIMINAR</th>
                 </tr>
                 </thead>
                 <tbody>

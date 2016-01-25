@@ -1,13 +1,12 @@
-<main class="container">
+<main class="row" style="margin: 0 5%;">
+  <h1 class="center">Panel de gestion de empleados</h1>
 
   <!-- echo out the system feedback (error and success messages) -->
   <?php $this->renderFeedbackMessages(); ?>
-
-  <!-- login box -->
   <div class="row">
     <!-- register form -->
-    <form class="col s12" method="post" action="<?php echo Config::get('URL'); ?>register/register_action">
-      <h2 class="center">Registra una nueva cuenta</h2>
+    <form class="col s12" method="post" action="<?php echo Config::get('URL'); ?>register/register_employee_action">
+      <h2 class="center">Registra una nueva cuenta de empleado</h2>
       <!-- the user name input field uses a HTML5 pattern check -->
       <div class="row">
         <div class="input-field col s12 m4">
@@ -64,13 +63,17 @@
         </div>
       </div>
       <div class="row">
-        <div class="input-field col s12 m6">
+        <div class="input-field col s12 m4">
           <input type="text" class="validate" pattern="^([0-9]{8,8})([A-Z])$" name="user_NIF" placeholder="NIF (12345678X)" required >
           <label class="col s12 no-padding" for="user_NIF" data-error="Introduzca 8 digitos y una letra en mayuscula" >NIF</label>
         </div>
-        <div class="input-field col s12 m6">
-          <input type="text" class="validate" pattern="^(\+34\s?)([9|6][0-9]{8})$|^([9|6][0-9]{8})$" name="user_phone" placeholder="Telefono de contacto (+34923456789 +34 923456789 923456789 +34 623456789 623456789)" required >
-          <label class="col s12 no-padding" for="user_phone" data-error="incorrecto" >Telefono</label>
+        <div class="input-field col s12 m4">
+          <input type="text" class="validate" pattern="^([9|6][0-9]{8})$" name="user_phone" placeholder="Telefono de contacto (+34923456789 +34 923456789 923456789 +34 623456789 623456789)" required >
+          <label class="col s12 no-padding" for="user_phone" data-error="el nº telefono debe de empezar por 9 o por 6 hasta alcanzar 9 digitos." >Telefono</label>
+        </div>
+        <div class="input-field col s12 m4">
+          <input type="text" class="validate" pattern="(\d{4})(-)([0][1-9]|[1][0-2])\2([0][1-9]|[12][0-9]|3[01])" name="user_contract_date" value="<?= date("Y-m-d"); ?>" required >
+          <label class="col s12 no-padding" for="user_contract_date" data-error="Introduzca una fecha con formato AAAA-MM-DD" >Fecha contratación</label>
         </div>
       </div>
       <div class="row">
@@ -80,24 +83,84 @@
           <input type="text" class="col s12 m6 offset-m3 validate" name="captcha" placeholder="Por favor, introduzca los caracteres anteriores" required >
 
           <!-- quick & dirty captcha reloader -->
-          <a class="col s12 m6 offset-m3" href="#" onclick="document.getElementById('captcha').src = '<?php echo Config::get('URL'); ?>register/showCaptcha?' + Math.random(); return false">Recarga Captcha</a>
+          <a class="col s12 m6 offset-m3" href="#" onclick="document.getElementById('captcha').src = '<?php echo Config::get('URL'); ?>login/showCaptcha?' + Math.random(); return false">Recarga Captcha</a>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12 center">
-          <button class="btn waves-effect waves-light center" type="submit">Registrarse
-            <i class="material-icons right">send</i>
+          <button class="btn waves-effect waves-light center" type="submit">Añadir empleado
+            <i class="material-icons right">add</i>
           </button>
         </div>
       </div>
     </form>
   </div>
+    <div class="row">
+        <div class="col s12">
+        <?php if ($this->users) { ?>
+            <table class="responsive-table bordered striped centered">
+                <thead>
+                  <tr>
+                      <th>Id</th>
+                      <th>Avatar</th>
+                      <th>Nick</th>
+                      <th>email de usuarios</th>
+                      <th>tipo de cuenta</th>
+                      <th>Fecha contratacion</th>
+                      <th>¿Activado?</th>
+                      <th>Intentos fallidos de Login</th>
+                      <th>Link al perfil de usuario</th>
+                      <th>Dias de suspensión</th>
+                      <th>Borrado logico</th>
+                      <th>¿Resetear intentos de Login y activar usuario?</th>
+                      <th>Enviar</th>
+                      <th>Editar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <?php $i = 0 ?>
+                <?php foreach ($this->users as $user) { $i++; ?>
+                    <tr class="<?= ($user->user_active == 0 ? 'inactive' : 'active'); ?>">
+                        <td><?= $user->user_id; ?></td>
+                        <td class="avatar">
+                            <?php if (isset($user->user_avatar_link)) { ?>
+                                <img src="<?= $user->user_avatar_link; ?>"/>
+                            <?php } ?>
+                        </td>
+                        <td><?= $user->user_name; ?></td>
+                        <td><?= $user->user_email; ?></td>
+                        <td><?php if ($user->user_account_type == 7) : ?> Administrador <?php elseif($user->user_account_type == 4) : ?> Empleado <?php else: ?> Normal <?php endif ?></td>
+                        <td><?= $user->user_contract_date; ?></td>
+                        <td><?= ($user->user_active == 0 ? 'No' : 'Si'); ?></td>
+                        <td><?= $user->user_failed_logins; ?></td>
+                        <td>
+                            <a href="<?= Config::get('URL') . 'profile/showProfile/' . $user->user_id; ?>">Perfil</a>
+                        </td>
+                        <form action="<?= config::get("URL"); ?>employee/actionAccountSettings" method="post">
+                            <td class="input-field"><input type="number" name="suspension" /></td>
+                            <td>
+                              <input type="checkbox" id="softDelete<?= $i ?>" name="softDelete" <?php if ($user->user_deleted) { ?> checked <?php } ?> />
+                              <label for="softDelete<?= $i ?>"></label>
+                            </td>
+                            <td>
+                              <input type="checkbox" id="resetUser<?= $i ?>" name="resetUser" />
+                              <label for="resetUser<?= $i ?>"></label>
+                            </td>
+                            <td>
+                                <input type="hidden" name="user_id" value="<?= $user->user_id; ?>" />
+                                <button class="btn-floating btn-large" type="submit">
+                                  <i class="material-icons right">send</i>
+                                </button>
+                            </td>
+                        </form>
+                        <td><a class="btn-floating btn-large" href="<?= Config::get('URL') . 'user/editPrivateData/' . $user->user_name; ?>"><i class="large material-icons">mode_edit</i></a></td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+        <?php } else { ?>
+            <div>No hay ningún empleado aún. Créate alguno!</div>
+        <?php } ?>
+        </div>
+    </div>
 </main>
-<!-- <div class="container">
-  <p style="display: block; font-size: 11px; color: #999;">
-      Please note: This captcha will be generated when the img tag requests the captcha-generation
-      (= a real image) from YOURURL/register/showcaptcha. As this is a client-side triggered request, a
-      $_SESSION["captcha"] dump will not show the captcha characters. The captcha generation
-      happens AFTER the request that generates THIS page has been finished.
-  </p>
-</div> -->

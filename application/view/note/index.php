@@ -5,9 +5,6 @@
 
         <section class="col s12 center" >
             <h1>Tus notas</h1>
-            <p>
-                Esto es sólo una sencilla implementación de un CRUD. Crear, leer, actualizar y eliminar cosas.
-            </p>
             <form method="post" action="<?php echo Config::get('URL');?>note/create">
                 <div class="row">
                   <div class="input-field col s12 m6 offset-m3">
@@ -32,10 +29,10 @@
             <table class="responsive-table bordered striped centered">
                 <thead>
                 <tr>
-                    <td class="center">Id</td>
-                    <td class="center">Nota</td>
-                    <td class="center">EDITAR</td>
-                    <td class="center">ELIMINAR</td>
+                    <th>Id</th>
+                    <th>Nota</th>
+                    <th>EDITAR</th>
+                    <th>ELIMINAR</th>
                 </tr>
                 </thead>
                 <tbody>

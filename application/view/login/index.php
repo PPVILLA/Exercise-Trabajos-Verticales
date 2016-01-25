@@ -20,9 +20,9 @@
         </div>
       </div>
       <div class="row">
-        <div class="input-field col s12 m6 offset-m3">
-          <input type="checkbox" id="test9" name="set_remember_me_cookie">
-          <label for="text9">Recuérdame durante 2 semanas</label>
+        <div class="col s12 m6 offset-m3">
+          <input type="checkbox" id="set_remember_me_cookie" name="set_remember_me_cookie">
+          <label for="set_remember_me_cookie">Recuérdame durante 2 semanas</label>
         </div>
       </div>
       <!-- when a user navigates to a page that's only accessible for logged a logged-in user, then

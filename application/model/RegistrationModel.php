@@ -13,9 +13,13 @@ class RegistrationModel
 	 *
 	 * @return boolean Gives back the success status of the registration
 	 */
-	public static function registerNewUser()
+	public static function registerNewUser($user_account_type)
 	{
-		// clean the input
+		if(empty($user_account_type) || is_null($user_account_type) || !isset($user_account_type)){
+      $user_account_type = 1;
+    }
+
+    // clean the input
 		$user_name = strip_tags(Request::post('user_name'));
 		$user_email = strip_tags(Request::post('user_email'));
     $user_email_repeat = strip_tags(Request::post('user_email_repeat'));
@@ -30,10 +34,11 @@ class RegistrationModel
 		$user_province = Request::post('user_province', true);
 		$user_NIF = Request::post('user_NIF', true);
 		$user_phone = Request::post('user_phone', true);
+    $user_contract_date = Request::post('user_contract_date', true);
 
 		// stop registration flow if registrationInputValidation() returns false (= anything breaks the input check rules)
 		$validation_result = self::registrationInputValidation(Request::post('captcha'), $user_name, $user_password_new, $user_password_repeat, $user_email, $user_email_repeat);
-		$validation_others_inputs = self::registrationOthersInputValidation($name, $user_surname1, $user_surname2, $user_address, $user_city, $user_province, $user_NIF, $user_phone);
+		$validation_others_inputs = self::registrationOthersInputValidation($name, $user_surname1, $user_surname2, $user_address, $user_city, $user_province, $user_NIF, $user_phone, $user_contract_date);
 		if (!$validation_result && !$validation_others_inputs) {
 			return false;
 		}
@@ -64,7 +69,7 @@ class RegistrationModel
 		$user_activation_hash = sha1(uniqid(mt_rand(), true));
 
 		// write user data to database
-		if (!self::writeNewUserToDatabase($user_name, $user_password_hash, $user_email, time(), $user_activation_hash, $name, $user_surname1, $user_surname2, $user_address, $user_city, $user_province, $user_NIF, $user_phone)) {
+		if (!self::writeNewUserToDatabase($user_name, $user_password_hash, $user_email, time(), $user_activation_hash, $name, $user_surname1, $user_surname2, $user_address, $user_city, $user_province, $user_NIF, $user_phone, $user_contract_date, $user_account_type)) {
 			Session::add('feedback_negative', Text::get('FEEDBACK_ACCOUNT_CREATION_FAILED'));
             return false; // no reason not to return false here
 		}
@@ -134,7 +139,7 @@ class RegistrationModel
         }
 
         // if username is too short (2), too long (64) or does not fit the pattern (aZ09)
-        if (!preg_match('/^[a-zA-Z0-9]{2,64}$/', $user_name)) {
+        if (!preg_match('/[a-zA-Z0-9]{2,64}/', $user_name)) {
             Session::add('feedback_negative', Text::get('FEEDBACK_USERNAME_DOES_NOT_FIT_PATTERN'));
             return false;
         }
@@ -212,7 +217,7 @@ class RegistrationModel
 	 *
 	 * @return bool
 	 */
-	public static function registrationOthersInputValidation($name, $user_surname1, $user_surname2, $user_address, $user_city, $user_province, $user_NIF, $user_phone)
+	public static function registrationOthersInputValidation($name, $user_surname1, $user_surname2, $user_address, $user_city, $user_province, $user_NIF, $user_phone, $user_contract_date)
 	{
         return true;
 
@@ -221,17 +226,17 @@ class RegistrationModel
             return false;
         }
         // if name is too short (2), too long (64) or does not fit the pattern (aZ)
-        if (!preg_match('/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}$/', $name)) {
+        if (!preg_match('/[A-Za-záéíóúÁÉÍÓÚñÑ\.\s-]{2,64}/', $name)) {
             Session::add('feedback_negative', 'El campo Nombre no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
             return false;
         }
 
-		if (empty($user_surname1)) {
+		    if (empty($user_surname1)) {
             Session::add('feedback_negative', 'El campo Primer Apellido está vacío');
             return false;
         }
         // if name is too short (2), too long (64) or does not fit the pattern (aZ)
-        if (!preg_match('/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}$/', $user_surname1)) {
+        if (!preg_match('/[A-Za-záéíóúÁÉÍÓÚñÑ\.\s-]{2,64}/', $user_surname1)) {
             Session::add('feedback_negative', 'El campo Primer Apellido no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
             return false;
         }
@@ -241,7 +246,7 @@ class RegistrationModel
             return false;
         }
         // if name is too short (2), too long (64) or does not fit the pattern (aZ)
-        if (!preg_match('/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}$/', $user_surname2)) {
+        if (!preg_match('/[A-Za-záéíóúÁÉÍÓÚñÑ\.\s-]{2,64}/', $user_surname2)) {
             Session::add('feedback_negative', 'El campo Segundo Apellido no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
             return false;
         }
@@ -251,7 +256,7 @@ class RegistrationModel
             return false;
         }
         // if name is too short (2), too long (64) or does not fit the pattern (aZ)
-        if (!preg_match('/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s,]{2,64}$/', $user_address)) {
+        if (!preg_match('/[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\.\/\s,-]{2,64}/', $user_address)) {
             Session::add('feedback_negative', 'El campo Direccion no se ajusta al patrón: Sólo mayusculas, minusculas, numeros, espacios comas y guiones, de 2 a 64 caracteres');
             return false;
         }
@@ -261,7 +266,7 @@ class RegistrationModel
             return false;
         }
         // if name is too short (2), too long (64) or does not fit the pattern (aZ)
-        if (!preg_match('/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}$/', $user_city)) {
+        if (!preg_match('/[A-Za-záéíóúÁÉÍÓÚñÑ\.\/\s,-]{2,64}/', $user_city)) {
             Session::add('feedback_negative', 'El campo Poblacion no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
             return false;
         }
@@ -271,7 +276,7 @@ class RegistrationModel
             return false;
         }
         // if name is too short (2), too long (64) or does not fit the pattern (aZ)
-        if (!preg_match('/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}$/', $user_province)) {
+        if (!preg_match('/[A-Za-záéíóúÁÉÍÓÚñÑ\.\/\s,-]{2,64}/', $user_province)) {
             Session::add('feedback_negative', 'El campo Provincia no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
             return false;
         }
@@ -291,9 +296,20 @@ class RegistrationModel
             return false;
         }
         // if phone does not fit the pattern (+34923456789 +34 923456789 923456789 +34623456789+34 623456789 623456789)
-        if (!preg_match('/^(\+34\s?)([9|6][0-9]{8})$|^([9|6][0-9]{8})$/', $user_phone)) {
-            Session::add('feedback_negative', 'El campo Telefono no se ajusta al patrón: opcional empezar por +34 seguido de un espacio o sin él. Luego el nº telefono debe de empezar por 9 o por 6 hasta alcanzar 9 digitos.');
+        if (!preg_match('/^([9|6][0-9]{8})$/', $user_phone)) {
+            Session::add('feedback_negative', 'El campo Telefono no se ajusta al patrón: el nº telefono debe de empezar por 9 o por 6 hasta alcanzar 9 digitos.');
             return false;
+        }
+        if(!is_null($user_contract_date)){
+          if (empty($user_contract_date)){
+              Session::add('feedback_negative', 'El campo Fecha Contratacion está vacío');
+              return false;
+          }
+
+          if (!preg_match('/(\d{4})(-)([0][1-9]|[1][0-2])\2([0][1-9]|[12][0-9]|3[01])/', $user_contract_date)) {
+              Session::add('feedback_negative', 'El campo Fecha Contratacion no se ajusta al patrón de fecha DD/MM/AAAA');
+              return false;
+          }
         }
 	}
 
@@ -308,13 +324,13 @@ class RegistrationModel
 	 *
 	 * @return bool
 	 */
-	public static function writeNewUserToDatabase($user_name, $user_password_hash, $user_email, $user_creation_timestamp, $user_activation_hash, $name, $user_surname1, $user_surname2, $user_address, $user_city, $user_province, $user_NIF, $user_phone)
+	public static function writeNewUserToDatabase($user_name, $user_password_hash, $user_email, $user_creation_timestamp, $user_activation_hash, $name, $user_surname1, $user_surname2, $user_address, $user_city, $user_province, $user_NIF, $user_phone, $user_contract_date, $user_account_type)
 	{
 		$database = DatabaseFactory::getFactory()->getConnection();
 
 		// write new users data into database
-		$sql = "INSERT INTO users (user_name, user_password_hash, user_email, user_creation_timestamp, user_activation_hash, user_provider_type, name, user_surname1, user_surname2, user_address, user_city, user_province, user_NIF, user_phone)
-                    VALUES (:user_name, :user_password_hash, :user_email, :user_creation_timestamp, :user_activation_hash, :user_provider_type, :name, :user_surname1, :user_surname2, :user_address, :user_city, :user_province, :user_NIF, :user_phone)";
+		$sql = "INSERT INTO users (user_name, user_password_hash, user_email, user_creation_timestamp, user_activation_hash, user_provider_type, name, user_surname1, user_surname2, user_address, user_city, user_province, user_NIF, user_phone, user_contract_date, user_account_type)
+                    VALUES (:user_name, :user_password_hash, :user_email, :user_creation_timestamp, :user_activation_hash, :user_provider_type, :name, :user_surname1, :user_surname2, :user_address, :user_city, :user_province, :user_NIF, :user_phone, :user_contract_date, :user_account_type)";
 		$query = $database->prepare($sql);
 		$query->execute(array(':user_name' => $user_name,
 		                      ':user_password_hash' => $user_password_hash,
@@ -329,7 +345,9 @@ class RegistrationModel
 		                      ':user_city' => $user_city,
 		                      ':user_province' => $user_province,
 		                      ':user_NIF' => $user_NIF,
-		                      ':user_phone' => $user_phone));
+                          ':user_phone' => $user_phone,
+                          ':user_contract_date' => $user_contract_date,
+		                      ':user_account_type' => $user_account_type));
 		$count =  $query->rowCount();
 		if ($count == 1) {
 			return true;
