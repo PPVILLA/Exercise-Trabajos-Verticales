@@ -54,13 +54,17 @@
         </div>
       </div>
       <div class="row">
-        <div class="input-field col s12 m6">
-          <input type="text" class="validate" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\.\/\s,-]{2,64}" name="user_province" placeholder="Provincia (letras 2-64 caracteres)" required >
-          <label class="col s12 no-padding" for="user_province" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Provincia</label>
+        <div class="col s12 m6">
+          <label for="user_province" >Provincia</label>
+          <select class = "browser-default" id="provincia" name="user_province" >
+            <option value="" disabled>Cargando...</option>
+          </select>
         </div>
-        <div class="input-field col s12 m6">
-          <input type="text" class="validate" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\.\/\s,-]{2,64}" name="user_city" placeholder="Poblacion (letras 2-64 caracteres)" required >
-          <label class="col s12 no-padding" for="user_city" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Poblacion</label>
+        <div class="col s12 m6">
+          <label for="user_city">Poblacion</label>
+          <select class = "browser-default" id="municipio" name="user_city">
+            <option value="" disabled>selecciona una provincia</option>
+          </select>
         </div>
       </div>
       <div class="row">

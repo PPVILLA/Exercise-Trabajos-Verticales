@@ -217,6 +217,7 @@ class MaterialModel
         $query->execute(array(':material_id' => $material_id, ':user_id' => Session::get('user_id')));
 
         if ($query->rowCount() == 1) {
+            self::deletePhotoMaterialImageFile($material_id);
             return true;
         }
 
