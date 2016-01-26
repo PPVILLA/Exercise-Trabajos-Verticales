@@ -73,8 +73,8 @@
           <label class="col s12 no-padding" for="user_NIF" data-error="Introduzca 8 digitos y una letra en mayuscula" >NIF</label>
         </div>
         <div class="input-field col s12 m6">
-          <input type="text" class="validate" pattern="^(\+34\s?)([9|6][0-9]{8})$|^([9|6][0-9]{8})$" name="user_phone" placeholder="Telefono de contacto (+34923456789 +34 923456789 923456789 +34 623456789 623456789)" required >
-          <label class="col s12 no-padding" for="user_phone" data-error="incorrecto" >Telefono</label>
+          <input type="text" class="validate" pattern="^([9|6][0-9]{8})$" name="user_phone" placeholder="Telefono de contacto (+34923456789 +34 923456789 923456789 +34 623456789 623456789)" required >
+          <label class="col s12 no-padding" for="user_phone" data-error="el nº telefono debe de empezar por 9 o por 6 hasta alcanzar 9 digitos." >Telefono</label>
         </div>
       </div>
       <div class="row">

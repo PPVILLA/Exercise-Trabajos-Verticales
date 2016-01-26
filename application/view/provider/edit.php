@@ -9,14 +9,18 @@
         <?php if ($this->provider) { ?>
             <form method="post" action="<?php echo Config::get('URL'); ?>provider/editSave">
                 <div class="row">
-                  <div class="input-field col s12 m6">
+                  <div class="input-field col s12 m4">
                     <input type="hidden" name="provider_id" value="<?php echo htmlentities($this->provider->provider_id); ?>" />
                     <input type="text" class="validate" pattern="^[A-Z][0-9]{8,8}$" name="provider_CIF" value="<?php echo htmlentities($this->provider->provider_CIF); ?>" required >
                     <label class="col s12 no-padding" for="provider_CIF" data-error="Introduzca 1 letra Mayuscula y 8 digitos" >Cambia CIF del proveedor</label>
                   </div>
-                  <div class="input-field col s12 m6">
+                  <div class="input-field col s12 m4">
                     <input type="text" class="validate" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="provider_name" value="<?php echo htmlentities($this->provider->provider_name); ?>" required >
                     <label class="col s12 no-padding" for="provider_name" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Cambia nombre del proveedor</label>
+                  </div>
+                  <div class="input-field col s12 m4">
+                    <input type="text" class="validate" pattern="^([9|6][0-9]{8})$" name="provider_phone" value="<?php echo htmlentities($this->provider->provider_phone); ?>" required >
+                    <label class="col s12 no-padding" for="provider_phone" data-error="el nº telefono debe de empezar por 9 o por 6 hasta alcanzar 9 digitos." >Cambia telefono</label>
                   </div>
                 </div>
                 <div class="row">
@@ -24,13 +28,17 @@
                     <input type="text" class="validate" pattern="[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s,]{2,64}" name="provider_address" value="<?php echo htmlentities($this->provider->provider_address); ?>" required >
                     <label class="col s12 no-padding" for="provider_address" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Cambia domicilio</label>
                   </div>
-                  <div class="input-field col s12 m4">
-                    <input type="text" class="validate" pattern="[0-9A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="provider_city_id" value="<?php echo htmlentities($this->provider->provider_city_id); ?>" required >
-                    <label class="col s12 no-padding" for="provider_city_id" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Cambia poblacion</label>
+                  <div class="col s12 m4">
+                    <label for="provider_province" >Provincia</label>
+                    <select class = "browser-default" id="provincia" name="provider_province" >
+                      <option value="<?php echo htmlentities($this->provider->provider_province); ?>" selected>Cargando...</option>
+                    </select>
                   </div>
-                  <div class="input-field col s12 m4">
-                    <input type="text" class="validate" pattern="^(\+34\s?)([9|6][0-9]{8})$|^([9|6][0-9]{8})$" name="provider_phone" value="<?php echo htmlentities($this->provider->provider_phone); ?>" required >
-                    <label class="col s12 no-padding" for="provider_phone" data-error="incorrecto" >Cambia telefono</label>
+                  <div class="col s12 m4">
+                    <label for="provider_city_id">Poblacion</label>
+                    <select class = "browser-default" id="municipio" name="provider_city_id">
+                      <option value="<?php echo htmlentities($this->provider->provider_city_id); ?>" selected>selecciona una provincia</option>
+                    </select>
                   </div>
                 </div>
                 <div class="row">

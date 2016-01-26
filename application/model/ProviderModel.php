@@ -10,7 +10,7 @@ class ProviderModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT provider_id, provider_CIF, provider_name, provider_address, provider_city_id, provider_phone,
+        $sql = "SELECT provider_id, provider_CIF, provider_name, provider_address, provider_province, provider_city_id, provider_phone,
                        provider_email, provider_url, provider_contact_name, provider_latitud, provider_longitud
                 FROM providers WHERE user_id = :user_id ";
         $query = $database->prepare($sql);
@@ -30,6 +30,7 @@ class ProviderModel
             $all_providers[$provider->provider_id]->provider_CIF = $provider->provider_CIF;
             $all_providers[$provider->provider_id]->provider_name = $provider->provider_name;
             $all_providers[$provider->provider_id]->provider_address = $provider->provider_address;
+            $all_providers[$provider->provider_id]->provider_province = $provider->provider_province;
             $all_providers[$provider->provider_id]->provider_city_id = $provider->provider_city_id;
             $all_providers[$provider->provider_id]->provider_phone = $provider->provider_phone;
             $all_providers[$provider->provider_id]->provider_email = $provider->provider_email;
@@ -51,7 +52,7 @@ class ProviderModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT provider_id, provider_CIF, provider_name, provider_address, provider_city_id, provider_phone,
+        $sql = "SELECT provider_id, provider_CIF, provider_name, provider_address, provider_province, provider_city_id, provider_phone,
                        provider_email, provider_url, provider_contact_name, provider_latitud, provider_longitud
                    FROM providers WHERE provider_id = :provider_id AND user_id = :user_id LIMIT 1";
         $query = $database->prepare($sql);
@@ -71,6 +72,7 @@ class ProviderModel
         $provider_CIF = strip_tags(Request::post('provider_CIF', true));
         $provider_name = strip_tags(Request::post('provider_name', true));
         $provider_address = strip_tags(Request::post('provider_address', true));
+        $provider_province = strip_tags(Request::post('provider_province', true));
         $provider_city_id = strip_tags(Request::post('provider_city_id', true));
         $provider_phone = strip_tags(Request::post('provider_phone', true));
         $provider_email = strip_tags(Request::post('provider_email', true));
@@ -79,21 +81,22 @@ class ProviderModel
         $provider_latitud = strip_tags(Request::post('provider_latitud', true));
         $provider_longitud = strip_tags(Request::post('provider_longitud', true));
 
-        $validation_result = self::registrationInputValidation($provider_CIF, $provider_name, $provider_address, $provider_city_id, $provider_phone, $provider_email, $provider_url, $provider_contact_name, $provider_latitud, $provider_longitud);
+        $validation_result = self::registrationInputValidation($provider_CIF, $provider_name, $provider_address, $provider_province, $provider_city_id, $provider_phone, $provider_email, $provider_url, $provider_contact_name, $provider_latitud, $provider_longitud);
         if (!$validation_result) {
           return false;
         }
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "INSERT INTO providers (provider_CIF, provider_name, provider_address, provider_city_id, provider_phone, provider_email,
+        $sql = "INSERT INTO providers (provider_CIF, provider_name, provider_address, provider_province, provider_city_id, provider_phone, provider_email,
                       provider_url, provider_contact_name, provider_latitud, provider_longitud, user_id)
-                    VALUES (:provider_CIF, :provider_name, :provider_address, :provider_city_id, :provider_phone, :provider_email,
+                    VALUES (:provider_CIF, :provider_name, :provider_address, :provider_province, :provider_city_id, :provider_phone, :provider_email,
                       :provider_url, :provider_contact_name, :provider_latitud, :provider_longitud, :user_id)";
         $query = $database->prepare($sql);
         $query->execute(array(':provider_CIF' => $provider_CIF,
                               ':provider_name' => $provider_name,
                               ':provider_address' => $provider_address,
+                              ':provider_province' => $provider_province,
                               ':provider_city_id' => $provider_city_id,
                               ':provider_phone' => $provider_phone,
                               ':provider_email' => $provider_email,
@@ -123,6 +126,7 @@ class ProviderModel
         $provider_CIF = strip_tags(Request::post('provider_CIF', true));
         $provider_name = strip_tags(Request::post('provider_name', true));
         $provider_address = strip_tags(Request::post('provider_address', true));
+        $provider_province = strip_tags(Request::post('provider_province', true));
         $provider_city_id = strip_tags(Request::post('provider_city_id', true));
         $provider_phone = strip_tags(Request::post('provider_phone', true));
         $provider_email = strip_tags(Request::post('provider_email', true));
@@ -131,7 +135,7 @@ class ProviderModel
         $provider_latitud = strip_tags(Request::post('provider_latitud', true));
         $provider_longitud = strip_tags(Request::post('provider_longitud', true));
 
-        $validation_result = self::registrationInputValidation($provider_CIF, $provider_name, $provider_address, $provider_city_id, $provider_phone, $provider_email, $provider_url, $provider_contact_name, $provider_latitud, $provider_longitud);
+        $validation_result = self::registrationInputValidation($provider_CIF, $provider_name, $provider_address, $provider_province, $provider_city_id, $provider_phone, $provider_email, $provider_url, $provider_contact_name, $provider_latitud, $provider_longitud);
         if (!$validation_result) {
           return false;
         }
@@ -139,7 +143,7 @@ class ProviderModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "UPDATE providers
-                SET provider_CIF = :provider_CIF, provider_name = :provider_name, provider_address = :provider_address, provider_city_id = :provider_city_id,
+                SET provider_CIF = :provider_CIF, provider_name = :provider_name, provider_address = :provider_address, provider_province = :provider_province, provider_city_id = :provider_city_id,
                    provider_phone = :provider_phone, provider_email = :provider_email, provider_url = :provider_url, provider_contact_name = :provider_contact_name,
                     provider_latitud = :provider_latitud, provider_longitud = :provider_longitud
                 WHERE provider_id = :provider_id AND user_id = :user_id LIMIT 1";
@@ -147,6 +151,7 @@ class ProviderModel
         $query->execute(array(':provider_CIF' => $provider_CIF,
                               ':provider_name' => $provider_name,
                               ':provider_address' => $provider_address,
+                              ':provider_province' => $provider_province,
                               ':provider_city_id' => $provider_city_id,
                               ':provider_phone' => $provider_phone,
                               ':provider_email' => $provider_email,
@@ -207,7 +212,7 @@ class ProviderModel
    *
    * @return bool
    */
-  public static function registrationInputValidation($provider_CIF, $provider_name, $provider_address, $provider_city_id, $provider_phone, $provider_email, $provider_url, $provider_contact_name, $provider_latitud, $provider_longitud)
+  public static function registrationInputValidation($provider_CIF, $provider_name, $provider_address, $provider_province, $provider_city_id, $provider_phone, $provider_email, $provider_url, $provider_contact_name, $provider_latitud, $provider_longitud)
   {
         return true;
 
@@ -215,7 +220,7 @@ class ProviderModel
             Session::add('feedback_negative', 'El campo Nombre está vacío');
             return false;
         }
-        // if name is too short (2), too long (64) or does not fit the pattern (aZ)
+
         if (!preg_match('/^[A-Z][0-9]{8,8}$/', $provider_CIF)) {
             Session::add('feedback_negative', 'El campo CIF no se ajusta al patrón: una letra mayuscula y 8 digitos');
             return false;
@@ -224,7 +229,7 @@ class ProviderModel
             Session::add('feedback_negative', 'El campo Nombre está vacío');
             return false;
         }
-        // if name is too short (2), too long (64) or does not fit the pattern (aZ)
+
         if (!preg_match('/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}$/', $provider_name)) {
             Session::add('feedback_negative', 'El campo Nombre no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
             return false;
@@ -233,9 +238,19 @@ class ProviderModel
             Session::add('feedback_negative', 'El campo Direccion está vacío');
             return false;
         }
-        // if name is too short (2), too long (64) or does not fit the pattern (aZ)
+
         if (!preg_match('/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s,]{2,64}$/', $provider_address)) {
             Session::add('feedback_negative', 'El campo Direccion no se ajusta al patrón: Sólo mayusculas, minusculas, numeros, espacios comas y guiones, de 2 a 64 caracteres');
+            return false;
+        }
+
+        if (empty($provider_province)) {
+            Session::add('feedback_negative', 'El campo Provincia está vacío');
+            return false;
+        }
+
+        if (!preg_match('/[A-Za-záéíóúÁÉÍÓÚñÑ\.\/\s,-]{2,64}/', $provider_province)) {
+            Session::add('feedback_negative', 'El campo Provincia no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
             return false;
         }
 
@@ -243,7 +258,7 @@ class ProviderModel
             Session::add('feedback_negative', 'El campo Poblacion está vacío');
             return false;
         }
-        // if name is too short (2), too long (64) or does not fit the pattern (aZ)
+
         if (!preg_match('/^[0-9A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}$/', $provider_city_id)) {
             Session::add('feedback_negative', 'El campo Poblacion no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
             return false;
@@ -253,8 +268,8 @@ class ProviderModel
             return false;
         }
         // if phone does not fit the pattern (+34923456789 +34 923456789 923456789 +34623456789+34 623456789 623456789)
-        if (!preg_match('/^(\+34\s?)([9|6][0-9]{8})$|^([9|6][0-9]{8})$/', $provider_phone)) {
-            Session::add('feedback_negative', 'El campo Telefono no se ajusta al patrón: opcional empezar por +34 seguido de un espacio o sin él. Luego el nº telefono debe de empezar por 9 o por 6 hasta alcanzar 9 digitos.');
+        if (!preg_match('/^([9|6][0-9]{8})$/', $provider_phone)) {
+            Session::add('feedback_negative', 'el nº telefono debe de empezar por 9 o por 6 hasta alcanzar 9 digitos.');
             return false;
         }
         if (empty($provider_email)) {
@@ -269,15 +284,16 @@ class ProviderModel
             Session::add('feedback_negative', 'El campo direccion web está vacío');
             return false;
         }
-        // if name is too short (2), too long (64) or does not fit the pattern (aZ)
+
         if (!preg_match('/^[\w\s]{2,64}$/', $provider_url)) {
             Session::add('feedback_negative', 'El campo direccion web no se ajusta al patrón, de 2 a 64 caracteres');
             return false;
+
         }if (empty($provider_contact_name)) {
             Session::add('feedback_negative', 'El campo persona de contacto está vacío');
             return false;
         }
-        // if name is too short (2), too long (64) or does not fit the pattern (aZ)
+
         if (!preg_match('/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}$/', $provider_contact_name)) {
             Session::add('feedback_negative', 'El campo persona de contacto no se ajusta al patrón: Sólo mayusculas y minusculas y espacios, de 2 a 64 caracteres');
             return false;

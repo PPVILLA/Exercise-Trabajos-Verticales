@@ -7,13 +7,17 @@
             <h1 class="center">Tus proveedores</h1>
             <form method="post" action="<?php echo Config::get('URL');?>provider/create">
                 <div class="row">
-                  <div class="input-field col s12 m6">
+                  <div class="input-field col s12 m4">
                     <input type="text" class="validate" pattern="^[A-Z][0-9]{8,8}$" name="provider_CIF" placeholder="CIF (1 letra Mayuscula y 8 digitos)" required autofocus>
                     <label class="col s12 no-padding" for="provider_CIF" data-error="Introduzca 1 letra Mayuscula y 8 digitos" >C.I.F.</label>
                   </div>
-                  <div class="input-field col s12 m6">
+                  <div class="input-field col s12 m4">
                     <input type="text" class="validate" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="provider_name" placeholder="Nombre (letras 2-64 caracteres)" required autofocus>
                     <label class="col s12 no-padding" for="provider_name" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Introduce nombre del proveedor</label>
+                  </div>
+                  <div class="input-field col s12 m4">
+                    <input type="text" class="validate" pattern="^([9|6][0-9]{8})$" name="provider_phone" placeholder="Telefono de contacto ([6|9]12345678)" required >
+                    <label class="col s12 no-padding" for="provider_phone" data-error="el nº telefono debe de empezar por 9 o por 6 hasta alcanzar 9 digitos." >Teléfono</label>
                   </div>
                 </div>
                 <div class="row">
@@ -21,13 +25,17 @@
                     <input type="text" class="validate" pattern="[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s,]{2,64}" name="provider_address" placeholder="Domicilio (letras/numeros, 2-64 caracteres)" required >
                     <label class="col s12 no-padding" for="provider_address" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Domicilio</label>
                   </div>
-                  <div class="input-field col s12 m4">
-                    <input type="text" class="validate" pattern="[0-9A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="provider_city_id" placeholder="Poblacion (letras 2-64 caracteres)" required >
-                    <label class="col s12 no-padding" for="provider_city_id" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Población</label>
+                  <div class="col s12 m4">
+                    <label for="provider_province" >Provincia</label>
+                    <select class = "browser-default" id="provincia" name="provider_province" >
+                      <option disabled>Cargando...</option>
+                    </select>
                   </div>
-                  <div class="input-field col s12 m4">
-                    <input type="text" class="validate" pattern="^(\+34\s?)([9|6][0-9]{8})$|^([9|6][0-9]{8})$" name="provider_phone" placeholder="Telefono de contacto (+34923456789 +34 923456789 923456789 +34 623456789 623456789)" required >
-                    <label class="col s12 no-padding" for="provider_phone" data-error="incorrecto" >Teléfono</label>
+                  <div class="col s12 m4">
+                    <label for="provider_city_id">Poblacion</label>
+                    <select class = "browser-default" id="municipio" name="provider_city_id">
+                      <option disabled>selecciona una provincia</option>
+                    </select>
                   </div>
                 </div>
                 <div class="row">
@@ -75,6 +83,7 @@
                       <th>CIF</th>
                       <th>Nombre</th>
                       <th>Domicilio</th>
+                      <th>Provincia</th>
                       <th>Poblacion</th>
                       <th>Telefono</th>
                       <th>Email</th>
@@ -93,6 +102,7 @@
                       <td><?= htmlentities($value->provider_CIF); ?></td>
                       <td><?= htmlentities($value->provider_name); ?></td>
                       <td><?= htmlentities($value->provider_address); ?></td>
+                      <td><?= htmlentities($value->provider_province); ?></td>
                       <td><?= htmlentities($value->provider_city_id); ?></td>
                       <td><?= htmlentities($value->provider_phone); ?></td>
                       <td><?= htmlentities($value->provider_email); ?></td>
