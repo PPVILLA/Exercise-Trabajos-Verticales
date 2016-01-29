@@ -1,6 +1,6 @@
-<div class="container">
+<main class="container">
     <h1>ProfileController/index</h1>
-    <div class="box">
+    <div class="container">
 
         <!-- echo out the system feedback (error and success messages) -->
         <?php $this->renderFeedbackMessages(); ?>
@@ -10,15 +10,15 @@
             Este "controlador/acción/vista" muestra una lista de todos los usuarios del sistema. Usted puede utilizar el código subyacente para construir cosas que utilizan la información de perfil de una o múltiple/todos los usuarios.
         </div>
         <div>
-            <table class="table">
+            <table class="responsive-table bordered striped centered">
                 <thead>
                 <tr>
-                    <td>Id</td>
-                    <td>Avatar</td>
-                    <td>Nick</td>
-                    <td>email de usuarios</td>
-                    <td>Activado ?</td>
-                    <td>Link al perfil de usuarios</td>
+                    <th>Id</th>
+                    <th>Avatar</th>
+                    <th>Nick</th>
+                    <th>email de usuarios</th>
+                    <th>Activado ?</th>
+                    <th>Link al perfil de usuarios</th>
                 </tr>
                 </thead>
                 <?php foreach ($this->users as $user) { ?>
@@ -40,4 +40,4 @@
             </table>
         </div>
     </div>
-</div>
+</main>

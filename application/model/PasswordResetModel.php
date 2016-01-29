@@ -14,9 +14,14 @@ class PasswordResetModel
 	 *
 	 * @return bool success status
 	 */
-	public static function requestPasswordReset($user_name_or_email)
+	public static function requestPasswordReset($user_name_or_email, $captcha)
 	{
-		if (empty($user_name_or_email)) {
+		if (!CaptchaModel::checkCaptcha($captcha)) {
+      Session::add('feedback_negative', Text::get('FEEDBACK_CAPTCHA_WRONG'));
+      return false;
+    }
+
+    if (empty($user_name_or_email)) {
 			Session::add('feedback_negative', Text::get('FEEDBACK_USERNAME_EMAIL_FIELD_EMPTY'));
 			return false;
 		}
@@ -98,7 +103,7 @@ class PasswordResetModel
 
 		// create instance of Mail class, try sending and check
 		$mail = new Mail;
-		$mail_sent = $mail->sendMail($user_email, Config::get('EMAIL_PASSWORD_RESET_FROM_EMAIL'), 
+		$mail_sent = $mail->sendMail($user_email, Config::get('EMAIL_PASSWORD_RESET_FROM_EMAIL'),
             Config::get('EMAIL_PASSWORD_RESET_FROM_NAME'), Config::get('EMAIL_PASSWORD_RESET_SUBJECT'), $body
 		);
 

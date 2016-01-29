@@ -21,14 +21,21 @@
     <link rel="stylesheet" href="css/main.css"> -->
 
     <!-- Bootstrap core CSS -->
-    <link href="<?php echo Config::get('URL');?>css/bootstrap.css" rel="stylesheet">
+    <!--<link href="<?php echo Config::get('URL');?>css/bootstrap.css" rel="stylesheet"> -->
     <!-- Custom styles for this template
     <link href="jumbotron.css" rel="stylesheet"> -->
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="<?php echo Config::get('URL'); ?>js/ie-emulation-modes-warning.js"></script>
-    <script src="<?php echo Config::get('URL'); ?>js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <!--<script src="<?php echo Config::get('URL'); ?>js/ie-emulation-modes-warning.js"></script>
+    <script src="<?php echo Config::get('URL'); ?>js/vendor/modernizr-2.8.3.min.js"></script>-->
+
+    <!--Import Google Icon Font -->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/customMaterialize.min.css"  media="screen,projection"/>
+
 </head>
 <body>
     <!--[if lt IE 8]>
@@ -41,81 +48,141 @@
 
         <!-- logo -->
         <!-- <div class="logo"></div> -->
+    <!-- DropdownAdmin Structure -->
+    <ul id="dropdownAdmin" class="dropdown-content">
+      <li <?php if (View::checkForActiveController($filename, "profile")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>profile/index">Gestion de Perfiles</a>
+      </li>
+      <li <?php if (View::checkForActiveController($filename, "admin")) { echo ' class="active" ';  } ?> >
+          <a href="<?php echo Config::get('URL'); ?>admin/">Gestion de Usuarios</a>
+      </li>
+      <li <?php if (View::checkForActiveController($filename, "employee")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>employee/index">Gestion de empleados</a>
+      </li>
+      <li <?php if (View::checkForActiveController($filename, "oeuvre")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>oeuvre/index">Gestion de obras</a>
+      </li>
+      <li <?php if (View::checkForActiveController($filename, "provider")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>provider/index">Gestion de proveedores</a>
+      </li>
+      <li <?php if (View::checkForActiveController($filename, "material")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>material/index">Gestion de materiales</a>
+      </li>
+      <li <?php if (View::checkForActiveController($filename, "local")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>local/index">Gestion de locales</a>
+      </li>
+    </ul><!--/.dropdown-content -->
+    <!-- DropdownAdmin SideNav Structure -->
+    <ul id="dropdownAdminSideNav" class="dropdown-content">
+      <li <?php if (View::checkForActiveController($filename, "profile")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>profile/index">Gestion de Perfiles</a>
+      </li>
+      <li <?php if (View::checkForActiveController($filename, "admin")) { echo ' class="active" ';  } ?> >
+          <a href="<?php echo Config::get('URL'); ?>admin/">Gestion de Usuarios</a>
+      </li>
+      <li <?php if (View::checkForActiveController($filename, "employee")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>employee/index">Gestion de empleados</a>
+      </li>
+      <li <?php if (View::checkForActiveController($filename, "oeuvre")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>oeuvre/index">Gestion de obras</a>
+      </li>
+      <li <?php if (View::checkForActiveController($filename, "provider")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>provider/index">Gestion de proveedores</a>
+      </li>
+      <li <?php if (View::checkForActiveController($filename, "material")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>material/index">Gestion de materiales</a>
+      </li>
+      <li <?php if (View::checkForActiveController($filename, "local")) { echo ' class="active" '; } ?> >
+          <a href="<?php echo Config::get('URL'); ?>local/index">Gestion de locales</a>
+      </li>
+    </ul><!--/.dropdown-content -->
     <!-- navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="<?php echo Config::get('URL'); ?>">ADV Trabajos Verticales</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li <?php if (View::checkForActiveController($filename, "index")) { echo ' class="active" '; } ?> >
-                        <a href="<?php echo Config::get('URL'); ?>">Página principal</a>
-                    </li>
-                    <li <?php if (View::checkForActiveController($filename, "profile")) { echo ' class="active" '; } ?> >
-                        <a href="<?php echo Config::get('URL'); ?>profile/index">Perfiles</a>
-                    </li>
-                    <?php if (Session::userIsLoggedIn()) { ?>
-                        <li <?php if (View::checkForActiveController($filename, "dashboard")) { echo ' class="active" '; } ?> >
-                            <a href="<?php echo Config::get('URL'); ?>dashboard/index">Panel Trabajador</a>
-                        </li>
-                        <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?> >
-                            <a href="<?php echo Config::get('URL'); ?>note/index">Mis Obras</a>
-                        </li>
-                    <?php } else { ?>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                        <!-- for not logged in users -->
-                        <li <?php if (View::checkForActiveControllerAndAction($filename, "login/index")) { echo ' class="active" '; } ?> >
-                            <a href="<?php echo Config::get('URL'); ?>login/index">Login</a>
-                        </li>
-                        <li <?php if (View::checkForActiveControllerAndAction($filename, "login/register")) { echo ' class="active" '; } ?> >
-                            <a href="<?php echo Config::get('URL'); ?>login/register">Registrate</a>
-                        </li>
-                    <?php } ?>
-                </ul>
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper">
+          <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+          <a class="brand-logo center" href="<?php echo Config::get('URL'); ?>"><img class="navbar-fixed" src="<?php echo Config::get('URL'); ?>img/adv-trabajos-verticales-cadiz.jpg" alt="ADV Trabajos Verticales Cadiz"></a>
 
-                <!-- my account -->
-                <ul class="nav navbar-nav navbar-right">
-                <?php if (Session::userIsLoggedIn()) : ?>
-                    <li class="dropdown" <?php if (View::checkForActiveController($filename, "login")) { echo ' class="dropdown" '; } ?> >
-                        <a href="<?php echo Config::get('URL'); ?>login/showprofile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mi cuenta <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>login/changeUserRole">Cambiar tipo de cuenta</a>
-                            </li>
-                            <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>login/editAvatar">Editar tu avatar</a>
-                            </li>
-                            <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>login/editusername">Editar mi nick</a>
-                            </li>
-                            <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>login/edituseremail">Editar mi email</a>
-                            </li>
-                            <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>login/changePassword">Cambiar contraseña</a>
-                            </li>
-                            <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>login/logout">Logout</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <?php if (Session::get("user_account_type") == 7) : ?>
-                        <li <?php if (View::checkForActiveController($filename, "admin")) {
-                            echo ' class="active" ';
-                        } ?> >
-                            <a href="<?php echo Config::get('URL'); ?>admin/">Administrador</a>
-                        </li>
-                    <?php endif; ?>
-                <?php endif; ?>
-                </ul>
-            </div><!--/.navbar-collapse -->
-        </div>
-    </nav>
+          <ul class="left hide-on-med-and-down">
+            <li <?php if (View::checkForActiveController($filename, "index")) { echo ' class="active" '; } ?> >
+                <a href="<?php echo Config::get('URL'); ?>">Página principal</a>
+            </li>
+            <?php if (Session::userIsLoggedIn()) { ?>
+              <?php if (Session::get("user_account_type") == 4) : ?>
+                <li <?php if (View::checkForActiveController($filename, "dashboard")) { echo ' class="active" '; } ?> >
+                    <a href="<?php echo Config::get('URL'); ?>dashboard/index">Panel Trabajador</a>
+                </li>
+                <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?> >
+                    <a href="<?php echo Config::get('URL'); ?>note/index">Mis Anotaciones</a>
+                </li>
+              <?php endif; ?>
+            <?php } else { ?>
+          </ul><!--/.left hide-on-med-and-down-->
+          <ul class="right hide-on-med-and-down">
+            <!-- for not logged in users -->
+            <li <?php if (View::checkForActiveControllerAndAction($filename, "login/index")) { echo ' class="active" '; } ?> >
+                <a href="<?php echo Config::get('URL'); ?>login/index">Login</a>
+            </li>
+            <li <?php if (View::checkForActiveControllerAndAction($filename, "register/index")) { echo ' class="active" '; } ?> >
+                <a href="<?php echo Config::get('URL'); ?>register/index">Registrate</a>
+            </li>
+            <?php } ?>
+          </ul><!--/.right hide-on-med-and-down-->
+
+          <?php if (Session::userIsLoggedIn()) : ?>
+          <!-- my account -->
+          <ul class="right hide-on-med-and-down">
+            <li <?php if (View::checkForActiveController($filename, "user")) { echo ' class="active" '; } ?> >
+                <a href="<?php echo Config::get('URL'); ?>user/index">Mi perfil</a>
+            </li>
+            <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
+                <a href="<?php echo Config::get('URL'); ?>login/logout">Logout</a>
+            </li>
+            <?php if (Session::get("user_account_type") == 7) : ?>
+              <li <?php if (View::checkForActiveController($filename, "admin")) { echo ' class="active" ';  } ?> >
+              <!-- Dropdown Trigger -->
+                <a href="#!" class="dropdown-button" data-activates="dropdownAdmin">Administrador <i class="material-icons right">arrow_drop_down</i></a>
+              </li>
+            <?php endif; ?>
+          </ul><!--/.right hide-on-med-and-down-->
+          <?php endif; ?>
+
+<!--parte oculta que se mostrara cuando se pulsa el menu hamburguesa-->
+
+          <ul id="nav-mobile" class="side-nav">
+            <li <?php if (View::checkForActiveController($filename, "index")) { echo ' class="active" '; } ?> >
+                <a href="<?php echo Config::get('URL'); ?>">Página principal</a>
+            </li>
+            <?php if (Session::userIsLoggedIn()) { ?>
+              <li <?php if (View::checkForActiveController($filename, "dashboard")) { echo ' class="active" '; } ?> >
+                  <a href="<?php echo Config::get('URL'); ?>dashboard/index">Panel Trabajador</a>
+              </li>
+              <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?> >
+                  <a href="<?php echo Config::get('URL'); ?>note/index">Mis Anotaciones</a>
+              </li>
+              <!-- my account -->
+              </li><li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
+                  <a href="<?php echo Config::get('URL'); ?>login/showprofile">Mi perfil</a>
+              </li>
+              <li <?php if (View::checkForActiveController($filename, "login")) { echo ' class="active" '; } ?> >
+                  <a href="<?php echo Config::get('URL'); ?>login/logout">Logout</a>
+              </li>
+              <?php } else { ?>
+                <!-- for not logged in users -->
+                <li <?php if (View::checkForActiveControllerAndAction($filename, "login/index")) { echo ' class="active" '; } ?> >
+                    <a href="<?php echo Config::get('URL'); ?>login/index">Login</a>
+                </li>
+                <li <?php if (View::checkForActiveControllerAndAction($filename, "login/register")) { echo ' class="active" '; } ?> >
+                    <a href="<?php echo Config::get('URL'); ?>login/register">Registrate</a>
+                </li>
+              <?php } ?>
+              <?php if (Session::get("user_account_type") == 7) : ?>
+                <li <?php if (View::checkForActiveController($filename, "admin")) { echo ' class="active" ';  } ?> >
+                <!-- Dropdown Trigger -->
+                <a href="#!" class="dropdown-button" data-activates="dropdownAdminSideNav">Administrador <i class="material-icons right">arrow_drop_down</i></a>
+              </li>
+              <?php endif; ?>
+          </ul><!--/.side-nav-->
+        </div><!--/.nav-wrapper -->
+      </nav>
+    </div>
