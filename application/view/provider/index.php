@@ -28,7 +28,11 @@
                   <div class="col s12 m4">
                     <label for="provider_province" >Provincia</label>
                     <select class = "browser-default" id="provincia" name="provider_province" >
-                      <option disabled>Cargando...</option>
+                      <option value="" >- Selecciona -</option>
+                      <?php $provincias = UserModel::cargaProvincias();
+                      foreach($provincias as $key => $value){ ?>
+                        <option value="<?=$value->Codigo_provincia; ?>"><?=$value->Nombre_provincia; ?></option>
+                      <?php }?>
                     </select>
                   </div>
                   <div class="col s12 m4">

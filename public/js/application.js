@@ -59,21 +59,21 @@ function inicializa_xhr() {
   }
 }
 
-function muestraProvincias() {
-  if (peticion.readyState == 4) {
-    if (peticion.status == 200) {
-      var lista = document.getElementById("provincia");
-      var provincias = eval('(' + peticion.responseText + ')');
+// function muestraProvincias() {
+//   if (peticion.readyState == 4) {
+//     if (peticion.status == 200) {
+//       var lista = document.getElementById("provincia");
+//       var provincias = eval('(' + peticion.responseText + ')');
 
-      lista.options[0] = new Option("- selecciona -");
-      var i=1;
-      for(var codigo in provincias) {
-        lista.options[i] = new Option(provincias[codigo], codigo);
-        i++;
-      }
-    }
-  }
-}
+//       lista.options[0] = new Option("- selecciona -");
+//       var i=1;
+//       for(var codigo in provincias) {
+//         lista.options[i] = new Option(provincias[codigo], codigo);
+//         i++;
+//       }
+//     }
+//   }
+// }
 
 function cargaMunicipios() {
   var lista = document.getElementById("provincia");
@@ -107,11 +107,11 @@ function muestraMunicipios() {
 
 window.onload = function() {
   peticion = inicializa_xhr();
-  if(peticion) {
-    peticion.onreadystatechange = muestraProvincias;
-    peticion.open("GET", url + "cargaProvinciasJSON.php?nocache="+Math.random(), true);
-    peticion.send(null);
-  }
+  // if(peticion) {
+  //   peticion.onreadystatechange = muestraProvincias;
+  //   peticion.open("GET", url + "cargaProvinciasJSON.php?nocache="+Math.random(), true);
+  //   peticion.send(null);
+  // }
 
   document.getElementById("provincia").onchange = cargaMunicipios;
 }

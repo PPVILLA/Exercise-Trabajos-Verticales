@@ -412,4 +412,29 @@ class UserModel
         // return one row (we only have one result or nothing)
         return $query->fetch();
     }
+    public static function cargaProvincias()
+    {
+      $database = DatabaseFactory::getFactory()->getConnection();
+
+      $query = $database->prepare("SELECT Codigo_provincia, Nombre_provincia
+                                     FROM provincias
+                                  ");
+        $query->execute();
+
+        // return one row (we only have one result or nothing)
+        return $query->fetchAll();
+    }
+    public static function cargaMunicipios($Codigo_provincia)
+    {
+      $database = DatabaseFactory::getFactory()->getConnection();
+
+      $query = $database->prepare("SELECT id_municipio, nombre
+                                     FROM municipios
+                                     WHERE id_provincia = $Codigo_provincia
+                                  ");
+        $query->execute();
+
+        // return one row (we only have one result or nothing)
+        return $query->fetchAll();
+    }
 }

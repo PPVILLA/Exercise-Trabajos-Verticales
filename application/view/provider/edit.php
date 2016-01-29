@@ -31,13 +31,28 @@
                   <div class="col s12 m4">
                     <label for="provider_province" >Provincia</label>
                     <select class = "browser-default" id="provincia" name="provider_province" >
-                      <option value="<?php echo htmlentities($this->provider->provider_province); ?>" selected>Cargando...</option>
+                      <option value="" >- Selecciona -</option>
+                      <?php $provincias = UserModel::cargaProvincias();
+                      foreach($provincias as $key => $value){
+                        if($value->Codigo_provincia == $this->provider->provider_province){?>
+                          <option value="<?=$value->Codigo_provincia; ?>" selected><?=$value->Nombre_provincia; ?></option>
+                        <?php }else{?>
+                          <option value="<?=$value->Codigo_provincia; ?>"><?=$value->Nombre_provincia; ?></option>
+                        <?php } ?>
+                      <?php } ?>
                     </select>
                   </div>
                   <div class="col s12 m4">
                     <label for="provider_city_id">Poblacion</label>
-                    <select class = "browser-default" id="municipio" name="provider_city_id">
-                      <option value="<?php echo htmlentities($this->provider->provider_city_id); ?>" selected>selecciona una provincia</option>
+                    <select class = "browser-default" name="provider_city_id" >
+                      <?php $municipios = UserModel::cargaMunicipios($this->provider->provider_province);
+                      foreach($municipios as $key => $value){
+                        if($value->id_municipio == $this->provider->provider_city_id){?>
+                          <option value="<?=$value->id_municipio; ?>" selected><?=$value->nombre; ?></option>
+                        <?php }else{?>
+                          <option value="<?=$value->id_municipio; ?>"><?=$value->nombre; ?></option>
+                        <?php } ?>
+                      <?php } ?>
                     </select>
                   </div>
                 </div>

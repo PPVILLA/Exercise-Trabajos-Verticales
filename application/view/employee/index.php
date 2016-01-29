@@ -53,9 +53,15 @@
         </div>
       </div>
       <div class="row">
-        <div class="input-field col s12 m6">
-          <input type="text" class="validate" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\.\/\s,-]{2,64}" name="user_province" placeholder="Provincia (letras 2-64 caracteres)" required >
+        <div class="col s12 m6">
           <label class="col s12 no-padding" for="user_province" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Provincia</label>
+          <select class = "browser-default" id="provincia" name="provider_province" >
+            <option value="" >- Selecciona -</option>
+            <?php $provincias = UserModel::cargaProvincias();
+            foreach($provincias as $key => $value){ ?>
+              <option value="<?=$value->Codigo_provincia; ?>"><?=$value->Nombre_provincia; ?></option>
+            <?php }?>
+          </select>
         </div>
         <div class="input-field col s12 m6">
           <input type="text" class="validate" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\.\/\s,-]{2,64}" name="user_city" placeholder="Poblacion (letras 2-64 caracteres)" required >
