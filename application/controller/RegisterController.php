@@ -79,4 +79,17 @@ class RegisterController extends Controller
   {
     CaptchaModel::generateAndShowCaptcha();
   }
+
+  public function loadCity()
+  {
+    $provincia = trim($_POST["provincia"]);
+    $losMunicipios =  userModel::cargaMunicipios($provincia);
+
+    foreach($losMunicipios as $key => $value) {
+      $elementos_json[] = "\"$value->id_municipio\": \"$value->nombre\"";
+    }
+
+    echo "{".implode(",", $elementos_json)."}";
+
+  }
 }

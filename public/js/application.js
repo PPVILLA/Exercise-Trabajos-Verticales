@@ -82,7 +82,7 @@ function cargaMunicipios() {
     peticion = inicializa_xhr();
     if (peticion) {
       peticion.onreadystatechange = muestraMunicipios;
-      peticion.open("POST", url + "cargaMunicipiosJSON.php?nocache=" + Math.random(), true);
+      peticion.open("POST", url + "register/loadCity?nocache=" + Math.random(), true);
       peticion.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       peticion.send("provincia=" + provincia);
     }
@@ -114,4 +114,4 @@ window.onload = function() {
   // }
 
   document.getElementById("provincia").onchange = cargaMunicipios;
-}
+};
