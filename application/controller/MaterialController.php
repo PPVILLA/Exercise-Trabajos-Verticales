@@ -74,6 +74,15 @@ class MaterialController extends Controller
         Redirect::to('material');
     }
 
+    public function deleteSelect()
+    {
+        $idArray = $_POST['check_list'];
+        foreach($idArray as $material_id){
+          MaterialModel::deleteMaterial($material_id);
+        }
+        Redirect::to('material');
+    }
+
     public function deletePhotoMaterial_action($material_id)
     {
         MaterialModel::deletePhotoMaterial($material_id);

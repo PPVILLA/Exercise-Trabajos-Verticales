@@ -73,9 +73,11 @@
     <div class="row">
         <section class="col s12 center" >
         <?php if ($this->materials) { ?>
+          <form method="post" action="<?php echo Config::get('URL'); ?>material/deleteSelect">
             <table class="responsive-table bordered striped centered">
                 <thead>
                 <tr>
+                    <th>#</th>
                     <th>Id</th>
                     <th>Id Proveedor</th>
                     <th>Nombre</th>
@@ -91,8 +93,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($this->materials as $key => $value) { ?>
+                    <?php $i = 0 ?>
+                    <?php foreach($this->materials as $key => $value) { $i++; ?>
                         <tr>
+                            <td>
+                              <input type="checkbox" name="check_list[]" id="check_list[]<?= $i ?>" value="<?= $value->material_id; ?>" />
+                              <label for="check_list[]<?= $i ?>"></label>
+                            </td>
                             <td><?= $value->material_id; ?></td>
                             <td><?= htmlentities($value->material_provider_id); ?></td>
                             <td><?= htmlentities($value->material_name); ?></td>
@@ -111,6 +118,14 @@
                     <?php } ?>
                 </tbody>
             </table>
+            <div class="row">
+              <div class="input-field col s12 m6 offset-m3 center">
+                <button class="btn waves-effect waves-light center" type="submit" >Borra seleccionados
+                  <i class="material-icons right">clear</i>
+                </button>
+              </div>
+            </div>
+          </form>
             <?php } else { ?>
                 <div>No hay ningún material aún. Créate alguno!</div>
             <?php } ?>
