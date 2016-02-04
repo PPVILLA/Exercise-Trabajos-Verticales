@@ -36,11 +36,6 @@ class MaterialController extends Controller
         $start = ($page - 1) * $itemsToShow;
       }
       $totalPages = ceil($numTotalRegister / $itemsToShow);
-      echo $numTotalRegister;
-      echo $page;
-      echo $totalPages;
-      echo $start;
-      echo $itemsToShow;
       $this->View->render('material/index', array(
           'totalPages' => $totalPages,
           'page' => $page,
