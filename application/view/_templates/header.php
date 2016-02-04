@@ -66,7 +66,7 @@
           <a href="<?php echo Config::get('URL'); ?>provider/index">Gestion de proveedores</a>
       </li>
       <li <?php if (View::checkForActiveController($filename, "material")) { echo ' class="active" '; } ?> >
-          <a href="<?php echo Config::get('URL'); ?>material/index">Gestion de materiales</a>
+          <a href="<?php echo Config::get('URL'); ?>material/index/0">Gestion de materiales</a>
       </li>
       <li <?php if (View::checkForActiveController($filename, "local")) { echo ' class="active" '; } ?> >
           <a href="<?php echo Config::get('URL'); ?>local/index">Gestion de locales</a>

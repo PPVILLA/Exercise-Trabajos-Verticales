@@ -126,6 +126,23 @@
               </div>
             </div>
           </form>
+          <ul class="pagination">
+            <?php if($this->totalPages > 1) {
+              if($this->page != 1){ ?>
+                <li class="waves-effect"><a href="<?= Config::get('URL') . 'material/index/' . ($this->page - 1); ?>"><i class="material-icons">chevron_left</i></a></li>
+              <?php }
+              for($i = 1 ; $i <= $this->totalPages ; $i++){
+                if($this->page == $i) {?>
+                  <li class="active"><a href="#!"><?= $this->page ?></a></li>
+                <?php } else {?>
+                  <li class="waves-effect"><a href="<?= Config::get('URL') . 'material/index/' . $i; ?>"><?= $i ?></a></li>
+                <?php }
+              }
+              if($this->page != $this->totalPages){?>
+                <li class="waves-effect"><a href="<?= Config::get('URL') . 'material/index/' . ($this->page + 1); ?>"><i class="material-icons">chevron_right</i></a></li>
+              <?php }
+            } ?>
+          </ul>
             <?php } else { ?>
                 <div>No hay ningún material aún. Créate alguno!</div>
             <?php } ?>

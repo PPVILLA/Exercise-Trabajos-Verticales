@@ -21,11 +21,31 @@ class MaterialController extends Controller
      * This method controls what happens when you move to /note/index in your app.
      * Gets all notes (of the user).
      */
-    public function index()
+    public function index($pageToShow)
     {
-        $this->View->render('material/index', array(
-            'materials' => MaterialModel::getAllMaterials()
-        ));
+      $numTotalRegister = MaterialModel::getNumRowAllMaterials();
+      $itemsToShow = 3;
+      $page = false;
+      if(isset($pageToShow)){
+        $page = $pageToShow;
+      }
+      if(!$page){
+        $start = 0;
+        $page = 1;
+      }else{
+        $start = ($page - 1) * $itemsToShow;
+      }
+      $totalPages = ceil($numTotalRegister / $itemsToShow);
+      echo $numTotalRegister;
+      echo $page;
+      echo $totalPages;
+      echo $start;
+      echo $itemsToShow;
+      $this->View->render('material/index', array(
+          'totalPages' => $totalPages,
+          'page' => $page,
+          'materials' => MaterialModel::getAllMaterialsPaginated($start, $itemsToShow)
+      ));
     }
 
     /**
@@ -36,7 +56,7 @@ class MaterialController extends Controller
     public function create()
     {
         MaterialModel::createMaterial();
-        Redirect::to('material');
+        Redirect::to('material/index/0');
     }
 
     /**
@@ -59,7 +79,7 @@ class MaterialController extends Controller
     public function editSave()
     {
         materialModel::updateMaterial();
-        Redirect::to('material');
+        Redirect::to('material/index/0');
     }
 
     /**
@@ -71,7 +91,7 @@ class MaterialController extends Controller
     public function delete($material_id)
     {
         MaterialModel::deleteMaterial($material_id);
-        Redirect::to('material');
+        Redirect::to('material/index/0');
     }
 
     public function deleteSelect()
@@ -80,12 +100,12 @@ class MaterialController extends Controller
         foreach($idArray as $material_id){
           MaterialModel::deleteMaterial($material_id);
         }
-        Redirect::to('material');
+        Redirect::to('material/index/0');
     }
 
     public function deletePhotoMaterial_action($material_id)
     {
         MaterialModel::deletePhotoMaterial($material_id);
-        Redirect::to('material');
+        Redirect::to('material/index/0');
     }
 }

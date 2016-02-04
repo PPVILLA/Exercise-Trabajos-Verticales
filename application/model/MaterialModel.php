@@ -4,6 +4,63 @@ class MaterialModel
 {
     /**
      * Get all materials
+     * @return integer of num rows
+     */
+    public static function getNumRowAllMaterials()
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT material_id, material_name, material_price, material_weight, material_dimension_high, material_dimension_width,
+                       material_dimension_profound, material_provider_id, material_has_photoMaterial, material_description
+                FROM materials WHERE user_id = :user_id ";
+        $query = $database->prepare($sql);
+        $query->execute(array(':user_id' => Session::get('user_id')));
+        $numTotalRegister = $query->rowCount();
+
+        return $numTotalRegister;
+    }
+
+    /**
+     * Get all materials
+     * @return array an array with several objects (the results)
+     */
+    public static function getAllMaterialsPaginated($start, $itemsToShow)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT material_id, material_name, material_price, material_weight, material_dimension_high, material_dimension_width,
+                       material_dimension_profound, material_provider_id, material_has_photoMaterial, material_description
+                FROM materials WHERE user_id = :user_id LIMIT $start, $itemsToShow";
+        $query = $database->prepare($sql);
+
+        $query->execute(array(':user_id' => Session::get('user_id')));
+        $all_materials = array();
+
+        foreach ($query->fetchAll() as $material) {
+
+            // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+            // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+            // the material's values
+            array_walk_recursive($material, 'Filter::XSSFilter');
+
+            $all_materials[$material->material_id] = new stdClass();
+            $all_materials[$material->material_id]->material_id = $material->material_id;
+            $all_materials[$material->material_id]->material_name = $material->material_name;
+            $all_materials[$material->material_id]->material_price = $material->material_price;
+            $all_materials[$material->material_id]->material_weight = $material->material_weight;
+            $all_materials[$material->material_id]->material_dimension_high = $material->material_dimension_high;
+            $all_materials[$material->material_id]->material_dimension_width = $material->material_dimension_width;
+            $all_materials[$material->material_id]->material_dimension_profound = $material->material_dimension_profound;
+            $all_materials[$material->material_id]->material_provider_id = $material->material_provider_id;
+            $all_materials[$material->material_id]->material_photoMaterial_link = (Config::get('USE_GRAVATAR') ? AvatarModel::getGravatarLinkByEmail($user->user_email) : self::getPublicPhotoMaterialFilePathOfMaterial($material->material_has_photoMaterial, $material->material_id));
+            $all_materials[$material->material_id]->material_description = $material->material_description;
+        }
+
+        return $all_materials;
+    }
+
+    /**
+     * Get all materials
      * @return array an array with several objects (the results)
      */
     public static function getAllMaterials()
