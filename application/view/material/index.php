@@ -7,13 +7,17 @@
             <h1 class="center">Tus materiales</h1>
             <form method="post" action="<?php echo Config::get('URL');?>material/create" enctype="multipart/form-data">
                 <div class="row">
-                  <div class="input-field col s12 m6">
+                  <div class="input-field col s12 m4">
                     <input type="text" class="validate" pattern="[0-9]{1,5}" name="material_provider_id" placeholder="Id Proveedor">
                     <label class="col s12 no-padding" for="material_provider_id" data-error="Introduzca una cifra (máximo 5 dígitos)" >Id Proveedor</label>
                   </div>
-                  <div class="input-field col s12 m6 ">
+                  <div class="input-field col s12 m4 ">
                     <input type="text" class="validate" pattern="[0-9A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="material_name" placeholder="Nombre (letras 2-64 caracteres)" required autofocus>
                     <label class="col s12 no-padding" for="material_name" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Introduce nombre del material</label>
+                  </div>
+                  <div class="input-field col s12 m4">
+                    <input type="text" class="validate" pattern="[0-9]{1,6}\.[0-9]{1,2}" name="material_price" placeholder="Precio (numero con 2 decimales)" required >
+                    <label class="col s12 no-padding" for="material_price" data-error="Introduzca numero con 2 decimales" >Precio</label>
                   </div>
                 </div>
                 <div class="row">
@@ -23,25 +27,19 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="input-field col s12 m6">
-                    <input type="text" class="validate" pattern="[0-9]{1,6}\.[0-9]{1,2}" name="material_price" placeholder="Precio (numero con 2 decimales)" required >
-                    <label class="col s12 no-padding" for="material_price" data-error="Introduzca numero con 2 decimales" >Precio</label>
-                  </div>
-                  <div class="input-field col s12 m6">
+                  <div class="input-field col s12 m3">
                     <input type="text" class="validate" pattern="[0-9]{1,10}\.[0-9]{1,2}" name="material_weight" placeholder="Peso (numero con 2 decimales)" >
                     <label class="col s12 no-padding" for="material_weight" data-error="Introduzca numero con 2 decimales" >Peso</label>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="input-field col s12 m4">
+                  <div class="input-field col s12 m3">
                     <input type="text" class="validate" pattern="[0-9]{1,10}\.[0-9]{1,2}" name="material_dimension_high" placeholder="Altura (numero con 2 decimales)" >
                     <label class="col s12 no-padding" for="material_dimension_high" data-error="Introduzca numero con 2 decimales" >Altura</label>
                   </div>
-                  <div class="input-field col s12 m4">
+                  <div class="input-field col s12 m3">
                     <input type="text" class="validate" pattern="[0-9]{1,10}\.[0-9]{1,2}" name="material_dimension_width" placeholder="Anchura (numero con 2 decimales)" >
                     <label class="col s12 no-padding" for="material_dimension_width" data-error="Introduzca numero con 2 decimales" >Anchura</label>
                   </div>
-                  <div class="input-field col s12 m4">
+                  <div class="input-field col s12 m3">
                     <input type="text" class="validate" pattern="[0-9]{1,10}\.[0-9]{1,2}" name="material_dimension_profound" placeholder="Profundidad  (numero con 2 decimales)" >
                     <label class="col s12 no-padding" for="material_dimension_profound" data-error="Introduzca numero con 2 decimales" >Profundidad</label>
                   </div>
@@ -71,8 +69,32 @@
     </div>
 
     <div class="row">
-        <section class="col s12 center" >
+        <section class="col s12" >
         <?php if ($this->materials) { ?>
+          <form method="post" action="<?= Config::get('URL') . 'material/indexOrderByAndItemsToshow/0/' . $this->itemsToShow . '/' . $this->orderBy; ?>">
+            <div class="row red lighten-2">
+              <div class="col s12 m4">
+                <label class="col s12" for="orderBy">Ordenar por:</label>
+                <select class = "browser-default" name="orderBy" >
+                  <?php $orderBy = (isset($this->orderBy)) ? $this->orderBy :  "material_id" ?>
+                  <option value="material_id" <?php if($orderBy=='material_id'){ echo 'selected';}?>>ID</option>
+                  <option value="material_provider_id" <?php if($orderBy=='material_provider_id'){ echo 'selected';}?>>Id Proveedor</option>
+                  <option value="material_name" <?php if($orderBy=='material_name'){ echo 'selected';}?>>Nombre</option>
+                  <option value="material_description" <?php if($orderBy=='material_description'){ echo 'selected';}?>>Descripción</option>
+                  <option value="material_price" <?php if($orderBy=='material_price'){ echo 'selected';}?>>Precio</option>
+                </select>
+              </div>
+              <div class="input-field col s12 m4">
+                <input type="number" name="itemsToShow" value="<?= $itemsToShow = (isset($this->itemsToShow)) ? $this->itemsToShow :  3 ?>" >
+                <label class="col s12" for="itemsToShow" >Elementos a mostrar por página</label>
+              </div>
+              <div class="input-field col s12 m4">
+                <button class="btn waves-effect waves-light center" type="submit" autocomplete="off">mostrar
+                  <i class="material-icons right">visibility</i>
+                </button>
+              </div>
+            </div>
+          </form>
           <form method="post" action="<?php echo Config::get('URL'); ?>material/deleteSelect">
             <table class="responsive-table bordered striped centered">
                 <thead>
@@ -126,20 +148,20 @@
               </div>
             </div>
           </form>
-          <ul class="pagination">
+          <ul class="pagination center">
             <?php if($this->totalPages > 1) {
               if($this->page != 1){ ?>
-                <li class="waves-effect"><a href="<?= Config::get('URL') . 'material/index/' . ($this->page - 1); ?>"><i class="material-icons">chevron_left</i></a></li>
+                <li class="waves-effect"><a href="<?= Config::get('URL') . 'material/indexOrderByAndItemsToshow/' . ($this->page - 1) . '/' . $this->itemsToShow . '/' . $this->orderBy; ?>"><i class="material-icons">chevron_left</i></a></li>
               <?php }
               for($i = 1 ; $i <= $this->totalPages ; $i++){
                 if($this->page == $i) {?>
                   <li class="active"><a href="#!"><?= $this->page ?></a></li>
                 <?php } else {?>
-                  <li class="waves-effect"><a href="<?= Config::get('URL') . 'material/index/' . $i; ?>"><?= $i ?></a></li>
+                  <li class="waves-effect"><a href="<?= Config::get('URL') . 'material/indexOrderByAndItemsToshow/' . $i . '/' . $this->itemsToShow . '/' . $this->orderBy; ?>"><?= $i ?></a></li>
                 <?php }
               }
               if($this->page != $this->totalPages){?>
-                <li class="waves-effect"><a href="<?= Config::get('URL') . 'material/index/' . ($this->page + 1); ?>"><i class="material-icons">chevron_right</i></a></li>
+                <li class="waves-effect"><a href="<?= Config::get('URL') . 'material/indexOrderByAndItemsToshow/' . ($this->page + 1) . '/' . $this->itemsToShow . '/' . $this->orderBy; ?>"><i class="material-icons">chevron_right</i></a></li>
               <?php }
             } ?>
           </ul>

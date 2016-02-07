@@ -23,7 +23,6 @@ class MaterialController extends Controller
      */
     public function index($pageToShow)
     {
-      $numTotalRegister = MaterialModel::getNumRowAllMaterials();
       $itemsToShow = 3;
       $page = false;
       if(isset($pageToShow)){
@@ -35,11 +34,43 @@ class MaterialController extends Controller
       }else{
         $start = ($page - 1) * $itemsToShow;
       }
+      $numTotalRegister = MaterialModel::getNumRowAllMaterials();
       $totalPages = ceil($numTotalRegister / $itemsToShow);
       $this->View->render('material/index', array(
           'totalPages' => $totalPages,
           'page' => $page,
+          'itemsToShow' => $itemsToShow,
+          'orderBy' => "material_id",
           'materials' => MaterialModel::getAllMaterialsPaginated($start, $itemsToShow)
+      ));
+    }
+
+    public function indexOrderByAndItemsToshow($pageToShow,$itemsToShow,$orderBy)
+    {
+      $page = false;
+      if(isset($pageToShow)){
+        $page = $pageToShow;
+      }
+      if(isset($_POST['itemsToShow'])){
+        $itemsToShow = $_POST['itemsToShow'];
+      }
+      if(isset($_POST['orderBy'])){
+        $orderBy = $_POST['orderBy'];
+      }
+      if(!$page){
+        $start = 0;
+        $page = 1;
+      }else{
+        $start = ($page - 1) * $itemsToShow;
+      }
+      $numTotalRegister = MaterialModel::getNumRowAllMaterials();
+      $totalPages = ceil($numTotalRegister / $itemsToShow);
+      $this->View->render('material/index', array(
+          'totalPages' => $totalPages,
+          'page' => $page,
+          'itemsToShow' => $itemsToShow,
+          'orderBy' => $orderBy,
+          'materials' => MaterialModel::getAllMaterialsPaginatedOrderBy($start, $itemsToShow, $orderBy)
       ));
     }
 

@@ -32,14 +32,18 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="input-field col s12 m6">
+                  <div class="input-field col s12 m4">
                     <input type="hidden" name="material_id" value="<?php echo htmlentities($this->material->material_id); ?>" />
                     <input type="text" class="validate" pattern="[0-9]{1,5}" name="material_provider_id" value="<?php echo htmlentities($this->material->material_provider_id); ?>">
                     <label class="col s12 no-padding" for="material_provider_id" data-error="Introduzca una cifra (máximo 5 dígitos)" >Cambia Id Proveedor</label>
                   </div>
-                  <div class="input-field col s12 m6 ">
+                  <div class="input-field col s12 m4 ">
                     <input type="text" class="validate" pattern="[0-9A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="material_name" value="<?php echo htmlentities($this->material->material_name); ?>" required >
                     <label class="col s12 no-padding" for="material_name" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Cambia nombre del material</label>
+                  </div>
+                  <div class="input-field col s12 m4">
+                    <input type="text" class="validate" pattern="[0-9]{1,6}\.[0-9]{1,2}" name="material_price" value="<?php echo htmlentities($this->material->material_price); ?>" required >
+                    <label class="col s12 no-padding" for="material_price" data-error="Introduzca numero con 2 decimales" >Cambia Precio</label>
                   </div>
                 </div>
                 <div class="row">
@@ -49,25 +53,19 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="input-field col s12 m6">
-                    <input type="text" class="validate" pattern="[0-9]{1,6}\.[0-9]{1,2}" name="material_price" value="<?php echo htmlentities($this->material->material_price); ?>" required >
-                    <label class="col s12 no-padding" for="material_price" data-error="Introduzca numero con 2 decimales" >Cambia Precio</label>
-                  </div>
-                  <div class="input-field col s12 m6">
+                  <div class="input-field col s12 m3">
                     <input type="text" class="validate" pattern="[0-9]{1,10}\.[0-9]{1,2}" name="material_weight" value="<?php echo htmlentities($this->material->material_weight); ?>" >
                     <label class="col s12 no-padding" for="material_weight" data-error="Introduzca numero con 2 decimales" >Cambia Peso</label>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="input-field col s12 m4">
+                  <div class="input-field col s12 m3">
                     <input type="text" class="validate" pattern="[0-9]{1,10}\.[0-9]{1,2}" name="material_dimension_high" value="<?php echo htmlentities($this->material->material_dimension_high); ?>" >
                     <label class="col s12 no-padding" for="material_dimension_high" data-error="Introduzca numero con 2 decimales" >Cambia Altura</label>
                   </div>
-                  <div class="input-field col s12 m4">
+                  <div class="input-field col s12 m3">
                     <input type="text" class="validate" pattern="[0-9]{1,10}\.[0-9]{1,2}" name="material_dimension_width" value="<?php echo htmlentities($this->material->material_dimension_width); ?>" >
                     <label class="col s12 no-padding" for="material_dimension_width" data-error="Introduzca numero con 2 decimales" >Cambia Anchura</label>
                   </div>
-                  <div class="input-field col s12 m4">
+                  <div class="input-field col s12 m3">
                     <input type="text" class="validate" pattern="[0-9]{1,10}\.[0-9]{1,2}" name="material_dimension_profound" value="<?php echo htmlentities($this->material->material_dimension_profound); ?>" >
                     <label class="col s12 no-padding" for="material_dimension_profound" data-error="Introduzca numero con 2 decimales" >Cambia Profundidad</label>
                   </div>
