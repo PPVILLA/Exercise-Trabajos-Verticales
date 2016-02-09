@@ -63,9 +63,11 @@
             <?php }?>
           </select>
         </div>
-        <div class="input-field col s12 m6">
-          <input type="text" class="validate" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\.\/\s,-]{2,64}" name="user_city" placeholder="Poblacion (letras 2-64 caracteres)" required >
-          <label class="col s12 no-padding" for="user_city" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Poblacion</label>
+        <div class="col s12 m6">
+          <label for="user_city">Poblacion</label>
+          <select class = "browser-default" id="municipio" name="user_city">
+            <option value="" disabled>selecciona una provincia</option>
+          </select>
         </div>
       </div>
       <div class="row">
@@ -170,3 +172,50 @@
         </div>
     </div>
 </main>
+<script type="text/javascript">
+    var peticion = null;
+
+    function inicializa_xhr() {
+      if(window.XMLHttpRequest) {
+        return new XMLHttpRequest();
+      } else if (window.ActiveXObject) {
+        return new ActiveXObject("Microsoft.XMLHTTP");
+      }
+    }
+
+    function cargaMunicipios() {
+      var lista = document.getElementById("provincia");
+      var provincia = lista.options[lista.selectedIndex].value;
+      if(!isNaN(provincia)) {
+        peticion = inicializa_xhr();
+        if (peticion) {
+          peticion.onreadystatechange = muestraMunicipios;
+          peticion.open("POST", url + "register/loadCity?nocache=" + Math.random(), true);
+          peticion.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+          peticion.send("provincia=" + provincia);
+        }
+      }
+    }
+
+    function muestraMunicipios() {
+      if (peticion.readyState == 4) {
+        if (peticion.status == 200) {
+          var lista = document.getElementById("municipio");
+          var municipios = eval('(' + peticion.responseText + ')');
+
+          lista.options.length = 0;
+          var i=0;
+          for(var codigo in municipios) {
+            lista.options[i] = new Option(municipios[codigo], codigo);
+            i++;
+          }
+        }
+      }
+    }
+
+    window.onload = function() {
+      peticion = inicializa_xhr();
+
+      document.getElementById("provincia").onchange = cargaMunicipios;
+    };
+  </script>;

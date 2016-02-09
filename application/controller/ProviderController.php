@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The note controller: Just an example of simple create, read, update and delete (CRUD) actions.
+ * The provider controller: Just an example of simple create, read, update and delete (CRUD) actions.
  */
 class ProviderController extends Controller
 {
@@ -18,8 +18,8 @@ class ProviderController extends Controller
     }
 
     /**
-     * This method controls what happens when you move to /note/index in your app.
-     * Gets all notes (of the user).
+     * This method controls what happens when you move to /provider/index in your app.
+     * Gets all providers (of the user).
      */
     public function index()
     {
@@ -30,7 +30,7 @@ class ProviderController extends Controller
 
     /**
      * This method controls what happens when you move to /dashboard/create in your app.
-     * Creates a new note. This is usually the target of form submit actions.
+     * Creates a new provider. This is usually the target of form submit actions.
      * POST request.
      */
     public function create()
@@ -40,9 +40,9 @@ class ProviderController extends Controller
     }
 
     /**
-     * This method controls what happens when you move to /note/edit(/XX) in your app.
-     * Shows the current content of the note and an editing form.
-     * @param $note_id int id of the note
+     * This method controls what happens when you move to /provider/edit(/XX) in your app.
+     * Shows the current content of the provider and an editing form.
+     * @param $provider_id int id of the provider
      */
     public function edit($provider_id)
     {
@@ -52,8 +52,8 @@ class ProviderController extends Controller
     }
 
     /**
-     * This method controls what happens when you move to /note/editSave in your app.
-     * Edits a note (performs the editing after form submit).
+     * This method controls what happens when you move to /provider/editSave in your app.
+     * Edits a provider (performs the editing after form submit).
      * POST request.
      */
     public function editSave()
@@ -63,10 +63,10 @@ class ProviderController extends Controller
     }
 
     /**
-     * This method controls what happens when you move to /note/delete(/XX) in your app.
-     * Deletes a note. In a real application a deletion via GET/URL is not recommended, but for demo purposes it's
+     * This method controls what happens when you move to /provider/delete(/XX) in your app.
+     * Deletes a provider. In a real application a deletion via GET/URL is not recommended, but for demo purposes it's
      * totally okay.
-     * @param int $note_id id of the note
+     * @param int $provider_id id of the provider
      */
     public function delete($provider_id)
     {

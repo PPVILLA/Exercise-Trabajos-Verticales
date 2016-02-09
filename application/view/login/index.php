@@ -56,7 +56,7 @@
       <div class="row">
         <div class="input-field col s12 center">
           <h4>No tienes cuenta todavía?</h4>
-          <a href="<?php echo Config::get('URL'); ?>login/register" class="col s12 m6 offset-m3">Regístrate</a>
+          <a href="<?php echo Config::get('URL'); ?>register/index" class="col s12 m6 offset-m3">Regístrate</a>
         </div>
       </div>
    </form>

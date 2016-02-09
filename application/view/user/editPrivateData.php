@@ -55,13 +55,32 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="input-field col s12 m6">
-                    <input type="text" class="validate" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\.\/\s,-]{2,64}" name="user_province" value="<?php echo htmlentities($this->user->user_province); ?>" required >
-                    <label class="col s12 no-padding" for="user_province" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Cambia Provincia</label>
+                  <div class="col s12 m6">
+                    <label for="provider_province" >Provincia</label>
+                    <select class = "browser-default" id="provincia" name="provider_province" >
+                      <option value="" >- Selecciona -</option>
+                      <?php $provincias = UserModel::cargaProvincias();
+                      foreach($provincias as $key => $value){
+                        if($value->Codigo_provincia == $this->user->user_province){?>
+                          <option value="<?=$value->Codigo_provincia; ?>" selected><?=$value->Nombre_provincia; ?></option>
+                        <?php }else{?>
+                          <option value="<?=$value->Codigo_provincia; ?>"><?=$value->Nombre_provincia; ?></option>
+                        <?php } ?>
+                      <?php } ?>
+                    </select>
                   </div>
-                  <div class="input-field col s12 m6">
-                    <input type="text" class="validate" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\.\/\s,-]{2,64}" name="user_city" value="<?php echo htmlentities($this->user->user_city); ?>" required >
-                    <label class="col s12 no-padding" for="user_city" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Cambia Poblacion</label>
+                  <div class="col s12 m6">
+                    <label for="provider_city_id">Poblacion</label>
+                    <select class = "browser-default" name="provider_city_id" >
+                      <?php $municipios = UserModel::cargaMunicipios($this->user->user_province);
+                      foreach($municipios as $key => $value){
+                        if($value->id_municipio == $this->user->user_city_id){?>
+                          <option value="<?=$value->id_municipio; ?>" selected><?=$value->nombre; ?></option>
+                        <?php }else{?>
+                          <option value="<?=$value->id_municipio; ?>"><?=$value->nombre; ?></option>
+                        <?php } ?>
+                      <?php } ?>
+                    </select>
                   </div>
                 </div>
                 <div class="row">

@@ -345,6 +345,28 @@ class UserModel
      *
      * @return mixed
      */
+    public static function getAllUserIdByRoleEmployee()
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT user_id FROM users WHERE  user_account_type = :user_account_type";
+        $query = $database->prepare($sql);
+
+        // DEFAULT is the marker for "normal" accounts (that have a password etc.)
+        // There are other types of accounts that don't have passwords etc. (FACEBOOK)
+        $query->execute(array(':provider_type' => 4));
+
+        // return one row (we only have one result or nothing)
+        return $query->fetchAll();
+    }
+
+    /**
+     * Gets the user's id
+     *
+     * @param $user_name
+     *
+     * @return mixed
+     */
     public static function getUserIdByUsername($user_name)
     {
         $database = DatabaseFactory::getFactory()->getConnection();

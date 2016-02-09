@@ -1,9 +1,9 @@
 <?php
 
 /**
- * The note controller: Just an example of simple create, read, update and delete (CRUD) actions.
+ * The oeuvre controller: Just an example of simple create, read, update and delete (CRUD) actions.
  */
-class NoteController extends Controller
+class OeuvreController extends Controller
 {
     /**
      * Construct this object by extending the basic Controller class
@@ -12,66 +12,65 @@ class NoteController extends Controller
     {
         parent::__construct();
 
-        // VERY IMPORTANT: All controllers/areas that should only be usable by logged-in users
-        // need this line! Otherwise not-logged in users could do actions. If all of your pages should only
-        // be usable by logged-in users: Put this line into libs/Controller->__construct
-        Auth::checkAuthentication();
+        // special authentication check for the entire controller: Note the check-ADMIN-authentication!
+        // All methods inside this controller are only accessible for admins (= users that have role type 7)
+        Auth::checkAdminAuthentication();
     }
 
     /**
-     * This method controls what happens when you move to /note/index in your app.
-     * Gets all notes (of the user).
+     * This method controls what happens when you move to /oeuvre/index in your app.
+     * Gets all oeuvres (of the user).
      */
     public function index()
     {
-        $this->View->render('note/index', array(
-            'notes' => NoteModel::getAllNotes()
+        $this->View->render('oeuvre/index', array(
+            'oeuvres' => OeuvreModel::getAllOeuvres()
         ));
     }
 
     /**
      * This method controls what happens when you move to /dashboard/create in your app.
-     * Creates a new note. This is usually the target of form submit actions.
+     * Creates a new oeuvre. This is usually the target of form submit actions.
      * POST request.
      */
     public function create()
     {
-        NoteModel::createNote(Request::post('note_text'));
-        Redirect::to('note');
+        OeuvreModel::createOeuvre();
+        Redirect::to('oeuvre');
     }
 
     /**
-     * This method controls what happens when you move to /note/edit(/XX) in your app.
-     * Shows the current content of the note and an editing form.
-     * @param $note_id int id of the note
+     * This method controls what happens when you move to /oeuvre/edit(/XX) in your app.
+     * Shows the current content of the oeuvre and an editing form.
+     * @param $oeuvre_id int id of the oeuvre
      */
-    public function edit($note_id)
+    public function edit($oeuvre_id)
     {
-        $this->View->render('note/edit', array(
-            'note' => NoteModel::getNote($note_id)
+        $this->View->render('oeuvre/edit', array(
+            'oeuvre' => oeuvreModel::getOeuvre($oeuvre_id)
         ));
     }
 
     /**
-     * This method controls what happens when you move to /note/editSave in your app.
-     * Edits a note (performs the editing after form submit).
+     * This method controls what happens when you move to /oeuvre/editSave in your app.
+     * Edits a oeuvre (performs the editing after form submit).
      * POST request.
      */
     public function editSave()
     {
-        NoteModel::updateNote(Request::post('note_id'), Request::post('note_text'));
-        Redirect::to('note');
+        oeuvreModel::updateOeuvre();
+        Redirect::to('oeuvre');
     }
 
     /**
-     * This method controls what happens when you move to /note/delete(/XX) in your app.
-     * Deletes a note. In a real application a deletion via GET/URL is not recommended, but for demo purposes it's
+     * This method controls what happens when you move to /oeuvre/delete(/XX) in your app.
+     * Deletes a oeuvre. In a real application a deletion via GET/URL is not recommended, but for demo purposes it's
      * totally okay.
-     * @param int $note_id id of the note
+     * @param int $oeuvre_id id of the oeuvre
      */
-    public function delete($note_id)
+    public function delete($oeuvre_id)
     {
-        NoteModel::deleteNote($note_id);
-        Redirect::to('note');
+        OeuvreModel::deleteOeuvre($oeuvre_id);
+        Redirect::to('oeuvre');
     }
 }

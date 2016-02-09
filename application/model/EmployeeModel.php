@@ -281,7 +281,7 @@ class EmployeeModel
         }
 
         if (!preg_match('/(\d{4})(-)([0][1-9]|[1][0-2])\2([0][1-9]|[12][0-9]|3[01])/', $user_contract_date)) {
-            Session::add('feedback_negative', 'El campo Fecha Contratacion no se ajusta al patrón de fecha DD/MM/AAAA');
+            Session::add('feedback_negative', 'El campo Fecha Contratacion no se ajusta al patrón de fecha AAAA/MM/DD');
             return false;
         }
 
