@@ -111,7 +111,7 @@ class AdminModel
   {
     $database = DatabaseFactory::getFactory()->getConnection();
 
-    $query = $database->prepare("UPDATE users SET user_active = 1, user_activation_hash = NULL, user_failed_logins = 0, user_last_failed_login = NULL
+    $query = $database->prepare("UPDATE users SET user_active = 1, user_activation_hash = NULL, user_failed_logins = 0, user_last_failed_login = NULL, user_deleted = 0
                                  WHERE user_id = :user_id LIMIT 1");
     $query->execute(array(':user_id' => $userId));
 
