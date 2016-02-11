@@ -55,7 +55,7 @@
       <div class="row">
         <div class="col s12 m6">
           <label class="col s12 no-padding" for="user_province" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Provincia</label>
-          <select class = "browser-default" id="provincia" name="provider_province" >
+          <select class = "browser-default" id="provincia" name="user_province" >
             <option value="" >- Selecciona -</option>
             <?php $provincias = UserModel::cargaProvincias();
             foreach($provincias as $key => $value){ ?>

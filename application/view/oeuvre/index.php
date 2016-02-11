@@ -8,8 +8,8 @@
             <form method="post" action="<?php echo Config::get('URL');?>oeuvre/create">
                 <div class="row">
                   <div class="input-field col s12 m3">
-                    <input type="text" class="validate" pattern="[0-9]{1,6}\.[0-9]{1,2}" name="oeuvre_budget" placeholder="Presupuesto (1 letra Mayuscula y 8 digitos)" required autofocus>
-                    <label class="col s12 no-padding" for="oeuvre_budget" data-error="Introduzca 1 letra Mayuscula y 8 digitos" >Presupuesto</label>
+                    <input type="text" class="validate" pattern="[0-9]{1,6}\.[0-9]{1,2}" name="oeuvre_budget" placeholder="Presupuesto (numero con 2 decimales)" required autofocus>
+                    <label class="col s12 no-padding" for="oeuvre_budget" data-error="Introduzca numero con 2 decimales, separado por un punto." >Presupuesto</label>
                   </div>
                   <div class="input-field col s12 m3">
                     <input type="text" class="validate" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="oeuvre_name" placeholder="Nombre (letras 2-64 caracteres)" required autofocus>
@@ -31,11 +31,11 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="input-field col s12 m4">
+                  <div class="input-field col s12 m3">
                     <input type="text" class="validate" pattern="[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s,]{2,64}" name="oeuvre_address" placeholder="Domicilio (letras/numeros, 2-64 caracteres)" required >
                     <label class="col s12 no-padding" for="oeuvre_address" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Domicilio</label>
                   </div>
-                  <div class="col s12 m4">
+                  <div class="col s12 m3">
                     <label for="oeuvre_province" >Provincia</label>
                     <select class = "browser-default" id="provincia" name="oeuvre_province" >
                       <option value="" >- Selecciona -</option>
@@ -45,37 +45,35 @@
                       <?php }?>
                     </select>
                   </div>
-                  <div class="col s12 m4">
+                  <div class="col s12 m3">
                     <label for="oeuvre_city_id">Poblacion</label>
                     <select class = "browser-default" id="municipio" name="oeuvre_city_id">
                       <option disabled>selecciona una provincia</option>
                     </select>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="input-field col s12 m4">
+                  <div class="input-field col s12 m3">
                     <input type="email" class="validate" name="oeuvre_email" placeholder="Dirección email (una dirección real)" required >
                     <label class="col s12 no-padding" for="oeuvre_email" data-error="No se ajusta al patrón de un email" >Dirección email</label>
                   </div>
+                </div>
+                <div class="row">
                   <div class="input-field col s12 m4">
                     <input type="text" class="validate" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="oeuvre_contact_name" placeholder="Nombre (letras 2-64 caracteres)" required >
                     <label class="col s12 no-padding" for="oeuvre_contact_name" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Introduce nombre de persona de contacto</label>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="input-field col s12 m3">
+                  <div class="input-field col s12 m2">
                     <input type="text" class="validate" pattern="(\+?|-)[0-9]{0,13}\.[0-9]{1,10}" name="oeuvre_latitud" >
                     <label class="col s12 no-padding" for="oeuvre_latitud" data-error="incorrecto: numeros decimales (use un punto)" >Latitud</label>
                   </div>
-                  <div class="input-field col s12 m3">
+                  <div class="input-field col s12 m2">
                     <input type="text" class="validate" pattern="(\+?|-)[0-9]{0,13}\.[0-9]{1,10}" name="oeuvre_longitud" >
                     <label class="col s12 no-padding" for="oeuvre_longitud" data-error="incorrecto: numeros decimales (use un punto)" >Longitud</label>
                   </div>
-                  <div class="input-field col s12 m3">
+                  <div class="input-field col s12 m2">
                     <input type="text" class="validate" pattern="(\d{4})(-)([0][1-9]|[1][0-2])\2([0][1-9]|[12][0-9]|3[01])" name="oeuvre_startDate" value="<?= date("Y-m-d"); ?>" required >
                     <label class="col s12 no-padding" for="oeuvre_startDate" data-error="Introduzca una fecha con formato AAAA-MM-DD" >Fecha Inicio</label>
                   </div>
-                  <div class="input-field col s12 m3">
+                  <div class="input-field col s12 m2">
                     <input type="text" class="validate" pattern="(\d{4})(-)([0][1-9]|[1][0-2])\2([0][1-9]|[12][0-9]|3[01])" name="oeuvre_completionDate" value="<?= date("Y-m-d"); ?>" required >
                     <label class="col s12 no-padding" for="oeuvre_completionDate" data-error="Introduzca una fecha con formato AAAA-MM-DD" >Fecha Finalización</label>
                   </div>
@@ -105,7 +103,7 @@
                       <th>Poblacion</th>
                       <th>Telefono</th>
                       <th>Email</th>
-                      <th>Direccion Web</th>
+                      <th>Empleado</th>
                       <th>Nombre Contacto</th>
                       <th>Latitud</th>
                       <th>Longitud</th>
@@ -140,7 +138,7 @@
                       </td>
                       <td><?= htmlentities($value->oeuvre_phone); ?></td>
                       <td><?= htmlentities($value->oeuvre_email); ?></td>
-                      <td><?= htmlentities($value->oeuvre_url); ?></td>
+                      <td><?= htmlentities($value->user_id); ?></td>
                       <td><?= htmlentities($value->oeuvre_contact_name); ?></td>
                       <td><?= htmlentities($value->oeuvre_latitud); ?></td>
                       <td><?= htmlentities($value->oeuvre_longitud); ?></td>

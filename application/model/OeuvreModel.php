@@ -11,10 +11,10 @@ class OeuvreModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "SELECT oeuvre_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone,
-                       oeuvre_email, oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, oeuvre_startDate, oeuvre_completionDate
-                FROM oeuvres WHERE user_id = :user_id ";
+                       oeuvre_email, oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, user_id, oeuvre_startDate, oeuvre_completionDate
+                FROM oeuvres ";
         $query = $database->prepare($sql);
-        $query->execute(array(':user_id' => Session::get('user_id')));
+        $query->execute();
 
         $all_oeuvres = array();
 
@@ -37,6 +37,7 @@ class OeuvreModel
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_contact_name = $oeuvre->oeuvre_contact_name;
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_latitud = $oeuvre->oeuvre_latitud;
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_longitud = $oeuvre->oeuvre_longitud;
+            $all_oeuvres[$oeuvre->oeuvre_id]->user_id = $oeuvre->user_id;
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_startDate = $oeuvre->oeuvre_startDate;
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_completionDate = $oeuvre->oeuvre_completionDate;
         }
@@ -54,10 +55,10 @@ class OeuvreModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "SELECT oeuvre_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone,
-                       oeuvre_email, oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, oeuvre_startDate, oeuvre_completionDate
-                   FROM oeuvres WHERE oeuvre_id = :oeuvre_id AND user_id = :user_id LIMIT 1";
+                       oeuvre_email, oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, user_id, oeuvre_startDate, oeuvre_completionDate
+                   FROM oeuvres WHERE oeuvre_id = :oeuvre_id LIMIT 1";
         $query = $database->prepare($sql);
-        $query->execute(array(':user_id' => Session::get('user_id'), ':oeuvre_id' => $oeuvre_id));
+        $query->execute(array(':oeuvre_id' => $oeuvre_id));
 
         // fetch() is the PDO method that gets a single result
         return $query->fetch();
