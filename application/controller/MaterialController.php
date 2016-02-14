@@ -13,8 +13,7 @@ class MaterialController extends Controller
         parent::__construct();
 
         // special authentication check for the entire controller: Note the check-ADMIN-authentication!
-        // All methods inside this controller are only accessible for admins (= users that have role type 7)
-        Auth::checkAdminAuthentication();
+        Auth::checkAuthentication();
     }
 
     /**
@@ -81,6 +80,8 @@ class MaterialController extends Controller
      */
     public function create()
     {
+        // All methods inside this controller are only accessible for admins (= users that have role type 7)
+        Auth::checkAdminAuthentication();
         MaterialModel::createMaterial();
         Redirect::to('material/index/0');
     }
@@ -92,6 +93,8 @@ class MaterialController extends Controller
      */
     public function edit($material_id)
     {
+        // All methods inside this controller are only accessible for admins (= users that have role type 7)
+        Auth::checkAdminAuthentication();
         $this->View->render('material/edit', array(
             'material' => materialModel::getMaterial($material_id)
         ));
@@ -104,6 +107,8 @@ class MaterialController extends Controller
      */
     public function editSave()
     {
+        // All methods inside this controller are only accessible for admins (= users that have role type 7)
+        Auth::checkAdminAuthentication();
         materialModel::updateMaterial();
         Redirect::to('material/index/0');
     }
@@ -116,12 +121,16 @@ class MaterialController extends Controller
      */
     public function delete($material_id)
     {
+        // All methods inside this controller are only accessible for admins (= users that have role type 7)
+        Auth::checkAdminAuthentication();
         MaterialModel::deleteMaterial($material_id);
         Redirect::to('material/index/0');
     }
 
     public function deleteSelect()
     {
+        // All methods inside this controller are only accessible for admins (= users that have role type 7)
+        Auth::checkAdminAuthentication();
         $idArray = $_POST['check_list'];
         foreach($idArray as $material_id){
           MaterialModel::deleteMaterial($material_id);
@@ -131,6 +140,8 @@ class MaterialController extends Controller
 
     public function deletePhotoMaterial_action($material_id)
     {
+        // All methods inside this controller are only accessible for admins (= users that have role type 7)
+        Auth::checkAdminAuthentication();
         MaterialModel::deletePhotoMaterial($material_id);
         Redirect::to('material/index/0');
     }

@@ -1,4 +1,4 @@
-<main class="container">
+<main class="row" style="margin: 0 5%;">
     <div class="row">
         <!-- echo out the system feedback (error and success messages) -->
         <?php $this->renderFeedbackMessages(); ?>

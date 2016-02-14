@@ -11,7 +11,7 @@ class OeuvreModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "SELECT oeuvre_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone,
-                       oeuvre_email, oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, user_id, oeuvre_startDate, oeuvre_completionDate
+                       oeuvre_email, oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, supervisor_id, oeuvre_startDate, oeuvre_completionDate
                 FROM oeuvres ";
         $query = $database->prepare($sql);
         $query->execute();
@@ -37,7 +37,7 @@ class OeuvreModel
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_contact_name = $oeuvre->oeuvre_contact_name;
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_latitud = $oeuvre->oeuvre_latitud;
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_longitud = $oeuvre->oeuvre_longitud;
-            $all_oeuvres[$oeuvre->oeuvre_id]->user_id = $oeuvre->user_id;
+            $all_oeuvres[$oeuvre->oeuvre_id]->supervisor_id = $oeuvre->supervisor_id;
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_startDate = $oeuvre->oeuvre_startDate;
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_completionDate = $oeuvre->oeuvre_completionDate;
         }
@@ -55,13 +55,66 @@ class OeuvreModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "SELECT oeuvre_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone,
-                       oeuvre_email, oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, user_id, oeuvre_startDate, oeuvre_completionDate
+                       oeuvre_email, oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, supervisor_id, oeuvre_startDate, oeuvre_completionDate
                    FROM oeuvres WHERE oeuvre_id = :oeuvre_id LIMIT 1";
         $query = $database->prepare($sql);
         $query->execute(array(':oeuvre_id' => $oeuvre_id));
 
         // fetch() is the PDO method that gets a single result
         return $query->fetch();
+    }
+
+    public static function getOeuvreByName($oeuvre_name)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT oeuvre_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone,
+                       oeuvre_email, oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, supervisor_id, oeuvre_startDate, oeuvre_completionDate
+                   FROM oeuvres WHERE oeuvre_name = :oeuvre_name LIMIT 1";
+        $query = $database->prepare($sql);
+        $query->execute(array(':oeuvre_name' => $oeuvre_name));
+
+        // fetch() is the PDO method that gets a single result
+        return $query->fetch();
+    }
+
+    public static function getAllOeuvreByEmployee($supervisor_id)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT oeuvre_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone,
+                       oeuvre_email, oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, supervisor_id, oeuvre_startDate, oeuvre_completionDate
+                   FROM oeuvres WHERE supervisor_id = :supervisor_id ";
+        $query = $database->prepare($sql);
+        $query->execute(array(':supervisor_id' => $supervisor_id));
+
+        $all_oeuvres = array();
+
+        foreach ($query->fetchAll() as $oeuvre) {
+
+            // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+            // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+            // the oeuvre's values
+            array_walk_recursive($oeuvre, 'Filter::XSSFilter');
+
+            $all_oeuvres[$oeuvre->oeuvre_id] = new stdClass();
+            $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_id = $oeuvre->oeuvre_id;
+            $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_budget = $oeuvre->oeuvre_budget;
+            $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_name = $oeuvre->oeuvre_name;
+            $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_address = $oeuvre->oeuvre_address;
+            $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_province = $oeuvre->oeuvre_province;
+            $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_city_id = $oeuvre->oeuvre_city_id;
+            $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_phone = $oeuvre->oeuvre_phone;
+            $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_email = $oeuvre->oeuvre_email;
+            $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_contact_name = $oeuvre->oeuvre_contact_name;
+            $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_latitud = $oeuvre->oeuvre_latitud;
+            $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_longitud = $oeuvre->oeuvre_longitud;
+            $all_oeuvres[$oeuvre->oeuvre_id]->supervisor_id = $oeuvre->supervisor_id;
+            $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_startDate = $oeuvre->oeuvre_startDate;
+            $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_completionDate = $oeuvre->oeuvre_completionDate;
+        }
+
+        return $all_oeuvres;
     }
 
     /**
@@ -71,7 +124,7 @@ class OeuvreModel
     public static function createOeuvre()
     {
         // clean the input
-        $user_id = Request::post('user_id');
+        $supervisor_id = Request::post('supervisor_id');
         $oeuvre_budget = strip_tags(Request::post('oeuvre_budget', true));
         $oeuvre_name = strip_tags(Request::post('oeuvre_name', true));
         $oeuvre_address = strip_tags(Request::post('oeuvre_address', true));
@@ -93,9 +146,9 @@ class OeuvreModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "INSERT INTO oeuvres (oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone, oeuvre_email,
-                       oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, oeuvre_startDate, oeuvre_completionDate, user_id)
+                       oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, oeuvre_startDate, oeuvre_completionDate, supervisor_id)
                     VALUES (:oeuvre_budget, :oeuvre_name, :oeuvre_address, :oeuvre_province, :oeuvre_city_id, :oeuvre_phone, :oeuvre_email,
-                       :oeuvre_contact_name, :oeuvre_latitud, :oeuvre_longitud, :oeuvre_startDate, :oeuvre_completionDate, :user_id)";
+                       :oeuvre_contact_name, :oeuvre_latitud, :oeuvre_longitud, :oeuvre_startDate, :oeuvre_completionDate, :supervisor_id)";
         $query = $database->prepare($sql);
         $query->execute(array(':oeuvre_budget' => $oeuvre_budget,
                               ':oeuvre_name' => $oeuvre_name,
@@ -109,9 +162,14 @@ class OeuvreModel
                               ':oeuvre_longitud' => $oeuvre_longitud,
                               ':oeuvre_startDate' => $oeuvre_startDate,
                               ':oeuvre_completionDate' => $oeuvre_completionDate,
-                              ':user_id' => $user_id));
+                              ':supervisor_id' => $supervisor_id));
 
         if ($query->rowCount() == 1) {
+            $lastInsert = self::getOeuvreByName($oeuvre_name);
+            $idLastInsert = $lastInsert->oeuvre_id;
+            $id_employeeLastInsert = $lastInsert->supervisor_id;
+            $oeuvre_startDate = $lastInsert->oeuvre_startDate;
+            self::associatedOeuvreEmployee($idLastInsert, $id_employeeLastInsert, $oeuvre_startDate);
             return true;
         }
 
@@ -127,7 +185,7 @@ class OeuvreModel
     public static function updateOeuvre()
     {
         // clean the input
-        $user_id = Request::post('user_id');
+        $supervisor_id = Request::post('supervisor_id');
         $oeuvre_id = Request::post('oeuvre_id');
         $oeuvre_budget = strip_tags(Request::post('oeuvre_budget', true));
         $oeuvre_name = strip_tags(Request::post('oeuvre_name', true));
@@ -152,7 +210,7 @@ class OeuvreModel
         $sql = "UPDATE oeuvres
                 SET oeuvre_budget = :oeuvre_budget, oeuvre_name = :oeuvre_name, oeuvre_address = :oeuvre_address, oeuvre_province = :oeuvre_province, oeuvre_city_id = :oeuvre_city_id,
                    oeuvre_phone = :oeuvre_phone, oeuvre_email = :oeuvre_email, oeuvre_contact_name = :oeuvre_contact_name,
-                    oeuvre_latitud = :oeuvre_latitud, oeuvre_longitud = :oeuvre_longitud, oeuvre_startDate = :oeuvre_startDate, oeuvre_completionDate = :oeuvre_completionDate, user_id = :user_id
+                    oeuvre_latitud = :oeuvre_latitud, oeuvre_longitud = :oeuvre_longitud, oeuvre_startDate = :oeuvre_startDate, oeuvre_completionDate = :oeuvre_completionDate, supervisor_id = :supervisor_id
                 WHERE oeuvre_id = :oeuvre_id LIMIT 1";
         $query = $database->prepare($sql);
         $query->execute(array(':oeuvre_budget' => $oeuvre_budget,
@@ -168,7 +226,7 @@ class OeuvreModel
                               ':oeuvre_startDate' => $oeuvre_startDate,
                               ':oeuvre_completionDate' => $oeuvre_completionDate,
                               ':oeuvre_id' => $oeuvre_id,
-                              ':user_id' => $user_id));
+                              ':supervisor_id' => $supervisor_id));
 
         if ($query->rowCount() == 1) {
             return true;
@@ -335,5 +393,23 @@ class OeuvreModel
             Session::add('feedback_negative', 'El campo Fecha Finalización Obra no se ajusta al patrón de fecha AAAA/MM/DD');
             return false;
         }
+  }
+
+  public static function associatedOeuvreEmployee($oeuvre_id, $employee_id, $oeuvre_startDate)
+  {
+      $database = DatabaseFactory::getFactory()->getConnection();
+
+      $sql = "INSERT INTO oeuvres_employee (oeuvre_id, employee_id, employee_startDate)
+                  VALUES (:oeuvre_id, :employee_id, :employee_startDate)";
+      $query = $database->prepare($sql);
+      $query->execute(array(':oeuvre_id' => $oeuvre_id,
+                            ':employee_id' => $employee_id,
+                            ':employee_startDate' => $oeuvre_startDate
+                            ));
+
+      if ($query->rowCount() == 1) {
+        Session::add('feedback_positive', 'Obra creada correctamente');
+      }
+
   }
 }

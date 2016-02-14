@@ -8,8 +8,14 @@
             <form method="post" action="<?php echo Config::get('URL');?>material/create" enctype="multipart/form-data">
                 <div class="row">
                   <div class="input-field col s12 m4">
-                    <input type="text" class="validate" pattern="[0-9]{1,5}" name="material_provider_id" placeholder="Id Proveedor">
-                    <label class="col s12 no-padding" for="material_provider_id" data-error="Introduzca una cifra (máximo 5 dígitos)" >Id Proveedor</label>
+                    <select name="material_provider_id" >
+                      <option value="" >- Selecciona -</option>
+                      <?php $providers = ProviderModel::getAllProviders();
+                        foreach($providers as $key => $value){ ?>
+                          <option value="<?=$value->provider_id; ?>"><?=$value->provider_name; ?></option>
+                      <?php }?>
+                    </select>
+                    <label for="material_provider_id" >Proveedor</label>
                   </div>
                   <div class="input-field col s12 m4 ">
                     <input type="text" class="validate" pattern="[0-9A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="material_name" placeholder="Nombre (letras 2-64 caracteres)" required autofocus>

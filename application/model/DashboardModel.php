@@ -1,6 +1,6 @@
 <?php
 
-class MaterialModel
+class DashboardModel
 {
     /**
      * Get all materials
@@ -12,28 +12,24 @@ class MaterialModel
 
         $sql = "SELECT material_id, material_name, material_price, material_weight, material_dimension_high, material_dimension_width,
                        material_dimension_profound, material_provider_id, material_has_photoMaterial, material_description
-                FROM materials";
+                FROM materials WHERE user_id = :user_id ";
         $query = $database->prepare($sql);
-        $query->execute(array());
+        $query->execute(array(':user_id' => Session::get('user_id')));
         $numTotalRegister = $query->rowCount();
 
         return $numTotalRegister;
     }
 
-    /**
-     * Get all materials
-     * @return array an array with several objects (the results)
-     */
-    public static function getAllMaterialsPaginated($start, $itemsToShow)
+    public static function getAllOeuvreMaterials()
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT material_id, material_name, material_price, material_weight, material_dimension_high, material_dimension_width,
-                       material_dimension_profound, material_provider_id, material_has_photoMaterial, material_description
-                FROM materials LIMIT $start, $itemsToShow";
+        $sql = "SELECT o.oeuvre_id, o.oeuvre_name, m.material_id, material_name, material_price, material_weight, material_dimension_high, material_dimension_width,
+                       material_dimension_profound, material_provider_id, material_has_photoMaterial, material_description, quantity
+                FROM oeuvres_materials AS om, materials AS m, oeuvres AS o WHERE m.material_id = om.material_id AND o.oeuvre_id = om.oeuvre_id ";
         $query = $database->prepare($sql);
 
-        $query->execute(array());
+        $query->execute();
         $all_materials = array();
 
         foreach ($query->fetchAll() as $material) {
@@ -44,6 +40,8 @@ class MaterialModel
             array_walk_recursive($material, 'Filter::XSSFilter');
 
             $all_materials[$material->material_id] = new stdClass();
+            $all_materials[$material->material_id]->oeuvre_id = $material->oeuvre_id;
+            $all_materials[$material->material_id]->oeuvre_name = $material->oeuvre_name;
             $all_materials[$material->material_id]->material_id = $material->material_id;
             $all_materials[$material->material_id]->material_name = $material->material_name;
             $all_materials[$material->material_id]->material_price = $material->material_price;
@@ -54,21 +52,22 @@ class MaterialModel
             $all_materials[$material->material_id]->material_provider_id = $material->material_provider_id;
             $all_materials[$material->material_id]->material_photoMaterial_link = (Config::get('USE_GRAVATAR') ? AvatarModel::getGravatarLinkByEmail($user->user_email) : self::getPublicPhotoMaterialFilePathOfMaterial($material->material_has_photoMaterial, $material->material_id));
             $all_materials[$material->material_id]->material_description = $material->material_description;
+            $all_materials[$material->material_id]->quantity = $material->quantity;
         }
 
         return $all_materials;
     }
 
-    public static function getAllMaterialsPaginatedOrderBy($start, $itemsToShow, $orderBy)
+    public static function getAllOeuvreMaterialsPaginatedAndOrder($start, $itemsToShow, $orderBy)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT material_id, material_name, material_price, material_weight, material_dimension_high, material_dimension_width,
+        $sql = "SELECT o.oeuvre_id, o.oeuvre_name, m.material_id, material_name, material_price, material_weight, material_dimension_high, material_dimension_width,
                        material_dimension_profound, material_provider_id, material_has_photoMaterial, material_description
-                FROM materials ORDER BY $orderBy LIMIT $start, $itemsToShow";
+                FROM oeuvres_materials AS om, materials AS m, oeuvres AS o WHERE m.material_id = om.material_id AND o.oeuvre_id = om.oeuvre_id ORDER BY $orderBy LIMIT $start, $itemsToShow";
         $query = $database->prepare($sql);
 
-        $query->execute(array());
+        $query->execute();
         $all_materials = array();
 
         foreach ($query->fetchAll() as $material) {
@@ -79,41 +78,8 @@ class MaterialModel
             array_walk_recursive($material, 'Filter::XSSFilter');
 
             $all_materials[$material->material_id] = new stdClass();
-            $all_materials[$material->material_id]->material_id = $material->material_id;
-            $all_materials[$material->material_id]->material_name = $material->material_name;
-            $all_materials[$material->material_id]->material_price = $material->material_price;
-            $all_materials[$material->material_id]->material_weight = $material->material_weight;
-            $all_materials[$material->material_id]->material_dimension_high = $material->material_dimension_high;
-            $all_materials[$material->material_id]->material_dimension_width = $material->material_dimension_width;
-            $all_materials[$material->material_id]->material_dimension_profound = $material->material_dimension_profound;
-            $all_materials[$material->material_id]->material_provider_id = $material->material_provider_id;
-            $all_materials[$material->material_id]->material_photoMaterial_link = (Config::get('USE_GRAVATAR') ? AvatarModel::getGravatarLinkByEmail($user->user_email) : self::getPublicPhotoMaterialFilePathOfMaterial($material->material_has_photoMaterial, $material->material_id));
-            $all_materials[$material->material_id]->material_description = $material->material_description;
-        }
-
-        return $all_materials;
-    }
-
-    public static function getAllMaterialsEmployeePaginatedOrderBy($start, $itemsToShow, $orderBy)
-    {
-        $database = DatabaseFactory::getFactory()->getConnection();
-
-        $sql = "SELECT material_id, material_name, material_price, material_weight, material_dimension_high, material_dimension_width,
-                       material_dimension_profound, material_provider_id, material_has_photoMaterial, material_description
-                FROM materials WHERE user_id = :user_id ORDER BY $orderBy LIMIT $start, $itemsToShow";
-        $query = $database->prepare($sql);
-
-        $query->execute(array(':user_id' => Session::get('user_id')));
-        $all_materials = array();
-
-        foreach ($query->fetchAll() as $material) {
-
-            // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
-            // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
-            // the material's values
-            array_walk_recursive($material, 'Filter::XSSFilter');
-
-            $all_materials[$material->material_id] = new stdClass();
+            $all_materials[$material->material_id]->oeuvre_id = $material->oeuvre_id;
+            $all_materials[$material->material_id]->oeuvre_name = $material->oeuvre_name;
             $all_materials[$material->material_id]->material_id = $material->material_id;
             $all_materials[$material->material_id]->material_name = $material->material_name;
             $all_materials[$material->material_id]->material_price = $material->material_price;
@@ -133,7 +99,7 @@ class MaterialModel
      * Get all materials
      * @return array an array with several objects (the results)
      */
-    public static function getAllMaterialsEmployee()
+    public static function getAllMaterials()
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
@@ -178,9 +144,9 @@ class MaterialModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "SELECT material_id, material_name, material_price, material_weight, material_dimension_high, material_dimension_width, material_dimension_profound, material_provider_id, material_has_photoMaterial, material_description
-                   FROM materials WHERE material_id = :material_id LIMIT 1";
+                   FROM materials WHERE material_id = :material_id AND user_id = :user_id LIMIT 1";
         $query = $database->prepare($sql);
-        $query->execute(array(':material_id' => $material_id));
+        $query->execute(array(':user_id' => Session::get('user_id'), ':material_id' => $material_id));
 
         foreach ($query->fetchAll() as $material) {
             $material->material_id = $material->material_id;
@@ -208,121 +174,37 @@ class MaterialModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "SELECT material_id, material_name, material_price, material_weight, material_dimension_high, material_dimension_width, material_dimension_profound, material_provider_id, material_has_photoMaterial, material_description
-                   FROM materials WHERE material_name = :material_name LIMIT 1";
+                   FROM materials WHERE material_name = :material_name AND user_id = :user_id LIMIT 1";
         $query = $database->prepare($sql);
-        $query->execute(array(':material_name' => $material_name));
+        $query->execute(array(':user_id' => Session::get('user_id'), ':material_name' => $material_name));
 
         // fetch() is the PDO method that gets a single result
         return $query->fetch();
     }
 
     /**
-     * Set a material (create a new one)
-     * @return boolean Gives back the success status of the registration of the material
-     */
-    public static function createMaterial()
-    {
-        // clean the input
-        $material_name = strip_tags(Request::post('material_name', true));
-        $material_price = strip_tags(Request::post('material_price', true));
-        $material_weight = strip_tags(Request::post('material_weight', true));
-        $material_dimension_high = strip_tags(Request::post('material_dimension_high', true));
-        $material_dimension_width = strip_tags(Request::post('material_dimension_width', true));
-        $material_dimension_profound = strip_tags(Request::post('material_dimension_profound', true));
-        $material_provider_id = strip_tags(Request::post('material_provider_id', true));
-        $material_has_photoMaterial = strip_tags(Request::post('material_has_photoMaterial', true));
-        $material_description = strip_tags(Request::post('material_description', true));
-
-        $validation_result = self::registrationInputValidation($material_name, $material_price, $material_weight, $material_dimension_high, $material_dimension_width, $material_dimension_profound, $material_provider_id, $material_description);
-        if (!$validation_result) {
-          return false;
-        }
-
-        $database = DatabaseFactory::getFactory()->getConnection();
-
-        $sql = "INSERT INTO materials (material_name, material_price, material_weight, material_dimension_high, material_dimension_width,
-                                   material_dimension_profound, material_provider_id, material_description)
-                    VALUES (:material_name, :material_price, :material_weight, :material_dimension_high, :material_dimension_width,
-                           :material_dimension_profound, :material_provider_id, :material_description)";
-        $query = $database->prepare($sql);
-        $query->execute(array(':material_name' => $material_name,
-                              ':material_price' => $material_price,
-                              ':material_weight' => $material_weight,
-                              ':material_dimension_high' => $material_dimension_high,
-                              ':material_dimension_width' => $material_dimension_width,
-                              ':material_dimension_profound' => $material_dimension_profound,
-                              ':material_provider_id' => $material_provider_id,
-                              ':material_description' => $material_description
-                              ));
-
-        if ($query->rowCount() == 1) {
-            $lastInsert = self::getMaterialByName($material_name);
-            $idLastInsert = $lastInsert->material_id;
-            self::createPhotoMaterial($idLastInsert);
-            Session::add('feedback_positive', Text::get('FEEDBACK_MATERIAL_CREATION_SUCCESSFUL'));
-            return true;
-        }
-
-        // default return
-        Session::add('feedback_negative', Text::get('FEEDBACK_MATERIAL_CREATION_FAILED'));
-        return false;
-    }
-
-    /**
      * Update an existing material
      * @return bool feedback (was the update successful ?)
      */
-    public static function updateMaterial()
+    public static function updateQuantityMaterialOeuvre($oeuvre_id, $material_id, $quantity)
     {
-        // clean the input
-        $material_id = Request::post('material_id');
-        $material_name = strip_tags(Request::post('material_name', true));
-        $material_price = strip_tags(Request::post('material_price', true));
-        $material_weight = strip_tags(Request::post('material_weight', true));
-        $material_dimension_high = strip_tags(Request::post('material_dimension_high', true));
-        $material_dimension_width = strip_tags(Request::post('material_dimension_width', true));
-        $material_dimension_profound = strip_tags(Request::post('material_dimension_profound', true));
-        $material_provider_id = strip_tags(Request::post('material_provider_id', true));
-        $material_has_photoMaterial = strip_tags(Request::post('material_has_photoMaterial', true));
-        $material_description = strip_tags(Request::post('material_description', true));
-
-        $validation_result = self::registrationInputValidation($material_name, $material_price, $material_weight, $material_dimension_high, $material_dimension_width, $material_dimension_profound, $material_provider_id, $material_description);
-        if (!$validation_result) {
-          return false;
-        }
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "UPDATE materials
-                SET material_name = :material_name, material_price = :material_price, material_weight = :material_weight,
-                   material_dimension_high = :material_dimension_high, material_dimension_width = :material_dimension_width, material_dimension_profound = :material_dimension_profound,
-                    material_provider_id = :material_provider_id, material_description = :material_description
-                WHERE material_id = :material_id LIMIT 1";
+        $sql = "UPDATE oeuvres_materials
+                SET quantity = :quantity
+                WHERE material_id = :material_id AND oeuvre_id = :oeuvre_id LIMIT 1";
         $query = $database->prepare($sql);
-        $query->execute(array(':material_name' => $material_name,
-                              ':material_price' => $material_price,
-                              ':material_weight' => $material_weight,
-                              ':material_dimension_high' => $material_dimension_high,
-                              ':material_dimension_width' => $material_dimension_width,
-                              ':material_dimension_profound' => $material_dimension_profound,
-                              ':material_provider_id' => $material_provider_id,
-                              ':material_description' => $material_description,
-                              ':material_id' => $material_id
-                              ));
+        $query->execute(array(':oeuvre_id' => $oeuvre_id,
+                              ':material_id' => $material_id,
+                              ':quantity' => $quantity));
 
         if ($query->rowCount() == 1) {
-          if ($_FILES['photoMaterial_file']['name']!="") {
-            self::createPhotoMaterial($material_id);
-          }
+            Session::add('feedback_positive', 'Se ha actualizado correctamente en tu obra la cantidad del material');
             return true;
         }
 
-        if ($_FILES['photoMaterial_file']['name']!="") {
-          self::createPhotoMaterial($material_id);
-          return true;
-        }
-
-        Session::add('feedback_negative', Text::get('FEEDBACK_MATERIAL_EDITING_FAILED'));
+        Session::add('feedback_negative', 'No se ha podido actualizar la cantidad del material');
         return false;
     }
 
@@ -331,7 +213,7 @@ class MaterialModel
      * @param int $material id of the material
      * @return bool feedback (was the material deleted properly ?)
      */
-    public static function deleteMaterial($material_id)
+    public static function deleteMaterialOeuvre($material_id, $oeuvreMaterial_id)
     {
         if (!$material_id) {
             return false;
@@ -339,12 +221,11 @@ class MaterialModel
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "DELETE FROM materials WHERE material_id = :material_id LIMIT 1";
+        $sql = "DELETE FROM oeuvres_materials WHERE material_id = :material_id AND oeuvre_id = :oeuvre_id LIMIT 1";
         $query = $database->prepare($sql);
-        $query->execute(array(':material_id' => $material_id));
+        $query->execute(array(':material_id' => $material_id, ':oeuvre_id' => $oeuvreMaterial_id));
 
         if ($query->rowCount() == 1) {
-            self::deletePhotoMaterialImageFile($material_id);
             return true;
         }
 
@@ -670,5 +551,26 @@ class MaterialModel
 
         return Config::get('URL') . Config::get('PATH_MATERIALS_PUBLIC') . Config::get('PHOTOMATERIAL_DEFAULT_IMAGE');
     }
+
+  public static function addMaterialToOeuvre($oeuvre_id, $material_id)
+  {
+    $database = DatabaseFactory::getFactory()->getConnection();
+
+    $sql = "INSERT INTO oeuvres_materials (oeuvre_id, material_id)
+                                  VALUES (:oeuvre_id, :material_id)";
+          $query = $database->prepare($sql);
+          $query->execute(array(':oeuvre_id' => $oeuvre_id,
+                                ':material_id' => $material_id));
+
+          if ($query->rowCount() > 0) {
+              return true;
+          }
+
+          // default return
+          Session::add('feedback_negative', 'No se ha añadido en tu obra ningún material, marque algún material para añadirlos');
+          return false;
+
+  }
+
 
 }
