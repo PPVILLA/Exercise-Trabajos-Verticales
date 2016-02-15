@@ -19,9 +19,12 @@ class DashboardController extends Controller
     /**
      * This method controls what happens when you move to /dashboard/index in your app.
      */
-    public function index($pageToShow,$itemsToShow,$orderBy)
+    public function index($suggestion, $pageToShow, $itemsToShow, $orderBy)
     {
-        $page = false;
+      $page = false;
+      if(isset($_POST['suggestion'])){
+        $suggestion = $_POST['suggestion'];
+      }
       if(isset($pageToShow)){
         $page = $pageToShow;
       }
@@ -42,11 +45,12 @@ class DashboardController extends Controller
       $this->View->render('dashboard/index', array(
           'totalPages' => $totalPages,
           'page' => $page,
+          'suggestion' => $suggestion,
           'itemsToShow' => $itemsToShow,
           'orderBy' => $orderBy,
           'oeuvres' => OeuvreModel::getAllOeuvreByEmployee(Session::get('user_id')),
           'oeuvres_materials' => DashboardModel::getAllOeuvreMaterials(),
-          'materials' => MaterialModel::getAllMaterialsPaginatedOrderBy($start, $itemsToShow, $orderBy)
+          'materials' => MaterialModel::getMaterialsSuggestedPaginatedOrderBy($suggestion, $start, $itemsToShow, $orderBy)
       ));
     }
 
@@ -54,23 +58,22 @@ class DashboardController extends Controller
     {
         if(empty($_POST['check_list_Material']) || empty($_POST['oeuvre_id'])){
           Session::add('feedback_negative', 'Tiene que escoger una de tus obras y seleccionar algún material');
-          Redirect::to('dashboard/index/0/3/material_id');
+          Redirect::to('dashboard/index/ /0/3/material_id');
         }else{
           $arrayIdMaterial = $_POST['check_list_Material'];
           $oeuvre_id = $_POST['oeuvre_id'];
-          //$quantity = $_POST['quantity'];
           foreach($arrayIdMaterial as $value){
             DashboardModel::addMaterialToOeuvre($oeuvre_id, $value);
           }
           Session::add('feedback_positive', 'Se ha añadido correctamente en tu obra señalada los materiales señalados');
-          Redirect::to('dashboard/index/0/3/material_id');
+          Redirect::to('dashboard/index/ /0/3/material_id');
         }
     }
 
     public function delete($oeuvreMaterial_id, $material_id)
     {
         DashboardModel::deleteMaterialOeuvre($material_id, $oeuvreMaterial_id);
-        Redirect::to('dashboard/index/0/3/material_id');
+        Redirect::to('dashboard/index/ /0/3/material_id');
     }
 
 
@@ -81,14 +84,14 @@ class DashboardController extends Controller
         foreach($idArray as $material_id){
           DashboardModel::deleteMaterialOeuvre($material_id, $oeuvreMaterial_id);
         }
-        Redirect::to('dashboard/index/0/3/material_id');
+        Redirect::to('dashboard/index/ /0/3/material_id');
     }
 
     public function addQuantity($oeuvre_id, $material_id)
     {
           $quantity = $_POST['quantity'];
           DashboardModel::updateQuantityMaterialOeuvre($oeuvre_id, $material_id, $quantity);
-          Redirect::to('dashboard/index/0/3/material_id');
+          Redirect::to('dashboard/index/ /0/3/material_id');
     }
 
 }

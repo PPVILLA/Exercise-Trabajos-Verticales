@@ -556,10 +556,11 @@ class DashboardModel
   {
     $database = DatabaseFactory::getFactory()->getConnection();
 
-    $sql = "INSERT INTO oeuvres_materials (oeuvre_id, material_id)
-                                  VALUES (:oeuvre_id, :material_id)";
+    $sql = "INSERT INTO oeuvres_materials (employee_id, oeuvre_id, material_id)
+                                  VALUES (:employee_id, :oeuvre_id, :material_id)";
           $query = $database->prepare($sql);
-          $query->execute(array(':oeuvre_id' => $oeuvre_id,
+          $query->execute(array(':employee_id' => Session::get('user_id'),
+                                ':oeuvre_id' => $oeuvre_id,
                                 ':material_id' => $material_id));
 
           if ($query->rowCount() > 0) {

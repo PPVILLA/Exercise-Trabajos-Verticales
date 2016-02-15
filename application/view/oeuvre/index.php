@@ -16,8 +16,8 @@
                     <label class="col s12 no-padding" for="oeuvre_name" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Introduce nombre de la obra</label>
                   </div>
                   <div class="col s12 m3">
-                    <label for="user_id" >Introduce nombre del empleado</label>
-                    <select class = "browser-default" name="user_id" >
+                    <label for="user_id" >Selecciona nick del empleado</label>
+                    <select class = "browser-default" name="supervisor_id" >
                       <option value="" >- Selecciona -</option>
                       <?php $Employee = UserModel::getPublicProfilesOfEmployeeUsers();
                       foreach($Employee as $key => $value){ ?>
@@ -138,7 +138,12 @@
                       </td>
                       <td><?= htmlentities($value->oeuvre_phone); ?></td>
                       <td><?= htmlentities($value->oeuvre_email); ?></td>
-                      <td><?= htmlentities($value->user_id); ?></td>
+                      <?php $supervisors = UserModel::getPublicProfilesOfEmployeeUsers();
+                        foreach($supervisors as $key => $content){
+                          if($content->user_id == $value->supervisor_id) {?>
+                          <td><?= htmlentities($content->user_name); ?></td>
+                          <?php }?>
+                      <?php }?>
                       <td><?= htmlentities($value->oeuvre_contact_name); ?></td>
                       <td><?= htmlentities($value->oeuvre_latitud); ?></td>
                       <td><?= htmlentities($value->oeuvre_longitud); ?></td>
