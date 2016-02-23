@@ -39,7 +39,7 @@
     <script type="text/javascript" src="<?php echo Config::get('URL'); ?>js/customMaterialize.min.js"></script>
 
     <script src="http://maps.googleapis.com/maps/api/js"></script>
-    <?php if (View::checkForActiveController($filename, "index")) {?>
+    <?php if (View::checkForActiveController($filename, "index") || View::checkForActiveController($filename, "local")) {?>
       <script type="text/javascript" src="<?php echo Config::get('URL'); ?>js/maps.js"></script>
     <?php } ?>
 
