@@ -46,6 +46,46 @@ class UserModel
 
         return $all_users_profiles;
     }
+
+    /**
+     * Gets an array that contains all the users in the database. The array's keys are the user ids.
+     * Each array element is an object, containing a specific user's data.
+     * The avatar line is built using Ternary Operators, have a look here for more:
+     * @see http://davidwalsh.name/php-shorthand-if-else-ternary-operators
+     *
+     * @return array The profiles of all users
+     */
+    public static function getPublicProfilesOfAllUsersClient()
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT user_id, user_name, user_email, user_active, user_has_avatar, user_deleted, user_failed_logins, user_account_type, user_contract_date FROM users WHERE user_account_type = :user_account_type ";
+        $query = $database->prepare($sql);
+        $query->execute(array(':user_account_type' => 1));
+
+        $all_users_profiles = array();
+
+        foreach ($query->fetchAll() as $user) {
+
+            // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+            // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+            // the user's values
+            array_walk_recursive($user, 'Filter::XSSFilter');
+
+            $all_users_profiles[$user->user_id] = new stdClass();
+            $all_users_profiles[$user->user_id]->user_id = $user->user_id;
+            $all_users_profiles[$user->user_id]->user_name = $user->user_name;
+            $all_users_profiles[$user->user_id]->user_email = $user->user_email;
+            $all_users_profiles[$user->user_id]->user_contract_date = $user->user_contract_date;
+            $all_users_profiles[$user->user_id]->user_active = $user->user_active;
+            $all_users_profiles[$user->user_id]->user_account_type = $user->user_account_type;
+            $all_users_profiles[$user->user_id]->user_deleted = $user->user_deleted;
+            $all_users_profiles[$user->user_id]->user_failed_logins = $user->user_failed_logins;
+            $all_users_profiles[$user->user_id]->user_avatar_link = (Config::get('USE_GRAVATAR') ? AvatarModel::getGravatarLinkByEmail($user->user_email) : AvatarModel::getPublicAvatarFilePathOfUser($user->user_has_avatar, $user->user_id));
+        }
+
+        return $all_users_profiles;
+    }
 /**
      * Gets an array that contains all the users in the database. The array's keys are the user ids.
      * Each array element is an object, containing a specific user's data.

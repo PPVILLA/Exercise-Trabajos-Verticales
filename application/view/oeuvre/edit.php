@@ -9,18 +9,32 @@
         <?php if ($this->oeuvre) { ?>
             <form method="post" action="<?php echo Config::get('URL'); ?>oeuvre/editSave">
                 <div class="row">
-                  <div class="input-field col s12 m3">
+                  <div class="col s12 m2">
+                    <label for="user_id" >Cambia nombre del Cliente</label>
+                    <select class = "browser-default" name="user_id" >
+                      <option value="" >- Selecciona -</option>
+                      <?php $userClients = UserModel::getPublicProfilesOfAllUsersClient();
+                      foreach($userClients as $key => $value){
+                        if($value->user_id == $this->oeuvre->user_id){?>
+                          <option value="<?=$value->user_id; ?>" selected><?=$value->user_name; ?></option>
+                        <?php }else{?>
+                          <option value="<?=$value->user_id; ?>"><?=$value->user_name; ?></option>
+                        <?php } ?>
+                      <?php }?>
+                    </select>
+                  </div>
+                  <div class="input-field col s12 m2">
                     <input type="hidden" name="oeuvre_id" value="<?php echo htmlentities($this->oeuvre->oeuvre_id); ?>" />
                     <input type="text" class="validate" pattern="[0-9]{1,6}\.[0-9]{1,2}" name="oeuvre_budget" value="<?php echo htmlentities($this->oeuvre->oeuvre_budget); ?>" required >
                     <label class="col s12 no-padding" for="oeuvre_budget" data-error="Introduzca numero con 2 decimales, separado por un punto." >Cambia Presupuesto de la obra</label>
                   </div>
-                  <div class="input-field col s12 m3">
+                  <div class="input-field col s12 m4">
                     <input type="text" class="validate" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="oeuvre_name" value="<?php echo htmlentities($this->oeuvre->oeuvre_name); ?>" required >
                     <label class="col s12 no-padding" for="oeuvre_name" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Cambia nombre de la obra</label>
                   </div>
-                  <div class="col s12 m3">
-                    <label for="user_id" >Introduce nombre del empleado</label>
-                    <select class = "browser-default" name="user_id" >
+                  <div class="col s12 m2">
+                    <label for="supervisor_id" >Cambia nombre del empleado</label>
+                    <select class = "browser-default" name="supervisor_id" >
                       <option value="" >- Selecciona -</option>
                       <?php $Employee = UserModel::getPublicProfilesOfEmployeeUsers();
                       foreach($Employee as $key => $value){
@@ -32,7 +46,7 @@
                       <?php }?>
                     </select>
                   </div>
-                  <div class="input-field col s12 m3">
+                  <div class="input-field col s12 m2">
                     <input type="text" class="validate" pattern="^([9|6][0-9]{8})$" name="oeuvre_phone" value="<?php echo htmlentities($this->oeuvre->oeuvre_phone); ?>" required >
                     <label class="col s12 no-padding" for="oeuvre_phone" data-error="el nº telefono debe de empezar por 9 o por 6 hasta alcanzar 9 digitos." >Cambia telefono</label>
                   </div>

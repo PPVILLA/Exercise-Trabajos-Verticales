@@ -10,7 +10,7 @@ class OeuvreModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT oeuvre_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone,
+        $sql = "SELECT oeuvre_id, user_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone,
                        oeuvre_email, oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, supervisor_id, oeuvre_startDate, oeuvre_completionDate
                 FROM oeuvres ";
         $query = $database->prepare($sql);
@@ -27,6 +27,7 @@ class OeuvreModel
 
             $all_oeuvres[$oeuvre->oeuvre_id] = new stdClass();
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_id = $oeuvre->oeuvre_id;
+            $all_oeuvres[$oeuvre->oeuvre_id]->user_id = $oeuvre->user_id;
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_budget = $oeuvre->oeuvre_budget;
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_name = $oeuvre->oeuvre_name;
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_address = $oeuvre->oeuvre_address;
@@ -54,7 +55,7 @@ class OeuvreModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT oeuvre_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone,
+        $sql = "SELECT oeuvre_id, user_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone,
                        oeuvre_email, oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, supervisor_id, oeuvre_startDate, oeuvre_completionDate
                    FROM oeuvres WHERE oeuvre_id = :oeuvre_id LIMIT 1";
         $query = $database->prepare($sql);
@@ -68,7 +69,7 @@ class OeuvreModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT oeuvre_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone,
+        $sql = "SELECT oeuvre_id, user_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone,
                        oeuvre_email, oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, supervisor_id, oeuvre_startDate, oeuvre_completionDate
                    FROM oeuvres WHERE oeuvre_name = :oeuvre_name LIMIT 1";
         $query = $database->prepare($sql);
@@ -82,7 +83,7 @@ class OeuvreModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT oeuvre_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone,
+        $sql = "SELECT oeuvre_id, user_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone,
                        oeuvre_email, oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, supervisor_id, oeuvre_startDate, oeuvre_completionDate
                    FROM oeuvres WHERE supervisor_id = :supervisor_id ";
         $query = $database->prepare($sql);
@@ -99,6 +100,7 @@ class OeuvreModel
 
             $all_oeuvres[$oeuvre->oeuvre_id] = new stdClass();
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_id = $oeuvre->oeuvre_id;
+            $all_oeuvres[$oeuvre->oeuvre_id]->user_id = $oeuvre->user_id;
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_budget = $oeuvre->oeuvre_budget;
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_name = $oeuvre->oeuvre_name;
             $all_oeuvres[$oeuvre->oeuvre_id]->oeuvre_address = $oeuvre->oeuvre_address;
@@ -124,6 +126,7 @@ class OeuvreModel
     public static function createOeuvre()
     {
         // clean the input
+        $user_id = Request::post('user_id');
         $supervisor_id = Request::post('supervisor_id');
         $oeuvre_budget = strip_tags(Request::post('oeuvre_budget', true));
         $oeuvre_name = strip_tags(Request::post('oeuvre_name', true));
@@ -145,12 +148,13 @@ class OeuvreModel
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "INSERT INTO oeuvres (oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone, oeuvre_email,
+        $sql = "INSERT INTO oeuvres (user_id, oeuvre_budget, oeuvre_name, oeuvre_address, oeuvre_province, oeuvre_city_id, oeuvre_phone, oeuvre_email,
                        oeuvre_contact_name, oeuvre_latitud, oeuvre_longitud, oeuvre_startDate, oeuvre_completionDate, supervisor_id)
-                    VALUES (:oeuvre_budget, :oeuvre_name, :oeuvre_address, :oeuvre_province, :oeuvre_city_id, :oeuvre_phone, :oeuvre_email,
+                    VALUES (:user_id, :oeuvre_budget, :oeuvre_name, :oeuvre_address, :oeuvre_province, :oeuvre_city_id, :oeuvre_phone, :oeuvre_email,
                        :oeuvre_contact_name, :oeuvre_latitud, :oeuvre_longitud, :oeuvre_startDate, :oeuvre_completionDate, :supervisor_id)";
         $query = $database->prepare($sql);
         $query->execute(array(':oeuvre_budget' => $oeuvre_budget,
+                              ':user_id' => $user_id,
                               ':oeuvre_name' => $oeuvre_name,
                               ':oeuvre_address' => $oeuvre_address,
                               ':oeuvre_province' => $oeuvre_province,
@@ -187,6 +191,7 @@ class OeuvreModel
         // clean the input
         $supervisor_id = Request::post('supervisor_id');
         $oeuvre_id = Request::post('oeuvre_id');
+        $user_id = Request::post('user_id');
         $oeuvre_budget = strip_tags(Request::post('oeuvre_budget', true));
         $oeuvre_name = strip_tags(Request::post('oeuvre_name', true));
         $oeuvre_address = strip_tags(Request::post('oeuvre_address', true));
@@ -208,13 +213,14 @@ class OeuvreModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "UPDATE oeuvres
-                SET oeuvre_budget = :oeuvre_budget, oeuvre_name = :oeuvre_name, oeuvre_address = :oeuvre_address, oeuvre_province = :oeuvre_province, oeuvre_city_id = :oeuvre_city_id,
+                SET user_id = :user_id, oeuvre_budget = :oeuvre_budget, oeuvre_name = :oeuvre_name, oeuvre_address = :oeuvre_address, oeuvre_province = :oeuvre_province, oeuvre_city_id = :oeuvre_city_id,
                    oeuvre_phone = :oeuvre_phone, oeuvre_email = :oeuvre_email, oeuvre_contact_name = :oeuvre_contact_name,
                     oeuvre_latitud = :oeuvre_latitud, oeuvre_longitud = :oeuvre_longitud, oeuvre_startDate = :oeuvre_startDate, oeuvre_completionDate = :oeuvre_completionDate, supervisor_id = :supervisor_id
                 WHERE oeuvre_id = :oeuvre_id LIMIT 1";
         $query = $database->prepare($sql);
         $query->execute(array(':oeuvre_budget' => $oeuvre_budget,
                               ':oeuvre_name' => $oeuvre_name,
+                              ':user_id' => $user_id,
                               ':oeuvre_address' => $oeuvre_address,
                               ':oeuvre_province' => $oeuvre_province,
                               ':oeuvre_city_id' => $oeuvre_city_id,

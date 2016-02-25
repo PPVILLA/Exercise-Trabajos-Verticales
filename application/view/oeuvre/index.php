@@ -7,25 +7,35 @@
             <h1 class="center">Tus obras</h1>
             <form method="post" action="<?php echo Config::get('URL');?>oeuvre/create">
                 <div class="row">
-                  <div class="input-field col s12 m3">
-                    <input type="text" class="validate" pattern="[0-9]{1,6}\.[0-9]{1,2}" name="oeuvre_budget" placeholder="Presupuesto (numero con 2 decimales)" required autofocus>
-                    <label class="col s12 no-padding" for="oeuvre_budget" data-error="Introduzca numero con 2 decimales, separado por un punto." >Presupuesto</label>
-                  </div>
-                  <div class="input-field col s12 m3">
-                    <input type="text" class="validate" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="oeuvre_name" placeholder="Nombre (letras 2-64 caracteres)" required autofocus>
-                    <label class="col s12 no-padding" for="oeuvre_name" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Introduce nombre de la obra</label>
-                  </div>
-                  <div class="col s12 m3">
-                    <label for="user_id" >Selecciona nick del empleado</label>
-                    <select class = "browser-default" name="supervisor_id" >
+                  <div class="col s12 m2">
+                    <label for="user_id" >Selecciona nick del usuario cliente</label>
+                    <select class = "browser-default" name="user_id" >
                       <option value="" >- Selecciona -</option>
-                      <?php $Employee = UserModel::getPublicProfilesOfEmployeeUsers();
-                      foreach($Employee as $key => $value){ ?>
+                      <?php $userClients = UserModel::getPublicProfilesOfAllUsersClient();
+                      foreach($userClients as $key => $value){ ?>
                         <option value="<?=$value->user_id; ?>"><?=$value->user_name; ?></option>
                       <?php }?>
                     </select>
                   </div>
-                  <div class="input-field col s12 m3">
+                  <div class="input-field col s12 m2">
+                    <input type="text" class="validate" pattern="[0-9]{1,6}\.[0-9]{1,2}" name="oeuvre_budget" placeholder="Presupuesto (numero con 2 decimales)" required autofocus>
+                    <label class="col s12 no-padding" for="oeuvre_budget" data-error="Introduzca numero con 2 decimales, separado por un punto." >Presupuesto</label>
+                  </div>
+                  <div class="input-field col s12 m4">
+                    <input type="text" class="validate" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]{2,64}" name="oeuvre_name" placeholder="Nombre (letras 2-64 caracteres)" required autofocus>
+                    <label class="col s12 no-padding" for="oeuvre_name" data-error="Introduzca letras (entre 2 y 64 caracteres)" >Introduce nombre de la obra</label>
+                  </div>
+                  <div class="col s12 m2">
+                    <label for="supervisor_id" >Selecciona nick del empleado</label>
+                    <select class = "browser-default" name="supervisor_id" >
+                      <option value="" >- Selecciona -</option>
+                      <?php $supervisors = UserModel::getPublicProfilesOfEmployeeUsers();
+                      foreach($supervisors as $key => $value){ ?>
+                        <option value="<?=$value->user_id; ?>"><?=$value->user_name; ?></option>
+                      <?php }?>
+                    </select>
+                  </div>
+                  <div class="input-field col s12 m2">
                     <input type="text" class="validate" pattern="^([9|6][0-9]{8})$" name="oeuvre_phone" placeholder="Telefono de contacto ([6|9]12345678)" required >
                     <label class="col s12 no-padding" for="oeuvre_phone" data-error="el nº telefono debe de empezar por 9 o por 6 hasta alcanzar 9 digitos." >Teléfono</label>
                   </div>
@@ -96,6 +106,7 @@
                 <thead>
                   <tr>
                       <th>Id</th>
+                      <th>Cliente</th>
                       <th>Presupuesto</th>
                       <th>Nombre</th>
                       <th>Domicilio</th>
@@ -117,6 +128,12 @@
                 <?php foreach($this->oeuvres as $key => $value) { ?>
                     <tr>
                       <td><?= $value->oeuvre_id; ?></td>
+                       <?php $userClients = UserModel::getPublicProfilesOfAllUsersClient();
+                        foreach($userClients as $key => $content){
+                          if($content->user_id == $value->user_id) {?>
+                          <td><?= htmlentities($content->user_name); ?></td>
+                          <?php }?>
+                      <?php }?>
                       <td><?= htmlentities($value->oeuvre_budget); ?></td>
                       <td><?= htmlentities($value->oeuvre_name); ?></td>
                       <td><?= htmlentities($value->oeuvre_address); ?></td>
