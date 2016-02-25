@@ -40,7 +40,7 @@ class DashboardController extends Controller
       }else{
         $start = ($page - 1) * $itemsToShow;
       }
-      $numTotalRegister = MaterialModel::getNumRowAllMaterials();
+      $numTotalRegister = MaterialModel::getNumRowAllMaterialsSuggested($suggestion);
       $totalPages = ceil($numTotalRegister / $itemsToShow);
       $this->View->render('dashboard/index', array(
           'totalPages' => $totalPages,

@@ -22,6 +22,24 @@ class MaterialModel
 
     /**
      * Get all materials
+     * @return integer of num rows
+     */
+    public static function getNumRowAllMaterialsSuggested($suggestion)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT material_id, material_name, material_price, material_weight, material_dimension_high, material_dimension_width,
+                       material_dimension_profound, material_provider_id, material_has_photoMaterial, material_description
+                FROM materials WHERE material_name LIKE '%$suggestion%' OR material_description LIKE '%$suggestion%' ";
+        $query = $database->prepare($sql);
+        $query->execute(array());
+        $numTotalRegister = $query->rowCount();
+
+        return $numTotalRegister;
+    }
+
+    /**
+     * Get all materials
      * @return array an array with several objects (the results)
      */
     public static function getAllMaterialsPaginated($start, $itemsToShow)

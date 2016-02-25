@@ -70,7 +70,7 @@
         <form method="post" action="<?= Config::get('URL') . 'dashboard/index/' . ' ' . '/0/' . $this->itemsToShow . '/' . $this->orderBy; ?>">
           <div class="row red lighten-2">
             <div class="input-field col s12 m3">
-              <input type="text" name="suggestion" value="<?= $suggestion = (isset($this->suggestion)) ? $this->suggestion :  '' ?>" >
+              <input type="text" name="suggestion" value="<?= $suggestion = (isset($this->suggestion)) ? $this->suggestion :  ' ' ?>" >
               <label class="col s12" for="suggestion" >Sugerencia:</label>
             </div>
             <div class="col s12 m3">
@@ -219,18 +219,18 @@
     <ul class="pagination center">
       <?php if($this->totalPages > 1) {
         if($this->page != 1){ ?>
-        <li class="waves-effect"><a href="<?= Config::get('URL') . 'dashboard/index/' . ($this->page - 1) . '/' . $this->itemsToShow . '/' . $this->orderBy; ?>"><i class="material-icons">chevron_left</i></a>
+        <li class="waves-effect"><a href="<?= Config::get('URL') . 'dashboard/index/' . $this->suggestion . '/' . ($this->page - 1) . '/' . $this->itemsToShow . '/' . $this->orderBy; ?>"><i class="material-icons">chevron_left</i></a>
         </li>
         <?php }
         for($i = 1 ; $i <= $this->totalPages ; $i++){
           if($this->page == $i) {?>
         <li class="active"><a href="#!"><?= $this->page ?></a></li>
         <?php } else {?>
-        <li class="waves-effect"><a href="<?= Config::get('URL') . 'dashboard/index/' . $i . '/' . $this->itemsToShow . '/' . $this->orderBy; ?>"><?= $i ?></a></li>
+        <li class="waves-effect"><a href="<?= Config::get('URL') . 'dashboard/index/' . $this->suggestion . '/' . $i . '/' . $this->itemsToShow . '/' . $this->orderBy; ?>"><?= $i ?></a></li>
         <?php }
         }
         if($this->page != $this->totalPages){?>
-        <li class="waves-effect"><a href="<?= Config::get('URL') . 'dashboard/index/' . ($this->page + 1) . '/' . $this->itemsToShow . '/' . $this->orderBy; ?>"><i class="material-icons">chevron_right</i></a>
+        <li class="waves-effect"><a href="<?= Config::get('URL') . 'dashboard/index/' . $this->suggestion . '/' . ($this->page + 1) . '/' . $this->itemsToShow . '/' . $this->orderBy; ?>"><i class="material-icons">chevron_right</i></a>
         </li>
         <?php }
       } ?>
