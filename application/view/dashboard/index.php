@@ -4,7 +4,7 @@
   <!-- echo out the system feedback (error and success messages) -->
   <?php $this->renderFeedbackMessages(); ?>
 
-  <h3 class="center">TUS MATERIALES DE OBRA</h3>
+  <h3 class="center">TUS MATERIALES DE OBRA:</h3>
   <div class="row">
     <section class="col s12" >
       <?php if ($this->oeuvres_materials) { ?>
@@ -63,15 +63,15 @@
         <?php } ?>
       </section>
     </div>
-    <h3 class="center">ESCOGE TUS MATERIALES</h3>
     <div class="row">
       <section class="col s12" >
         <?php if ($this->materials) { ?>
-        <form method="post" action="<?= Config::get('URL') . 'dashboard/index/' . ' ' . '/0/' . $this->itemsToShow . '/' . $this->orderBy; ?>">
+        <form method="post" action="<?= Config::get('URL') . 'dashboard/index/' ?>">
           <div class="row red lighten-2">
+            <h4 class="center">Filtro de búsqueda de materiales:</h4>
             <div class="input-field col s12 m3">
-              <input type="text" name="suggestion" value="<?= $suggestion = (isset($this->suggestion)) ? $this->suggestion :  ' ' ?>" >
-              <label class="col s12" for="suggestion" >Sugerencia:</label>
+              <input type="text" name="suggestion" value="<?= $suggestion = (isset($this->suggestion)) ? $this->suggestion :  '' ?>" >
+              <label class="col s12" for="suggestion" >Introduce sugerencia de búsqueda:</label>
             </div>
             <div class="col s12 m3">
               <label class="col s12" for="orderBy">Ordenar por:</label>
@@ -96,14 +96,15 @@
           </div>
         </form>
         <form method="post" action="<?php echo Config::get('URL'); ?>dashboard/addSelect">
-        <h3 class="center">TUS OBRAS</h3>
-        <div class="row">
-          <section class="col s12 center" >
+        <div class="row light-blue">
+          <h4 class="center">Selecciona una de TUS OBRAS para añadirle materiales</h4>
+          <section class="col s12" >
             <?php if ($this->oeuvres) { ?>
             <table class="responsive-table bordered striped centered">
               <thead>
                 <tr>
                   <th>Id</th>
+                  <th>Cliente</th>
                   <th>Presupuesto</th>
                   <th>Nombre</th>
                   <th>Domicilio</th>
@@ -113,8 +114,6 @@
                   <th>Email</th>
                   <th>Nick Encargado</th>
                   <th>Nombre Contacto</th>
-                  <th>Latitud</th>
-                  <th>Longitud</th>
                   <th>Fecha Inicio</th>
                   <th>Fecha Finalización</th>
                 </tr>
@@ -126,6 +125,12 @@
                   <td><input type="radio" name="oeuvre_id" id="oeuvre_id<?= $i ?>" value="<?= $value->oeuvre_id; ?>"/>
                     <label for="oeuvre_id<?= $i ?>"><?= $value->oeuvre_id; ?></label>
                   </td>
+                  <?php $userClients = UserModel::getPublicProfilesOfAllUsersClient();
+                      foreach($userClients as $key => $content){
+                        if($content->user_id == $value->user_id) {?>
+                        <td><?= htmlentities($content->user_name); ?></td>
+                        <?php }?>
+                  <?php }?>
                   <td><?= htmlentities($value->oeuvre_budget); ?></td>
                   <td><?= htmlentities($value->oeuvre_name); ?></td>
                   <td><?= htmlentities($value->oeuvre_address); ?></td>
@@ -154,8 +159,6 @@
                         <?php }?>
                     <?php }?>
                     <td><?= htmlentities($value->oeuvre_contact_name); ?></td>
-                    <td><?= htmlentities($value->oeuvre_latitud); ?></td>
-                    <td><?= htmlentities($value->oeuvre_longitud); ?></td>
                     <td><?= htmlentities($value->oeuvre_startDate); ?></td>
                     <td><?= htmlentities($value->oeuvre_completionDate); ?></td>
                   </tr>
@@ -167,45 +170,48 @@
               <?php } ?>
             </section>
           </div>
-          <table class="responsive-table bordered striped centered">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Id Proveedor</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Foto</th>
-                <th>Precio</th>
-                <th>Peso</th>
-                <th>Altura</th>
-                <th>Anchura</th>
-                <th>Profundidad</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php $i = 0 ?>
-              <?php foreach($this->materials as $key => $value) { $i++; ?>
-              <tr>
-                <td>
-                  <input type="checkbox" name="check_list_Material[]" id="check_list[]<?= $i ?>" value="<?= $value->material_id; ?>" />
-                  <label for="check_list[]<?= $i ?>"></label>
-                </td>
-                <td><?= htmlentities($value->material_provider_id); ?></td>
-                <td><?= htmlentities($value->material_name); ?></td>
-                <td><?= htmlentities($value->material_description); ?></td>
-                <td><?php if (isset($value->material_photoMaterial_link)) { ?>
-                  <img src="<?= $value->material_photoMaterial_link; ?>" />
-                  <?php } ?>
-                </td>
-                <td><?= htmlentities($value->material_price); ?></td>
-                <td><?= htmlentities($value->material_weight); ?></td>
-                <td><?= htmlentities($value->material_dimension_high); ?></td>
-                <td><?= htmlentities($value->material_dimension_width); ?></td>
-                <td><?= htmlentities($value->material_dimension_profound); ?></td>
-              </tr>
-              <?php } ?>
-            </tbody>
-          </table>
+          <div class="row light-blue lighten-4">
+          <h4 class="center">Ahora escoge tus materiales:</h4>
+            <table class="col s12 responsive-table bordered striped centered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Id Proveedor</th>
+                  <th>Nombre</th>
+                  <th>Descripción</th>
+                  <th>Foto</th>
+                  <th>Precio</th>
+                  <th>Peso</th>
+                  <th>Altura</th>
+                  <th>Anchura</th>
+                  <th>Profundidad</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php $i = 0 ?>
+                <?php foreach($this->materials as $key => $value) { $i++; ?>
+                <tr>
+                  <td>
+                    <input type="checkbox" name="check_list_Material[]" id="check_list[]<?= $i ?>" value="<?= $value->material_id; ?>" />
+                    <label for="check_list[]<?= $i ?>"></label>
+                  </td>
+                  <td><?= htmlentities($value->material_provider_id); ?></td>
+                  <td><?= htmlentities($value->material_name); ?></td>
+                  <td><?= htmlentities($value->material_description); ?></td>
+                  <td><?php if (isset($value->material_photoMaterial_link)) { ?>
+                    <img src="<?= $value->material_photoMaterial_link; ?>" />
+                    <?php } ?>
+                  </td>
+                  <td><?= htmlentities($value->material_price); ?></td>
+                  <td><?= htmlentities($value->material_weight); ?></td>
+                  <td><?= htmlentities($value->material_dimension_high); ?></td>
+                  <td><?= htmlentities($value->material_dimension_width); ?></td>
+                  <td><?= htmlentities($value->material_dimension_profound); ?></td>
+                </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+          </div>
           <div class="row">
             <div class="input-field col s12 m6 offset-m3 center">
               <button class="btn waves-effect waves-light center" type="submit" >Añade seleccionados a tu obra
@@ -219,23 +225,36 @@
     <ul class="pagination center">
       <?php if($this->totalPages > 1) {
         if($this->page != 1){ ?>
-        <li class="waves-effect"><a href="<?= Config::get('URL') . 'dashboard/index/' . $this->suggestion . '/' . ($this->page - 1) . '/' . $this->itemsToShow . '/' . $this->orderBy; ?>"><i class="material-icons">chevron_left</i></a>
-        </li>
+          <form method="post" action="<?= Config::get('URL') . 'dashboard/index/' . ($this->page - 1) ?>">
+            <input type="hidden" name="suggestion" value="<?= $this->suggestion; ?>" />
+            <input type="hidden" name="itemsToShow" value="<?= $this->itemsToShow; ?>" />
+            <input type="hidden" name="orderBy" value="<?= $this->orderBy; ?>" />
+            <button class="btn-flat waves-effect" type="submit" ><i class="large material-icons">chevron_left</i></button>
+          </form>
         <?php }
         for($i = 1 ; $i <= $this->totalPages ; $i++){
           if($this->page == $i) {?>
-        <li class="active"><a href="#!"><?= $this->page ?></a></li>
-        <?php } else {?>
-        <li class="waves-effect"><a href="<?= Config::get('URL') . 'dashboard/index/' . $this->suggestion . '/' . $i . '/' . $this->itemsToShow . '/' . $this->orderBy; ?>"><?= $i ?></a></li>
-        <?php }
-        }
-        if($this->page != $this->totalPages){?>
-        <li class="waves-effect"><a href="<?= Config::get('URL') . 'dashboard/index/' . $this->suggestion . '/' . ($this->page + 1) . '/' . $this->itemsToShow . '/' . $this->orderBy; ?>"><i class="material-icons">chevron_right</i></a>
-        </li>
-        <?php }
-      } ?>
-    </ul>
+            <li class="active"><a href=""><?= $this->page ?></a></li>
+          <?php } else {?>
+            <form method="post" action="<?= Config::get('URL') . 'dashboard/index/' . $i ?>">
+              <input type="hidden" name="suggestion" value="<?= $this->suggestion; ?>" />
+              <input type="hidden" name="itemsToShow" value="<?= $this->itemsToShow; ?>" />
+              <input type="hidden" name="orderBy" value="<?= $this->orderBy; ?>" />
+              <button class="btn-flat waves-effect" type="submit" ><?= $i ?></button>
+            </form>
+          <?php }
+          }
+          if($this->page != $this->totalPages){?>
+          <form method="post" action="<?= Config::get('URL') . 'dashboard/index/' . ($this->page + 1) ?>">
+            <input type="hidden" name="suggestion" value="<?= $this->suggestion; ?>" />
+            <input type="hidden" name="itemsToShow" value="<?= $this->itemsToShow; ?>" />
+            <input type="hidden" name="orderBy" value="<?= $this->orderBy; ?>" />
+            <button class="btn-flat waves-effect" type="submit" ><i class="large material-icons">chevron_right</i></button>
+          </form>
+          <?php }
+        } ?>
+      </ul>
     <?php } else { ?>
-    <div>No hay ningún material aún. El administrador tiene que añadir alguno!</div>
+    <div>No hay ningún material aún con esa sugerencia de búsqueda. El administrador tiene que añadir alguno!</div>
     <?php } ?>
   </main>

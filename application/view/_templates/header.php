@@ -110,7 +110,7 @@
             <?php if (Session::userIsLoggedIn()) { ?>
               <?php if (Session::get("user_account_type") == 4) : ?>
                 <li <?php if (View::checkForActiveController($filename, "dashboard")) { echo ' class="active" '; } ?> >
-                    <a href="<?php echo Config::get('URL'); ?>dashboard/index/ /0/3/material_id">Panel Trabajador</a>
+                    <a href="<?php echo Config::get('URL'); ?>dashboard/index">Panel Trabajador</a>
                 </li>
                 <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?> >
                     <a href="<?php echo Config::get('URL'); ?>note/index">Mis Anotaciones</a>
@@ -155,7 +155,7 @@
             </li>
             <?php if (Session::userIsLoggedIn()) { ?>
               <li <?php if (View::checkForActiveController($filename, "dashboard")) { echo ' class="active" '; } ?> >
-                  <a href="<?php echo Config::get('URL'); ?>dashboard/index/0/3/material_id">Panel Trabajador</a>
+                  <a href="<?php echo Config::get('URL'); ?>dashboard/index">Panel Trabajador</a>
               </li>
               <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?> >
                   <a href="<?php echo Config::get('URL'); ?>note/index">Mis Anotaciones</a>

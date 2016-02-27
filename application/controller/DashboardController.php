@@ -19,20 +19,26 @@ class DashboardController extends Controller
     /**
      * This method controls what happens when you move to /dashboard/index in your app.
      */
-    public function index($suggestion, $pageToShow, $itemsToShow, $orderBy)
+    public function index($pageToShow = 0)
     {
       $page = false;
       if(isset($_POST['suggestion'])){
         $suggestion = $_POST['suggestion'];
+      }else{
+        $suggestion='';
       }
       if(isset($pageToShow)){
         $page = $pageToShow;
       }
       if(isset($_POST['itemsToShow'])){
         $itemsToShow = $_POST['itemsToShow'];
+      }else{
+        $itemsToShow = 3;
       }
       if(isset($_POST['orderBy'])){
         $orderBy = $_POST['orderBy'];
+      }else{
+        $orderBy = 'material_id';
       }
       if(!$page){
         $start = 0;
