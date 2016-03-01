@@ -91,4 +91,13 @@ return array(
   "FEEDBACK_PHOTOMATERIAL_IMAGE_DELETE_SUCCESSFUL" => "Ha eliminado con éxito su imagen del material.",
     "FEEDBACK_PHOTOMATERIAL_IMAGE_DELETE_NO_FILE" => "Usted no tiene una imagen personalizada del material para eliminar.",
     "FEEDBACK_PHOTOMATERIAL_IMAGE_DELETE_FAILED" => "Algo salió mal al eliminar tu imagen del material.",
+  "FEEDBACK_PHOTOOEUVRE_UPLOAD_SUCCESSFUL" => "La carga de la imagen de la obra se ha realizado correctamente.",
+  "FEEDBACK_PHOTOOEUVRE_UPLOAD_WRONG_TYPE" => "Sólo los archivos JPEG y PNG son compatibles.",
+  "FEEDBACK_PHOTOOEUVRE_UPLOAD_TOO_SMALL" => "Anchura / altura del archivo de origen de la imagen es demasiado pequeña. Necesita un mínimo de 100x100 píxeles.",
+  "FEEDBACK_PHOTOOEUVRE_UPLOAD_TOO_BIG" => "Archivo de origen de la imagen es demasiado grande. 5 Megabyte es el máximo.",
+  "FEEDBACK_PHOTOOEUVRE_FOLDER_DOES_NOT_EXIST_OR_NOT_WRITABLE" => "La carpeta 'oeuvres' no se puede escribir. Por favor cambia los permisos de escritura con chmod 775 o 777",
+  "FEEDBACK_PHOTOOEUVRE_IMAGE_UPLOAD_FAILED" => "Algo salió mal con la carga de imágenes.",
+  "FEEDBACK_PHOTOOEUVRE_IMAGE_DELETE_SUCCESSFUL" => "Ha eliminado con éxito su imagen de la obra.",
+    "FEEDBACK_PHOTOOEUVRE_IMAGE_DELETE_NO_FILE" => "Usted no tiene una imagen personalizada de la obra para eliminar.",
+    "FEEDBACK_PHOTOOEUVRE_IMAGE_DELETE_FAILED" => "Algo salió mal al eliminar tu imagen de la obra.",
 );

@@ -64,7 +64,7 @@ class DashboardController extends Controller
     {
         if(empty($_POST['check_list_Material']) || empty($_POST['oeuvre_id'])){
           Session::add('feedback_negative', 'Tiene que escoger una de tus obras y seleccionar algún material');
-          Redirect::to('dashboard/index/ /0/3/material_id');
+          Redirect::to('dashboard/index');
         }else{
           $arrayIdMaterial = $_POST['check_list_Material'];
           $oeuvre_id = $_POST['oeuvre_id'];
@@ -72,14 +72,14 @@ class DashboardController extends Controller
             DashboardModel::addMaterialToOeuvre($oeuvre_id, $value);
           }
           Session::add('feedback_positive', 'Se ha añadido correctamente en tu obra señalada los materiales señalados');
-          Redirect::to('dashboard/index/ /0/3/material_id');
+          Redirect::to('dashboard/index');
         }
     }
 
     public function delete($oeuvreMaterial_id, $material_id)
     {
         DashboardModel::deleteMaterialOeuvre($material_id, $oeuvreMaterial_id);
-        Redirect::to('dashboard/index/ /0/3/material_id');
+        Redirect::to('dashboard/index');
     }
 
 
@@ -90,14 +90,21 @@ class DashboardController extends Controller
         foreach($idArray as $material_id){
           DashboardModel::deleteMaterialOeuvre($material_id, $oeuvreMaterial_id);
         }
-        Redirect::to('dashboard/index/ /0/3/material_id');
+        Redirect::to('dashboard/index');
     }
 
     public function addQuantity($oeuvre_id, $material_id)
     {
           $quantity = $_POST['quantity'];
           DashboardModel::updateQuantityMaterialOeuvre($oeuvre_id, $material_id, $quantity);
-          Redirect::to('dashboard/index/ /0/3/material_id');
+          Redirect::to('dashboard/index');
+    }
+
+    public function addPhotoToOeuvre(){
+      //Auth::checkSupervisorAuthentication();
+      $oeuvre_id = $_POST['oeuvre_id'];
+      DashboardModel::addPhotoToOeuvre($oeuvre_id);
+      Redirect::to('dashboard/index');
     }
 
 }

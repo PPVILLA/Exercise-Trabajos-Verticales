@@ -58,6 +58,33 @@
             <?php } ?>
           </tbody>
         </table>
+        <div class="row">
+          <section class="col s12" >
+            <h4 class="center">HAZ FOTOS A LA OBRA: </h4>
+            <form enctype="multipart/form-data" method="post" action="<?= Config::get('URL');?>dashboard/addPhotoToOeuvre">
+            <div class="row">
+              <div class="file-field input-field col s12">
+                <div class="btn">
+                  <span>Haz una foto de la obra desde de tu móvil (actualmente sólo .jpg):</span>
+                  <input type="file" name="photoOeuvre_file" accept="image/*" capture="camera" >
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text">
+                </div>
+                <!-- max size 5 MB (as many people directly upload high res pictures from their digital cameras) -->
+                <input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12 m6 offset-m3 center">
+                <input type="hidden" name="oeuvre_id" value="<?= $value->oeuvre_id; ?>" />
+                <button class="btn waves-effect waves-light center" type="submit" >Añadir foto
+                  <i class="material-icons right">add</i>
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
         <?php } else { ?>
         <div>No hay ningún material seleccionado para tu obra aún. Selecciona aquí abajo (no te vayas a pasar del presupuesto!)</div>
         <?php } ?>
@@ -129,15 +156,15 @@
                       foreach($userClients as $key => $content){
                         if($content->user_id == $value->user_id) {?>
                         <td><?= htmlentities($content->user_name); ?></td>
-                        <?php }?>
-                  <?php }?>
+                        <?php } ?>
+                  <?php } ?>
                   <td><?= htmlentities($value->oeuvre_budget); ?></td>
                   <td><?= htmlentities($value->oeuvre_name); ?></td>
                   <td><?= htmlentities($value->oeuvre_address); ?></td>
                   <td>
                     <?php $provincias = UserModel::cargaProvincias();
                     foreach($provincias as $key => $valueProvince){
-                      if($valueProvince->Codigo_provincia == $value->oeuvre_province){?>
+                      if($valueProvince->Codigo_provincia == $value->oeuvre_province){ ?>
                       <?=$valueProvince->Nombre_provincia; ?>
                       <?php } ?>
                     <?php } ?>
@@ -145,7 +172,7 @@
                   <td>
                     <?php $municipios = UserModel::cargaMunicipios($value->oeuvre_province);
                     foreach($municipios as $key => $valueMunicipios){
-                      if($valueMunicipios->id_municipio == $value->oeuvre_city_id){?>
+                      if($valueMunicipios->id_municipio == $value->oeuvre_city_id){ ?>
                       <?=$valueMunicipios->nombre; ?>
                       <?php } ?>
                       <?php } ?>
@@ -156,8 +183,8 @@
                       foreach($supervisors as $key => $content){
                         if($content->user_id == $value->supervisor_id) {?>
                         <td><?= htmlentities($content->user_name); ?></td>
-                        <?php }?>
-                    <?php }?>
+                        <?php } ?>
+                    <?php } ?>
                     <td><?= htmlentities($value->oeuvre_contact_name); ?></td>
                     <td><?= htmlentities($value->oeuvre_startDate); ?></td>
                     <td><?= htmlentities($value->oeuvre_completionDate); ?></td>
@@ -235,7 +262,7 @@
         for($i = 1 ; $i <= $this->totalPages ; $i++){
           if($this->page == $i) {?>
             <li class="active"><a href=""><?= $this->page ?></a></li>
-          <?php } else {?>
+          <?php } else { ?>
             <form method="post" action="<?= Config::get('URL') . 'dashboard/index/' . $i ?>">
               <input type="hidden" name="suggestion" value="<?= $this->suggestion; ?>" />
               <input type="hidden" name="itemsToShow" value="<?= $this->itemsToShow; ?>" />
@@ -244,7 +271,7 @@
             </form>
           <?php }
           }
-          if($this->page != $this->totalPages){?>
+          if($this->page != $this->totalPages){ ?>
           <form method="post" action="<?= Config::get('URL') . 'dashboard/index/' . ($this->page + 1) ?>">
             <input type="hidden" name="suggestion" value="<?= $this->suggestion; ?>" />
             <input type="hidden" name="itemsToShow" value="<?= $this->itemsToShow; ?>" />

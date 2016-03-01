@@ -55,6 +55,12 @@ return array(
 	'PATH_MATERIALS' => realpath(dirname(__FILE__).'/../../') . '/public/img/materials/',
 	'PATH_MATERIALS_PUBLIC' => 'img/materials/',
 	/**
+   * Configuration for: Photo Material paths
+   * Internal path to save Photo Material. Make sure this folder is writable. The slash at the end is VERY important!
+   */
+  'PATH_OEUVRES' => realpath(dirname(__FILE__).'/../../') . '/public/img/oeuvres/',
+  'PATH_OEUVRES_PUBLIC' => 'img/oeuvres/',
+  /**
 	 * Configuration for: Default controller and action
 	 */
 	'DEFAULT_CONTROLLER' => 'index',
@@ -129,6 +135,11 @@ return array(
 	'PHOTOMATERIAL_SIZE' => 60,
 	'PHOTOMATERIAL_JPEG_QUALITY' => 85,
 	'PHOTOMATERIAL_DEFAULT_IMAGE' => 'default.jpg',
+  /**
+  * Configuration for: Photo oeuvre
+  */
+  'PHOTOOEUVRE_SIZE' => 60,
+  'PHOTOOEUVRE_JPEG_QUALITY' => 85,
     /**
      * Configuration for: Encryption Keys
      *
