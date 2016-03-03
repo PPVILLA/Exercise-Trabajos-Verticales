@@ -3,7 +3,39 @@
 
   <!-- echo out the system feedback (error and success messages) -->
   <?php $this->renderFeedbackMessages(); ?>
-
+  <h3 class="center">TUS FOTOS DE OBRA:</h3>
+  <div class="row">
+    <section class="col s12" >
+      <?php if ($this->oeuvres_photos) { ?>
+      <h4 class="center">HAZ FOTOS A LA OBRA: </h4>
+      <form enctype="multipart/form-data" method="post" action="<?= Config::get('URL');?>dashboard/addPhotoToOeuvre">
+      <div class="row">
+        <div class="file-field input-field col s12">
+          <div class="btn">
+            <span>Haz una foto de la obra desde de tu móvil (actualmente sólo .jpg):</span>
+            <input type="file" name="photoOeuvre_file" accept="image/*" capture="camera" >
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+          </div>
+          <!-- max size 5 MB (as many people directly upload high res pictures from their digital cameras) -->
+          <input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12 m6 offset-m3 center">
+          <input type="hidden" name="oeuvre_id" value="<?= $this->oeuvres->oeuvre_id; ?>" />
+          <button class="btn waves-effect waves-light center" type="submit" >Añadir foto a tu obra
+            <i class="material-icons right">add</i>
+          </button>
+        </div>
+      </div>
+      </form>
+      <?php } else { ?>
+      <div>No hay ninguna foto realizada para tu obra aún.</div>
+      <?php } ?>
+    </section>
+  </div>
   <h3 class="center">TUS MATERIALES DE OBRA:</h3>
   <div class="row">
     <section class="col s12" >
@@ -58,33 +90,6 @@
             <?php } ?>
           </tbody>
         </table>
-        <div class="row">
-          <section class="col s12" >
-            <h4 class="center">HAZ FOTOS A LA OBRA: </h4>
-            <form enctype="multipart/form-data" method="post" action="<?= Config::get('URL');?>dashboard/addPhotoToOeuvre">
-            <div class="row">
-              <div class="file-field input-field col s12">
-                <div class="btn">
-                  <span>Haz una foto de la obra desde de tu móvil (actualmente sólo .jpg):</span>
-                  <input type="file" name="photoOeuvre_file" accept="image/*" capture="camera" >
-                </div>
-                <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text">
-                </div>
-                <!-- max size 5 MB (as many people directly upload high res pictures from their digital cameras) -->
-                <input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12 m6 offset-m3 center">
-                <input type="hidden" name="oeuvre_id" value="<?= $value->oeuvre_id; ?>" />
-                <button class="btn waves-effect waves-light center" type="submit" >Añadir foto
-                  <i class="material-icons right">add</i>
-                </button>
-              </div>
-            </div>
-          </section>
-        </div>
         <?php } else { ?>
         <div>No hay ningún material seleccionado para tu obra aún. Selecciona aquí abajo (no te vayas a pasar del presupuesto!)</div>
         <?php } ?>

@@ -138,7 +138,7 @@ return array(
   /**
   * Configuration for: Photo oeuvre
   */
-  'PHOTOOEUVRE_SIZE' => 60,
+  'PHOTOOEUVRE_SIZE' => 300,
   'PHOTOOEUVRE_JPEG_QUALITY' => 85,
     /**
      * Configuration for: Encryption Keys

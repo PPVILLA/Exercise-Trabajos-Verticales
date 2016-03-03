@@ -125,8 +125,6 @@ class DashboardModel
 
             if ($query->rowCount() > 0) {
                 $lastInsertId = $database->lastInsertId();
-                var_dump($lastInsertId);
-                exit();
                 createPhotoOeuvre($lastInsertId);
                 return true;
             }
@@ -137,13 +135,56 @@ class DashboardModel
 
     }
 
+    public static function getAllOeuvrePhotos()
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT oeuvre_photo_id, o.oeuvre_id, o.oeuvre_name, u.user_id, u.user_name
+                FROM oeuvres_photos AS of, users AS u, oeuvres AS o WHERE u.user_id = of.employee_id AND o.oeuvre_id = of.oeuvre_id ";
+        $query = $database->prepare($sql);
+
+        $query->execute();
+        $all_oeuvrePhotos = array();
+
+        foreach ($query->fetchAll() as $oeuvrePhoto) {
+
+            // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+            // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+            // the oeuvrePhoto's values
+            array_walk_recursive($oeuvrePhoto, 'Filter::XSSFilter');
+
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvrePhoto_id] = new stdClass();
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvrePhoto_id]->oeuvre_id = $oeuvrePhoto->oeuvre_id;
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvrePhoto_id]->employee_id = $oeuvrePhoto->user_id;
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvrePhoto_id]->oeuvre_name = $oeuvrePhoto->oeuvre_name;
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvrePhoto_id]->user_name = $oeuvrePhoto->user_name;
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvrePhoto_id]->oeuvrePhoto_photoOeuvre_link = self::getPublicPhotoOeuvreFilePathOfOeuvre($oeuvrePhoto->oeuvre_has_photoOeuvre, $oeuvrePhoto->oeuvrePhoto_id));
+        }
+
+        return $all_oeuvrePhotos;
+    }
+
+    /**
+     * Gets the user's avatar file path
+     * @param int $user_has_avatar Marker from database
+     * @param int $oeuvrePhoto_id OeuvrePhoto_id's id
+     * @return string PhotoOeuvre file path
+     */
+    public static function getPublicPhotoOeuvreFilePathOfOeuvre($oeuvre_has_photoOeuvre, $oeuvrePhoto_id)
+    {
+        if ($oeuvre_has_photoOeuvre) {
+            return Config::get('URL') . Config::get('PATH_OEUVRES_PUBLIC') . $oeuvrePhoto_id . '.jpg';
+        }
+
+    }
+
     public static function createPhotoOeuvre($oeuvre_photo_id)
     {
         // check photoMaterial folder writing rights, check if upload fits all rules
         if (self::isPhotoOeuvreFolderWritable() AND self::validateImageFile()) {
             // create a jpg file in the photoOeuvre folder, write marker to database
             $target_file_path = Config::get('PATH_OEUVRES') . $oeuvre_photo_id;
-            //self::resizePhotoOeuvreImage($_FILES['photoOeuvre_file']['tmp_name'], $target_file_path, Config::get('PHOTOOEUVRE_SIZE'), Config::get('PHOTOOEUVRE_SIZE'));
+            self::resizePhotoOeuvreImage($_FILES['photoOeuvre_file']['tmp_name'], $target_file_path, Config::get('PHOTOOEUVRE_SIZE'), Config::get('PHOTOOEUVRE_SIZE'));
             self::writePhotoOeuvreToDatabase($oeuvre_photo_id);
             Session::set('oeuvre_has_photoOeuvre_file', self::getPublicPhotoOeuvreFilePathByOeuvreId($oeuvre_photo_id));
             Session::add('feedback_positive', Text::get('FEEDBACK_PHOTOOEUVRE_UPLOAD_SUCCESSFUL'));
@@ -234,7 +275,7 @@ class DashboardModel
      *
      * @return bool success state
      */
-    public static function resizePhotoOeuvreImage($source_image, $destination, $final_width = 60, $final_height = 60)
+    public static function resizePhotoOeuvreImage($source_image, $destination, $final_width = 300, $final_height = 300)
     {
         $imageData = getimagesize($source_image);
         $width = $imageData[0];
