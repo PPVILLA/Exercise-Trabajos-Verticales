@@ -346,12 +346,11 @@ class DashboardModel
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sth = $database->prepare("UPDATE oeuvres_photos SET oeuvre_has_photoOeuvre = 0 WHERE oeuvre_photo_id = :oeuvre_photo_id LIMIT 1");
-        $sth->bindValue(":oeuvre_photo_id", (int)$oeuvre_photo_id, PDO::PARAM_INT);
-        $sth->execute();
+        $sql = "DELETE FROM oeuvres_photos WHERE oeuvre_photo_id = :oeuvre_photo_id LIMIT 1";
+        $query = $database->prepare($sql);
+        $query->execute(array(':oeuvre_photo_id' => $oeuvre_photo_id));
 
-        if ($sth->rowCount() == 1) {
-            Session::set('oeuvre_photoOeuvre_file', self::getPublicPhotoOeuvreFilePathByOeuvreId($oeuvre_photo_id));
+        if ($query->rowCount() == 1) {
             Session::add("feedback_positive", Text::get("FEEDBACK_PHOTOOEUVRE_IMAGE_DELETE_SUCCESSFUL"));
             return true;
         } else {

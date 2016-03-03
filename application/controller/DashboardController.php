@@ -86,10 +86,9 @@ class DashboardController extends Controller
 
     public function deleteSelect()
     {
-        $idArray = $_POST['check_list_MaterialOeuvres'];
-        $oeuvreMaterial_id = $_POST['oeuvreMaterial_id'];
-        foreach($idArray as $material_id){
-          DashboardModel::deleteMaterialOeuvre($material_id, $oeuvreMaterial_id);
+        $idArray = $_POST['check_list_PhotoOeuvres'];
+        foreach($idArray as $oeuvre_photo_id){
+          DashboardModel::deletePhotoOeuvre($oeuvre_photo_id);
         }
         Redirect::to('dashboard/index');
     }
