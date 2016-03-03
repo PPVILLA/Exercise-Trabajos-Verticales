@@ -125,7 +125,7 @@ class DashboardModel
 
             if ($query->rowCount() > 0) {
                 $lastInsertId = $database->lastInsertId();
-                createPhotoOeuvre($lastInsertId);
+                self::createPhotoOeuvre($lastInsertId);
                 return true;
             }
 
@@ -139,7 +139,7 @@ class DashboardModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT oeuvre_photo_id, o.oeuvre_id, o.oeuvre_name, u.user_id, u.user_name
+        $sql = "SELECT oeuvre_photo_id, o.oeuvre_id, o.oeuvre_name, u.user_id, u.user_name, of.oeuvre_has_photoOeuvre
                 FROM oeuvres_photos AS of, users AS u, oeuvres AS o WHERE u.user_id = of.employee_id AND o.oeuvre_id = of.oeuvre_id ";
         $query = $database->prepare($sql);
 
@@ -153,12 +153,13 @@ class DashboardModel
             // the oeuvrePhoto's values
             array_walk_recursive($oeuvrePhoto, 'Filter::XSSFilter');
 
-            $all_oeuvrePhotos[$oeuvrePhoto->oeuvrePhoto_id] = new stdClass();
-            $all_oeuvrePhotos[$oeuvrePhoto->oeuvrePhoto_id]->oeuvre_id = $oeuvrePhoto->oeuvre_id;
-            $all_oeuvrePhotos[$oeuvrePhoto->oeuvrePhoto_id]->employee_id = $oeuvrePhoto->user_id;
-            $all_oeuvrePhotos[$oeuvrePhoto->oeuvrePhoto_id]->oeuvre_name = $oeuvrePhoto->oeuvre_name;
-            $all_oeuvrePhotos[$oeuvrePhoto->oeuvrePhoto_id]->user_name = $oeuvrePhoto->user_name;
-            $all_oeuvrePhotos[$oeuvrePhoto->oeuvrePhoto_id]->oeuvrePhoto_photoOeuvre_link = self::getPublicPhotoOeuvreFilePathOfOeuvre($oeuvrePhoto->oeuvre_has_photoOeuvre, $oeuvrePhoto->oeuvrePhoto_id));
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvre_photo_id] = new stdClass();
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvre_photo_id]->oeuvre_photo_id = $oeuvrePhoto->oeuvre_photo_id;
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvre_photo_id]->oeuvre_id = $oeuvrePhoto->oeuvre_id;
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvre_photo_id]->employee_id = $oeuvrePhoto->user_id;
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvre_photo_id]->oeuvre_name = $oeuvrePhoto->oeuvre_name;
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvre_photo_id]->employee_name = $oeuvrePhoto->user_name;
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvre_photo_id]->oeuvrePhoto_photoOeuvre_link = self::getPublicPhotoOeuvreFilePathOfOeuvre($oeuvrePhoto->oeuvre_has_photoOeuvre, $oeuvrePhoto->oeuvre_photo_id);
         }
 
         return $all_oeuvrePhotos;
@@ -170,10 +171,10 @@ class DashboardModel
      * @param int $oeuvrePhoto_id OeuvrePhoto_id's id
      * @return string PhotoOeuvre file path
      */
-    public static function getPublicPhotoOeuvreFilePathOfOeuvre($oeuvre_has_photoOeuvre, $oeuvrePhoto_id)
+    public static function getPublicPhotoOeuvreFilePathOfOeuvre($oeuvre_has_photoOeuvre, $oeuvre_photo_id)
     {
         if ($oeuvre_has_photoOeuvre) {
-            return Config::get('URL') . Config::get('PATH_OEUVRES_PUBLIC') . $oeuvrePhoto_id . '.jpg';
+            return Config::get('URL') . Config::get('PATH_OEUVRES_PUBLIC') . $oeuvre_photo_id . '.jpg';
         }
 
     }
@@ -255,10 +256,18 @@ class DashboardModel
      */
     public static function writePhotoOeuvreToDatabase($oeuvre_photo_id)
     {
+
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("INSERT INTO oeuvres_photos SET oeuvre_has_photoOeuvre = TRUE WHERE oeuvre_photo_id = :oeuvre_photo_id LIMIT 1");
+        $query = $database->prepare("UPDATE oeuvres_photos SET oeuvre_has_photoOeuvre = TRUE WHERE oeuvre_photo_id = :oeuvre_photo_id LIMIT 1");
         $query->execute(array(':oeuvre_photo_id' => $oeuvre_photo_id));
+
+        $count =  $query->rowCount();
+      if ($count == 1) {
+        return true;
+      }
+      Session::add('feedback_negative', 'No se ha podido actualizar la foto de la obra');
+      return false;
     }
 
     /**
@@ -372,21 +381,6 @@ class DashboardModel
         }
 
         return true;
-    }
-
-    /**
-     * Gets the user's avatar file path
-     * @param int $user_has_avatar Marker from database
-     * @param int $user_id Material's id
-     * @return string PhotoOeuvre file path
-     */
-    public static function getPublicPhotoOeuvreFilePathOfOeuvre($oeuvre_has_photoOeuvre, $oeuvre_photo_id)
-    {
-        if ($oeuvre_has_photoOeuvre) {
-            return Config::get('URL') . Config::get('PATH_OEUVRES_PUBLIC') . $oeuvre_photo_id . '.jpg';
-        }
-
-        return Config::get('URL') . Config::get('PATH_OEUVRES_PUBLIC') . Config::get('PHOTOOEUVRE_DEFAULT_IMAGE');
     }
 
 

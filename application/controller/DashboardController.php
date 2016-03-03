@@ -56,6 +56,7 @@ class DashboardController extends Controller
           'orderBy' => $orderBy,
           'oeuvres' => OeuvreModel::getAllOeuvreByEmployee(Session::get('user_id')),
           'oeuvres_materials' => DashboardModel::getAllOeuvreMaterials(),
+          'oeuvres_photos' => DashboardModel::getAllOeuvrePhotos(),
           'materials' => MaterialModel::getMaterialsSuggestedPaginatedOrderBy($suggestion, $start, $itemsToShow, $orderBy)
       ));
     }
@@ -105,6 +106,14 @@ class DashboardController extends Controller
       $oeuvre_id = $_POST['oeuvre_id'];
       DashboardModel::addPhotoToOeuvre($oeuvre_id);
       Redirect::to('dashboard/index');
+    }
+
+    public function deletePhotoOeuvre($oeuvre_photo_id)
+    {
+        // All methods inside this controller are only accessible for admins (= users that have role type 7)
+        //Auth::checkSupervisorAuthentication();
+        DashboardModel::deletePhotoOeuvre($oeuvre_photo_id);
+        Redirect::to('dashboard/index');
     }
 
 }

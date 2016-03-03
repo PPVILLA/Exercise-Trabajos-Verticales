@@ -4,33 +4,73 @@
   <!-- echo out the system feedback (error and success messages) -->
   <?php $this->renderFeedbackMessages(); ?>
   <h3 class="center">TUS FOTOS DE OBRA:</h3>
+  <h4 class="center">HAZ FOTOS A LA OBRA: </h4>
+  <form enctype="multipart/form-data" method="post" action="<?= Config::get('URL');?>dashboard/addPhotoToOeuvre">
+  <div class="row">
+    <div class="file-field input-field col s12">
+      <div class="btn">
+        <span>Haz una foto de la obra desde de tu móvil (actualmente sólo .jpg):</span>
+        <input type="file" name="photoOeuvre_file" accept="image/*" capture="camera" >
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+      <!-- max size 5 MB (as many people directly upload high res pictures from their digital cameras) -->
+      <input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12 m6 offset-m3 center">
+      <?php foreach($this->oeuvres_materials as $key => $value) { ?>
+      <input type="hidden" name="oeuvre_id" value="<?= $value->oeuvre_id; ?>" /><?php } ?>
+      <button class="btn waves-effect waves-light center" type="submit" >Añadir foto a tu obra
+        <i class="material-icons right">add</i>
+      </button>
+    </div>
+  </div>
+  </form>
   <div class="row">
     <section class="col s12" >
       <?php if ($this->oeuvres_photos) { ?>
-      <h4 class="center">HAZ FOTOS A LA OBRA: </h4>
-      <form enctype="multipart/form-data" method="post" action="<?= Config::get('URL');?>dashboard/addPhotoToOeuvre">
-      <div class="row">
-        <div class="file-field input-field col s12">
-          <div class="btn">
-            <span>Haz una foto de la obra desde de tu móvil (actualmente sólo .jpg):</span>
-            <input type="file" name="photoOeuvre_file" accept="image/*" capture="camera" >
+      <form method="post" action="<?php echo Config::get('URL'); ?>material/deleteSelect">
+          <table class="responsive-table bordered striped centered">
+              <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Id</th>
+                  <th>Nombre Obra</th>
+                  <th>Nombre encargado</th>
+                  <th>Foto</th>
+                  <th>ELIMINAR</th>
+              </tr>
+              </thead>
+              <tbody>
+                  <?php $i = 0 ?>
+                  <?php foreach($this->oeuvres_photos as $key => $value) { $i++; ?>
+                      <tr>
+                          <td>
+                            <input type="checkbox" name="check_list[]" id="check_list[]<?= $i ?>" value="<?= $value->oeuvre_photo_id; ?>" />
+                            <label for="check_list[]<?= $i ?>"></label>
+                          </td>
+                          <td><?= $value->oeuvre_photo_id; ?></td>
+                          <td><?= htmlentities($value->oeuvre_name); ?></td>
+                          <td><?= htmlentities($value->employee_name); ?></td>
+                          <td><?php if (isset($value->oeuvrePhoto_photoOeuvre_link)) { ?>
+                                  <img src="<?= $value->oeuvrePhoto_photoOeuvre_link; ?>" />
+                              <?php } ?></td>
+                          <td><a class="btn-floating btn-large" href="<?= Config::get('URL') . 'dashboard/deletePhotoOeuvre/' . $value->oeuvre_photo_id; ?>"><i class="large material-icons">clear</i></a></td>
+                      </tr>
+                  <?php } ?>
+              </tbody>
+          </table>
+          <div class="row">
+            <div class="input-field col s12 m6 offset-m3 center">
+              <button class="btn waves-effect waves-light center" type="submit" >Borra seleccionados
+                <i class="material-icons right">clear</i>
+              </button>
+            </div>
           </div>
-          <div class="file-path-wrapper">
-            <input class="file-path validate" type="text">
-          </div>
-          <!-- max size 5 MB (as many people directly upload high res pictures from their digital cameras) -->
-          <input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12 m6 offset-m3 center">
-          <input type="hidden" name="oeuvre_id" value="<?= $this->oeuvres->oeuvre_id; ?>" />
-          <button class="btn waves-effect waves-light center" type="submit" >Añadir foto a tu obra
-            <i class="material-icons right">add</i>
-          </button>
-        </div>
-      </div>
-      </form>
+        </form>
       <?php } else { ?>
       <div>No hay ninguna foto realizada para tu obra aún.</div>
       <?php } ?>
