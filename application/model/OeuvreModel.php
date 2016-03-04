@@ -120,6 +120,37 @@ class OeuvreModel
     }
 
     /**
+     * Get a single note
+     * @param int $oeuvre_id id of the specific oeuvre
+     * @return object a single object (the result)
+     */
+    public static function getAllPhotoOeuvreByUserId()
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT op.oeuvre_photo_id, op.oeuvre_has_photoOeuvre
+                   FROM oeuvres AS o, oeuvres_photos AS op WHERE o.user_id = :user_id AND o.oeuvre_id = op.oeuvre_id AND o.supervisor_id = op.employee_id";
+        $query = $database->prepare($sql);
+        $query->execute(array(':user_id' => Session::get('user_id')));
+
+        $all_oeuvrePhotos = array();
+
+        foreach ($query->fetchAll() as $oeuvrePhoto) {
+
+            // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+            // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+            // the oeuvrePhoto's values
+            array_walk_recursive($oeuvrePhoto, 'Filter::XSSFilter');
+
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvre_photo_id] = new stdClass();
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvre_photo_id]->oeuvre_photo_id = $oeuvrePhoto->oeuvre_photo_id;
+            $all_oeuvrePhotos[$oeuvrePhoto->oeuvre_photo_id]->oeuvrePhoto_photoOeuvre_link = DashboardModel::getPublicPhotoOeuvreFilePathOfOeuvre($oeuvrePhoto->oeuvre_has_photoOeuvre, $oeuvrePhoto->oeuvre_photo_id);
+        }
+
+        return $all_oeuvrePhotos;
+    }
+
+    /**
      * Set a oeuvre (create a new one)
      * @return boolean Gives back the success status of the registration of the oeuvre
      */

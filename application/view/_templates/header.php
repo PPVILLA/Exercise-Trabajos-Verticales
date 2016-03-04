@@ -108,14 +108,18 @@
                 <a href="<?php echo Config::get('URL'); ?>">Página principal</a>
             </li>
             <?php if (Session::userIsLoggedIn()) { ?>
-              <?php if (Session::get("user_account_type") == 4) : ?>
+              <?php if (Session::get("user_account_type") == 4) { ?>
                 <li <?php if (View::checkForActiveController($filename, "dashboard")) { echo ' class="active" '; } ?> >
                     <a href="<?php echo Config::get('URL'); ?>dashboard/index">Panel Trabajador</a>
                 </li>
                 <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?> >
                     <a href="<?php echo Config::get('URL'); ?>note/index">Mis Anotaciones</a>
                 </li>
-              <?php endif; ?>
+            <?php } else if(Session::get("user_account_type") == 1) : ?>
+                <li <?php if (View::checkForActiveController($filename, "myOeuvre")) { echo ' class="active" '; } ?> >
+                    <a href="<?php echo Config::get('URL'); ?>myOeuvre/index">Mi obra</a>
+                </li>
+                <?php endif; ?>
             <?php } else { ?>
           </ul><!--/.left hide-on-med-and-down-->
           <ul class="right hide-on-med-and-down">

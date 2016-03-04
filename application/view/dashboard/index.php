@@ -7,7 +7,7 @@
   <form enctype="multipart/form-data" method="post" action="<?= Config::get('URL');?>dashboard/addPhotoToOeuvre">
     <div class="row">
       <h4 class="center">Haz fotos a la obra (primero tienes que tener materiales asignados a tu obra): </h4>
-      <div class="file-field input-field col s12 m6">
+      <div class="file-field input-field col s12 m8">
         <div class="btn">
           <span>Haz una foto de la obra desde de tu dispositivo :</span>
           <input type="file" name="photoOeuvre_file" accept="image/*" capture="camera" >
@@ -18,7 +18,7 @@
         <!-- max size 5 MB (as many people directly upload high res pictures from their digital cameras) -->
         <input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
       </div>
-      <div class="input-field col s12 m6 center">
+      <div class="input-field col s12 m4 center">
         <?php foreach($this->oeuvres_materials as $key => $value) { ?>
         <input type="hidden" name="oeuvre_id" value="<?= $value->oeuvre_id; ?>" /><?php } ?>
         <button class="btn-large waves-effect waves-light center" type="submit" >Añadir foto a tu obra
